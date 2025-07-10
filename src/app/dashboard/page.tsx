@@ -77,7 +77,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card>
           <CardContent className="pt-4 sm:pt-6">
             <div className="flex items-center">
@@ -125,22 +125,6 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardContent className="pt-4 sm:pt-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-orange-100 rounded-lg flex-shrink-0">
-                <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <div className="ml-4 min-w-0">
-                <p className="text-sm font-medium text-gray-500">Total Available</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalAvailableCredits}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Quick Actions */}
@@ -171,7 +155,7 @@ export default function DashboardPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                   <div className="min-w-0">
-                    <h3 className="font-medium text-gray-900">Take CME Quiz</h3>
+                    <h3 className="font-medium text-gray-900">Take CME Practice Test</h3>
                     <p className="text-sm text-gray-500">Earn continuing education credits</p>
                   </div>
                 </div>

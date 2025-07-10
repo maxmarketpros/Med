@@ -158,35 +158,40 @@ export const sampleQuizzes: Quiz[] = [
 
 export const sampleDashboardStats: DashboardStats = {
   totalCheatSheets: sampleCheatSheets.length,
-  completedQuizzes: 12,
-  earnedCredits: 24.5,
+  completedQuizzes: 0,
+  earnedCredits: 0,
   totalAvailableCredits: 45.0,
   recentActivity: [
     {
       id: '1',
-      type: 'quiz_completed',
-      title: 'Hyponatremia Management Certification',
-      date: '2024-01-15T14:30:00Z',
-      details: 'Score: 85% (17/20 correct)'
+      type: 'cheat_sheet_viewed',
+      title: 'Acute Coronary Syndrome',
+      date: '2024-01-15T14:30:00Z'
     },
     {
       id: '2',
       type: 'cheat_sheet_viewed',
-      title: 'CHF',
+      title: 'DKA',
       date: '2024-01-14T09:15:00Z'
     },
     {
       id: '3',
-      type: 'certificate_downloaded',
-      title: 'Atrial fibrillation',
+      type: 'cheat_sheet_viewed',
+      title: 'Atrial Fibrillation',
       date: '2024-01-13T16:45:00Z'
     },
     {
       id: '4',
+      type: 'cheat_sheet_viewed',
+      title: 'Pulmonary Embolism',
+      date: '2024-01-12T11:20:00Z'
+    },
+    {
+      id: '5',
       type: 'quiz_completed',
-      title: 'Heart Failure Management',
-      date: '2024-01-12T11:20:00Z',
-      details: 'Score: 92% (23/25 correct)'
+      title: 'Practice Test',
+      date: '2024-01-11T13:10:00Z',
+      details: 'Score: 78% (19/25 correct)'
     }
   ]
 };
