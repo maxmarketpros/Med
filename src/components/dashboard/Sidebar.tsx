@@ -27,7 +27,7 @@ const navigation = [
     ),
   },
   {
-    name: 'CME Quizzes',
+    name: 'CME Tests',
     href: '/dashboard/cme',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
