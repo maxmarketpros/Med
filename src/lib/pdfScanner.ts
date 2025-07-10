@@ -1,120 +1,7 @@
 import { CheatSheet } from '@/types';
-import fs from 'fs';
-import path from 'path';
 
-const CHEAT_SHEETS_DIR = path.join(process.cwd(), 'cheat-sheets');
-
-export interface PDFFile {
-  fileName: string;
-  filePath: string;
-  specialty: string;
-  title: string;
-  slug: string;
-}
-
-// Function to generate a slug from filename
-function generateSlug(filename: string): string {
-  return filename
-    .replace('.pdf', '')
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-// Function to estimate reading time based on file size
-function estimateReadingTime(fileSizeKB: number): number {
-  // Rough estimate: 1 page = ~50KB, 2 minutes per page
-  const estimatedPages = Math.max(1, Math.round(fileSizeKB / 50));
-  return Math.max(2, estimatedPages * 2);
-}
-
-// Function to format file size
-function formatFileSize(sizeInBytes: number): string {
-  const sizeInKB = sizeInBytes / 1024;
-  if (sizeInKB < 1024) {
-    return `${Math.round(sizeInKB)} KB`;
-  }
-  const sizeInMB = sizeInKB / 1024;
-  return `${sizeInMB.toFixed(1)} MB`;
-}
-
-// Function to extract tags from filename
-function extractTags(filename: string, specialty: string): string[] {
-  const title = filename.replace('.pdf', '').toLowerCase();
-  const tags = [specialty.toLowerCase()];
-  
-  // Add common medical terms as tags
-  const medicalTerms = [
-    'emergency', 'acute', 'chronic', 'syndrome', 'disease', 'disorder',
-    'management', 'treatment', 'diagnosis', 'care', 'therapy', 'medication',
-    'arrhythmia', 'heart', 'kidney', 'failure', 'injury'
-  ];
-  
-  medicalTerms.forEach(term => {
-    if (title.includes(term)) {
-      tags.push(term);
-    }
-  });
-  
-  return Array.from(new Set(tags)); // Remove duplicates
-}
-
-// Server-side function to scan PDF files
-export async function scanPDFFiles(): Promise<CheatSheet[]> {
-  const cheatSheets: CheatSheet[] = [];
-  
-  try {
-    if (!fs.existsSync(CHEAT_SHEETS_DIR)) {
-      console.warn('Cheat sheets directory not found');
-      return [];
-    }
-
-    const specialtyFolders = fs.readdirSync(CHEAT_SHEETS_DIR, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
-
-    for (const specialty of specialtyFolders) {
-      const specialtyPath = path.join(CHEAT_SHEETS_DIR, specialty);
-      const files = fs.readdirSync(specialtyPath);
-      
-      const pdfFiles = files.filter(file => 
-        file.endsWith('.pdf') && !file.includes('.pdf:Zone.Identifier')
-      );
-
-      for (const fileName of pdfFiles) {
-        const filePath = path.join(specialtyPath, fileName);
-        const stats = fs.statSync(filePath);
-        const title = fileName.replace('.pdf', '').replace(/_/g, ' ');
-        
-        const cheatSheet: CheatSheet = {
-          id: generateSlug(fileName) + '-' + specialty.toLowerCase().replace(/\s+/g, '-'),
-          title: title,
-          slug: generateSlug(fileName),
-          specialty: specialty,
-          fileName: fileName,
-          filePath: `cheat-sheets/${specialty}/${fileName}`,
-          description: `Clinical reference guide for ${title.toLowerCase()}`,
-          tags: extractTags(fileName, specialty),
-          lastUpdated: stats.mtime.toISOString(),
-          difficulty: 'Intermediate' as const,
-          estimatedReadTime: estimateReadingTime(stats.size / 1024),
-          downloadCount: Math.floor(Math.random() * 200) + 50, // Mock download count
-          fileSize: formatFileSize(stats.size),
-        };
-        
-        cheatSheets.push(cheatSheet);
-      }
-    }
-  } catch (error) {
-    console.error('Error scanning PDF files:', error);
-  }
-  
-  return cheatSheets.sort((a, b) => a.title.localeCompare(b.title));
-}
-
-// Client-side mock data (since we can't access filesystem on client)
-export const mockPDFCheatSheets: CheatSheet[] = [
+// Static data for cheat sheets (for Netlify deployment)
+const staticCheatSheets: CheatSheet[] = [
   // Cardiology
   {
     id: 'atrial-fibrillation-cardiology',
@@ -122,7 +9,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'atrial-fibrillation',
     specialty: 'Cardiology',
     fileName: 'Atrial fibrillation.pdf',
-    filePath: 'cheat-sheets/Cardiology/Atrial fibrillation.pdf',
+    filePath: '/cheat-sheets/Cardiology/Atrial fibrillation.pdf',
     description: 'Clinical reference guide for atrial fibrillation management',
     tags: ['cardiology', 'arrhythmia'],
     lastUpdated: '2024-01-15T00:00:00Z',
@@ -137,7 +24,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'chf',
     specialty: 'Cardiology',
     fileName: 'CHF.pdf',
-    filePath: 'cheat-sheets/Cardiology/CHF.pdf',
+    filePath: '/cheat-sheets/Cardiology/CHF.pdf',
     description: 'Clinical reference guide for congestive heart failure',
     tags: ['cardiology', 'heart', 'failure'],
     lastUpdated: '2024-01-12T00:00:00Z',
@@ -152,7 +39,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'acute-coronary-syndrome',
     specialty: 'Cardiology',
     fileName: 'Acute coronary syndrome.pdf',
-    filePath: 'cheat-sheets/Cardiology/Acute coronary syndrome.pdf',
+    filePath: '/cheat-sheets/Cardiology/Acute coronary syndrome.pdf',
     description: 'Clinical reference guide for acute coronary syndrome',
     tags: ['cardiology', 'acute', 'syndrome'],
     lastUpdated: '2024-01-10T00:00:00Z',
@@ -164,11 +51,11 @@ export const mockPDFCheatSheets: CheatSheet[] = [
   // Nephrology
   {
     id: 'hyponatremia-nephrology',
-    title: 'hyponatremia',
+    title: 'Hyponatremia',
     slug: 'hyponatremia',
     specialty: 'Nephrology',
     fileName: 'hyponatremia.pdf',
-    filePath: 'cheat-sheets/Nephrology/hyponatremia.pdf',
+    filePath: '/cheat-sheets/Nephrology/hyponatremia.pdf',
     description: 'Clinical reference guide for hyponatremia management',
     tags: ['nephrology'],
     lastUpdated: '2024-01-10T00:00:00Z',
@@ -182,8 +69,8 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     title: 'Acute Kidney Injury',
     slug: 'acute-kidney-injury',
     specialty: 'Nephrology',
-    fileName: 'Acute Kidney Injury .pdf',
-    filePath: 'cheat-sheets/Nephrology/Acute Kidney Injury .pdf',
+    fileName: 'Acute Kidney Injury.pdf',
+    filePath: '/cheat-sheets/Nephrology/Acute Kidney Injury.pdf',
     description: 'Clinical reference guide for acute kidney injury',
     tags: ['nephrology', 'acute', 'kidney', 'injury'],
     lastUpdated: '2024-01-08T00:00:00Z',
@@ -192,22 +79,166 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     downloadCount: 145,
     fileSize: '36 KB',
   },
+  // Endocrinology
   {
-    id: 'electrolyte-disturbances-nephrology',
-    title: 'Electrolyte disturbances',
-    slug: 'electrolyte-disturbances',
-    specialty: 'Nephrology',
-    fileName: 'Electrolyte disturbances.pdf',
-    filePath: '/api/pdf/Nephrology/Electrolyte%20disturbances.pdf',
-    description: 'Clinical reference guide for electrolyte disturbances',
-    tags: ['nephrology'],
+    id: 'dka-endocrinology',
+    title: 'DKA',
+    slug: 'dka',
+    specialty: 'Endocrinology',
+    fileName: 'DKA.pdf',
+    filePath: '/cheat-sheets/Endocrinology/DKA.pdf',
+    description: 'Clinical reference guide for diabetic ketoacidosis',
+    tags: ['endocrinology', 'diabetes'],
     lastUpdated: '2024-01-05T00:00:00Z',
-    difficulty: 'Intermediate',
+    difficulty: 'Advanced',
+    estimatedReadTime: 6,
+    downloadCount: 167,
+    fileSize: '52 KB',
+  },
+  {
+    id: 'thyroid-emergencies-endocrinology',
+    title: 'Thyroid emergencies',
+    slug: 'thyroid-emergencies',
+    specialty: 'Endocrinology',
+    fileName: 'Thyroid emergencies.pdf',
+    filePath: '/cheat-sheets/Endocrinology/Thyroid emergencies.pdf',
+    description: 'Clinical reference guide for thyroid emergencies',
+    tags: ['endocrinology', 'emergency'],
+    lastUpdated: '2024-01-03T00:00:00Z',
+    difficulty: 'Advanced',
     estimatedReadTime: 8,
-    downloadCount: 178,
-    fileSize: '69 KB',
+    downloadCount: 134,
+    fileSize: '67 KB',
+  },
+  // Gastroenterology
+  {
+    id: 'gib-gastroenterology',
+    title: 'GIB',
+    slug: 'gib',
+    specialty: 'Gastroenterology',
+    fileName: 'GIB.pdf',
+    filePath: '/cheat-sheets/Gastroenterology/GIB.pdf',
+    description: 'Clinical reference guide for gastrointestinal bleeding',
+    tags: ['gastroenterology'],
+    lastUpdated: '2024-01-02T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 7,
+    downloadCount: 198,
+    fileSize: '58 KB',
+  },
+  {
+    id: 'acute-pancreatitis-gastroenterology',
+    title: 'Acute pancreatitis',
+    slug: 'acute-pancreatitis',
+    specialty: 'Gastroenterology',
+    fileName: 'Acute pancreatitis.pdf',
+    filePath: '/cheat-sheets/Gastroenterology/Acute pancreatitis.pdf',
+    description: 'Clinical reference guide for acute pancreatitis',
+    tags: ['gastroenterology', 'acute'],
+    lastUpdated: '2024-01-01T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 6,
+    downloadCount: 143,
+    fileSize: '49 KB',
+  },
+  // Pulmonology/Critical Care
+  {
+    id: 'asthma-exacerbations-pulmonology',
+    title: 'Asthma exacerbations',
+    slug: 'asthma-exacerbations',
+    specialty: 'Pulmonology_crit care',
+    fileName: 'Asthma exacercations.pdf',
+    filePath: '/cheat-sheets/Pulmonology_crit care/Asthma exacercations.pdf',
+    description: 'Clinical reference guide for asthma exacerbations',
+    tags: ['pulmonology'],
+    lastUpdated: '2023-12-30T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 5,
+    downloadCount: 176,
+    fileSize: '41 KB',
+  },
+  // Infectious Disease
+  {
+    id: 'cap-infectious-disease',
+    title: 'CAP',
+    slug: 'cap',
+    specialty: 'Infectious disease',
+    fileName: 'CAP.pdf',
+    filePath: '/cheat-sheets/Infectious disease/CAP.pdf',
+    description: 'Clinical reference guide for community-acquired pneumonia',
+    tags: ['infectious disease'],
+    lastUpdated: '2023-12-28T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 6,
+    downloadCount: 189,
+    fileSize: '55 KB',
+  },
+  {
+    id: 'meningitis-infectious-disease',
+    title: 'Meningitis',
+    slug: 'meningitis',
+    specialty: 'Infectious disease',
+    fileName: 'Meningitis.pdf',
+    filePath: '/cheat-sheets/Infectious disease/Meningitis.pdf',
+    description: 'Clinical reference guide for meningitis',
+    tags: ['infectious disease', 'emergency'],
+    lastUpdated: '2023-12-25T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 8,
+    downloadCount: 145,
+    fileSize: '63 KB',
+  },
+  // Neurology
+  {
+    id: 'seizures-neurology',
+    title: 'Seizures',
+    slug: 'seizures',
+    specialty: 'Neurology',
+    fileName: 'Seizures.pdf',
+    filePath: '/cheat-sheets/Neurology/Seizures.pdf',
+    description: 'Clinical reference guide for seizures',
+    tags: ['neurology', 'emergency'],
+    lastUpdated: '2023-12-20T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 7,
+    downloadCount: 167,
+    fileSize: '59 KB',
+  },
+  {
+    id: 'ischemic-cva-neurology',
+    title: 'Ischemic CVA',
+    slug: 'ischemic-cva',
+    specialty: 'Neurology',
+    fileName: 'Ischemic CVA.pdf',
+    filePath: '/cheat-sheets/Neurology/Ischemic CVA.pdf',
+    description: 'Clinical reference guide for ischemic cerebrovascular accident',
+    tags: ['neurology', 'emergency'],
+    lastUpdated: '2023-12-18T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 9,
+    downloadCount: 198,
+    fileSize: '71 KB',
   },
 ];
+
+// Function to generate a slug from filename
+function generateSlug(filename: string): string {
+  return filename
+    .replace('.pdf', '')
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Server-side function to scan PDF files (for Netlify, use static data)
+export async function scanPDFFiles(): Promise<CheatSheet[]> {
+  // For Netlify deployment, return static data
+  return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+// Export static cheat sheets for use in components
+export const mockPDFCheatSheets = staticCheatSheets;
 
 // Get list of specialties from the folders
 export const specialties = [
