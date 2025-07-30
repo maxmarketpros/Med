@@ -48,6 +48,51 @@ const staticCheatSheets: CheatSheet[] = [
     downloadCount: 201,
     fileSize: '97 KB',
   },
+  {
+    id: 'pericarditis-myocarditis-cardiology',
+    title: 'Pericarditis myocarditis',
+    slug: 'pericarditis-myocarditis',
+    specialty: 'Cardiology',
+    fileName: 'Pericarditis_myocarditis.pdf',
+    filePath: '/cheat-sheets/Cardiology/Pericarditis_myocarditis.pdf',
+    description: 'Clinical reference guide for pericarditis and myocarditis',
+    tags: ['cardiology', 'pericarditis', 'myocarditis'],
+    lastUpdated: '2024-01-14T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 9,
+    downloadCount: 134,
+    fileSize: '65 KB',
+  },
+  {
+    id: 'bradycardia-cardiology',
+    title: 'Bradycardia',
+    slug: 'bradycardia',
+    specialty: 'Cardiology',
+    fileName: 'Bradycardia.pdf',
+    filePath: '/cheat-sheets/Cardiology/Bradycardia.pdf',
+    description: 'Clinical reference guide for bradycardia management',
+    tags: ['cardiology', 'bradycardia', 'arrhythmia'],
+    lastUpdated: '2024-01-13T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 7,
+    downloadCount: 167,
+    fileSize: '74 KB',
+  },
+  {
+    id: 'cardiomyopathies-cardiology',
+    title: 'Cardiomyopathies',
+    slug: 'cardiomyopathies',
+    specialty: 'Cardiology',
+    fileName: 'cardiomyopathies.pdf',
+    filePath: '/cheat-sheets/Cardiology/cardiomyopathies.pdf',
+    description: 'Clinical reference guide for cardiomyopathies',
+    tags: ['cardiology', 'cardiomyopathy'],
+    lastUpdated: '2024-01-11T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 12,
+    downloadCount: 145,
+    fileSize: '183 KB',
+  },
   // Nephrology
   {
     id: 'hyponatremia-nephrology',
@@ -231,8 +276,24 @@ function generateSlug(filename: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+// Detect if we're in a serverless environment
+function isServerlessEnvironment(): boolean {
+  return !!(
+    process.env.NETLIFY || 
+    process.env.VERCEL || 
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.FUNCTION_NAME
+  );
+}
+
 // Server-side function to scan PDF files
 export async function scanPDFFiles(): Promise<CheatSheet[]> {
+  // In serverless environments, prioritize static data for reliability
+  if (isServerlessEnvironment()) {
+    console.log('Serverless environment detected, using static cheat sheets data');
+    return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
   try {
     const fs = require('fs');
     const path = require('path');
