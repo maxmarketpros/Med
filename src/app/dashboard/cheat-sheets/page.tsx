@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import { CheatSheetCard } from '@/components/cheat-sheets/CheatSheetCard';
 import { Button } from '@/components/ui/Button';
+import { mockPDFCheatSheets } from '@/lib/pdfScanner';
 import { CheatSheet } from '@/types';
 
 export default function CheatSheetsPage() {
@@ -14,27 +15,26 @@ export default function CheatSheetsPage() {
   const [specialties, setSpecialties] = useState<string[]>(['All Specialties']);
   const [loading, setLoading] = useState(true);
 
-  // Fetch data on component mount
+  // Load data on component mount
   useEffect(() => {
-    const fetchData = async () => {
+    const loadData = () => {
       try {
-        const response = await fetch('/api/cheat-sheets');
-        if (response.ok) {
-          const data: CheatSheet[] = await response.json();
-          setCheatSheets(data);
-          
-          // Extract unique specialties from the data
-          const uniqueSpecialties = Array.from(new Set(data.map(sheet => sheet.specialty)));
-          setSpecialties(['All Specialties', ...uniqueSpecialties.sort()]);
-        }
+        console.log('Loading cheat sheets from static data');
+        setCheatSheets(mockPDFCheatSheets);
+        
+        // Extract unique specialties from the data
+        const uniqueSpecialties = Array.from(new Set(mockPDFCheatSheets.map(sheet => sheet.specialty)));
+        setSpecialties(['All Specialties', ...uniqueSpecialties.sort()]);
+        
+        console.log(`Loaded ${mockPDFCheatSheets.length} cheat sheets with ${uniqueSpecialties.length} specialties`);
       } catch (error) {
-        console.error('Error fetching cheat sheets:', error);
+        console.error('Error loading cheat sheets:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    loadData();
   }, []);
 
   // Configure Fuse.js for fuzzy search
@@ -47,29 +47,31 @@ export default function CheatSheetsPage() {
 
   // Filter and search cheat sheets
   const filteredCheatSheets = useMemo(() => {
-    let results = cheatSheets;
+    let filtered = cheatSheets;
 
-    // Apply specialty filter
+    // Filter by specialty
     if (selectedSpecialty !== 'All Specialties') {
-      results = results.filter(sheet => sheet.specialty === selectedSpecialty);
+      filtered = filtered.filter(sheet => sheet.specialty === selectedSpecialty);
     }
 
-    // Apply search filter
+    // Apply search if there's a search term
     if (searchTerm.trim()) {
-      const fuseResults = fuse.search(searchTerm);
-      const searchedIds = fuseResults.map(result => result.item.id);
-      results = results.filter(sheet => searchedIds.includes(sheet.id));
+      const searchResults = fuse.search(searchTerm.trim());
+      const searchedIds = new Set(searchResults.map(result => result.item.id));
+      filtered = filtered.filter(sheet => searchedIds.has(sheet.id));
     }
 
-    return results;
-  }, [searchTerm, selectedSpecialty, fuse, cheatSheets]);
+    return filtered;
+  }, [cheatSheets, selectedSpecialty, searchTerm, fuse]);
 
   if (loading) {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Cheat Sheets Library</h1>
-          <p className="mt-2 text-gray-600">Loading medical reference materials...</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Cheat Sheets</h1>
+          <p className="mt-2 text-gray-600">
+            Access your medical reference library
+          </p>
         </div>
         <div className="flex justify-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>

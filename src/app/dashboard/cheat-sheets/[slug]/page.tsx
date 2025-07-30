@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CheatSheet } from '@/types';
 import { toTitleCase } from '@/lib/utils';
+import { mockPDFCheatSheets } from '@/lib/pdfScanner';
 import PdfViewer from '@/components/cheat-sheets/PdfViewer';
 
 export default function CheatSheetDetailPage() {
@@ -19,18 +20,12 @@ export default function CheatSheetDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadData = () => {
       try {
-        // Fetch all cheat sheets
-        const response = await fetch('/api/cheat-sheets');
-        if (!response.ok) {
-          throw new Error('Failed to fetch cheat sheets');
-        }
-        
-        const allSheets: CheatSheet[] = await response.json();
+        console.log('Loading cheat sheet from static data for slug:', slug);
         
         // Find the specific sheet by slug
-        const foundSheet = allSheets.find(sheet => sheet.slug === slug);
+        const foundSheet = mockPDFCheatSheets.find(sheet => sheet.slug === slug);
         if (!foundSheet) {
           setError('Cheat sheet not found');
           return;
@@ -39,7 +34,7 @@ export default function CheatSheetDetailPage() {
         setCheatSheet(foundSheet);
         
         // Find related sheets (same specialty or common tags)
-        const related = allSheets
+        const related = mockPDFCheatSheets
           .filter(sheet => 
             sheet.id !== foundSheet.id && 
             (sheet.specialty === foundSheet.specialty || 
@@ -48,6 +43,7 @@ export default function CheatSheetDetailPage() {
           .slice(0, 4);
         
         setRelatedSheets(related);
+        console.log(`Loaded cheat sheet: ${foundSheet.title} with ${related.length} related sheets`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -55,7 +51,7 @@ export default function CheatSheetDetailPage() {
       }
     };
 
-    fetchData();
+    loadData();
   }, [slug]);
 
   if (loading) {

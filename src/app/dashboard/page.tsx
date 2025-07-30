@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { sampleDashboardStats } from '@/data/sampleData';
 import { formatDateShort, calculateTimeAgo } from '@/lib/utils';
+import { mockPDFCheatSheets } from '@/lib/pdfScanner';
 import { CheatSheet } from '@/types';
 
 export default function DashboardPage() {
@@ -14,28 +15,27 @@ export default function DashboardPage() {
   const [cheatSheets, setCheatSheets] = useState<CheatSheet[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Use static data for other stats, but fetch real cheat sheet count
+  // Use static data for other stats, but use real cheat sheet count
   const stats = {
     ...sampleDashboardStats,
     totalCheatSheets: cheatSheets.length
   };
 
   useEffect(() => {
-    const fetchCheatSheets = async () => {
+    // Use static data directly instead of API call
+    const loadCheatSheets = () => {
       try {
-        const response = await fetch('/api/cheat-sheets');
-        if (response.ok) {
-          const data = await response.json();
-          setCheatSheets(data);
-        }
+        console.log('Loading cheat sheets from static data');
+        setCheatSheets(mockPDFCheatSheets);
+        console.log(`Loaded ${mockPDFCheatSheets.length} cheat sheets`);
       } catch (error) {
-        console.error('Error fetching cheat sheets:', error);
+        console.error('Error loading cheat sheets:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCheatSheets();
+    loadCheatSheets();
   }, []);
 
   const getActivityIcon = (type: string) => {
@@ -48,15 +48,14 @@ export default function DashboardPage() {
         );
       case 'cheat_sheet_viewed':
         return (
-          <svg className="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         );
-      case 'certificate_downloaded':
+      case 'cme_credits_earned':
         return (
-          <svg className="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         );
       default:
