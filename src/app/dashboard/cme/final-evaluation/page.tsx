@@ -1,5 +1,8 @@
 import { EvaluationForm } from '@/components/cme/EvaluationForm';
 
+// Force dynamic rendering to avoid build-time Clerk errors
+export const dynamic = 'force-dynamic';
+
 export default function FinalEvaluationPage() {
   return (
     <div className="container mx-auto px-4 py-8">
