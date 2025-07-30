@@ -13,7 +13,7 @@
   # Enable Next.js App Router compatibility
   NEXT_PRIVATE_TARGET = "server"
 
-# Handle Next.js API routes as Netlify Functions
+# Handle API routes as manual Netlify Functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
@@ -60,5 +60,5 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
 [functions]
-  directory = ".netlify/functions"
+  directory = "netlify/functions"
   node_bundler = "esbuild"
