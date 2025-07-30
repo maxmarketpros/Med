@@ -231,10 +231,65 @@ function generateSlug(filename: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-// Server-side function to scan PDF files (for Netlify, use static data)
+// Server-side function to scan PDF files
 export async function scanPDFFiles(): Promise<CheatSheet[]> {
-  // For Netlify deployment, return static data
-  return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    
+    const cheatSheetsDir = path.join(process.cwd(), 'cheat-sheets');
+    const cheatSheets: CheatSheet[] = [];
+    
+    // Check if cheat-sheets directory exists
+    if (!fs.existsSync(cheatSheetsDir)) {
+      console.log('Cheat sheets directory not found, returning static data');
+      return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    
+    // Read all specialty directories
+    const specialtyDirs = fs.readdirSync(cheatSheetsDir, { withFileTypes: true })
+      .filter((dirent: any) => dirent.isDirectory())
+      .map((dirent: any) => dirent.name);
+    
+    for (const specialty of specialtyDirs) {
+      const specialtyPath = path.join(cheatSheetsDir, specialty);
+      
+      // Read all PDF files in this specialty directory
+      const files = fs.readdirSync(specialtyPath)
+        .filter((file: string) => file.toLowerCase().endsWith('.pdf') && !file.includes('Zone.Identifier'));
+      
+      for (const fileName of files) {
+        const filePath = path.join(specialtyPath, fileName);
+        const stats = fs.statSync(filePath);
+        const title = fileName.replace('.pdf', '');
+        const slug = generateSlug(fileName);
+        const id = `${slug}-${specialty.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+        
+        cheatSheets.push({
+          id,
+          title,
+          slug,
+          specialty,
+          fileName,
+          filePath: `/cheat-sheets/${specialty}/${fileName}`,
+          description: `Clinical reference guide for ${title.toLowerCase()}`,
+          tags: [specialty.toLowerCase().replace(/[^a-z0-9]/g, '-')],
+          lastUpdated: stats.mtime.toISOString(),
+          difficulty: 'Intermediate', // Default difficulty
+          estimatedReadTime: Math.max(5, Math.min(15, Math.floor(stats.size / 10240))), // Estimate based on file size
+          downloadCount: Math.floor(Math.random() * 300) + 50, // Random download count for demo
+          fileSize: `${Math.round(stats.size / 1024)} KB`,
+        });
+      }
+    }
+    
+    console.log(`Scanned ${cheatSheets.length} PDF files from ${specialtyDirs.length} specialties`);
+    return cheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+    
+  } catch (error) {
+    console.error('Error scanning PDF files, returning static data:', error);
+    return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+  }
 }
 
 // Export static cheat sheets for use in components
