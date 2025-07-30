@@ -92,7 +92,7 @@ export interface DashboardStats {
 
 export interface Activity {
   id: string;
-  type: 'quiz_completed' | 'cheat_sheet_viewed' | 'certificate_downloaded';
+  type: 'quiz_completed' | 'cheat_sheet_viewed' | 'certificate_downloaded' | 'simulator_completed';
   title: string;
   date: string;
   details?: string;
@@ -119,4 +119,58 @@ export interface CMEEvaluation {
   relationshipsDisclosed: 'Yes' | 'No';
   programName: string;
   completedAt: string;
+}
+
+export interface PatientVitals {
+  bloodPressure: string;
+  heartRate: number;
+  respiratoryRate: number;
+  oxygenSaturation: number;
+  temperature: number;
+  consciousness?: string;
+  pain?: number;
+}
+
+export interface SimulatorStep {
+  id: string;
+  scenario: string;
+  vitals?: PatientVitals;
+  physicalExam?: string;
+  labResults?: string;
+  imaging?: string;
+  options: {
+    text: string;
+    isCorrect: boolean;
+    feedback: string;
+  }[];
+}
+
+export interface Simulator {
+  id: string;
+  title: string;
+  roomNumber: string;
+  specialty: string;
+  description: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  estimatedTime: number;
+  learningObjectives: string[];
+  steps: SimulatorStep[];
+  cmeCredits?: number;
+}
+
+export interface SimulatorAttempt {
+  id: string;
+  simulatorId: string;
+  userId: string;
+  startTime: string;
+  endTime?: string;
+  currentStep: number;
+  answers: {
+    stepId: string;
+    selectedOption: number;
+    isCorrect: boolean;
+    timeSpent: number;
+  }[];
+  completed: boolean;
+  score?: number;
 }
