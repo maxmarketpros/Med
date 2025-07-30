@@ -74,6 +74,7 @@ export const sampleQuizzes: Quiz[] = [
     cmeCredits: 1.0,
     estimatedTime: 15,
     difficulty: 'Intermediate',
+    isFinalExam: true, // This is a final exam that triggers evaluation flow
     questions: [
       {
         id: 'q1',
@@ -125,6 +126,7 @@ export const sampleQuizzes: Quiz[] = [
     cmeCredits: 1.5,
     estimatedTime: 20,
     difficulty: 'Advanced',
+    // No isFinalExam flag - this is a regular practice quiz
     questions: [
       {
         id: 'q1',

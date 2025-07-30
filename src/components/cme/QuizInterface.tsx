@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Quiz, QuizQuestion } from '@/types';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -88,12 +89,39 @@ export function QuizInterface({ quiz, onComplete }: QuizInterfaceProps) {
               {passed ? `Passed - ${quiz.cmeCredits} CME Credits Earned` : `Failed - ${quiz.passingScore}% Required to Pass`}
             </div>
             
-            {passed && (
+            {passed && quiz.isFinalExam && (
               <div className="mt-6">
                 <p className="text-sm text-gray-600 mb-4">
-                  Complete the feedback survey to receive your certificate.
+                  Complete the CME evaluation form to receive your certificate and claim your {quiz.cmeCredits} CME credits.
                 </p>
-                <Button>Continue to Survey</Button>
+                <Button onClick={() => window.location.href = '/dashboard/cme/final-evaluation'}>
+                  Continue to CME Evaluation
+                </Button>
+              </div>
+            )}
+            
+            {passed && !quiz.isFinalExam && (
+              <div className="mt-6">
+                <p className="text-sm text-gray-600 mb-4">
+                  Great job! This was a practice quiz.
+                </p>
+                <Button onClick={() => window.location.href = '/dashboard/cme'}>
+                  Back to CME Quizzes
+                </Button>
+              </div>
+            )}
+            
+            {!passed && (
+              <div className="mt-6">
+                <p className="text-sm text-gray-600 mb-4">
+                  {quiz.isFinalExam 
+                    ? "You need 70% or higher to earn CME credits. Please try again."
+                    : "Review the material and try again to improve your score."
+                  }
+                </p>
+                <Button onClick={() => window.location.reload()}>
+                  Try Again
+                </Button>
               </div>
             )}
           </CardContent>

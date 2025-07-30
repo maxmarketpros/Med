@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useUser } from '@/hooks/useUser';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -9,6 +9,7 @@ import { formatDateShort, formatDate } from '@/lib/utils';
 
 export default function ProfilePage() {
   const { user } = useUser();
+  const [downloadingCert, setDownloadingCert] = useState<string | null>(null);
 
   if (!user) {
     return (
@@ -19,6 +20,46 @@ export default function ProfilePage() {
   }
 
   const stats = sampleDashboardStats;
+
+  const handleDownloadCertificate = async (cert: any) => {
+    setDownloadingCert(cert.id);
+    
+    try {
+      const response = await fetch('/api/generateCertificate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: user.name,
+          date: new Date(cert.generatedAt).toLocaleDateString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate certificate');
+      }
+
+      // Create a blob from the response
+      const blob = await response.blob();
+      
+      // Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CME_Certificate_${user.name.replace(/[^a-zA-Z0-9]/g, '_')}_${cert.id}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Failed to download certificate. Please try again.');
+    } finally {
+      setDownloadingCert(null);
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -173,11 +214,19 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => window.open(`/dashboard/cme/certificate?name=${encodeURIComponent(user.name)}&date=${encodeURIComponent(new Date(cert.generatedAt).toLocaleDateString())}`, '_blank')}
+                    >
                       View
                     </Button>
-                    <Button size="sm">
-                      Download
+                    <Button 
+                      size="sm"
+                      onClick={() => handleDownloadCertificate(cert)}
+                      disabled={downloadingCert === cert.id}
+                    >
+                      {downloadingCert === cert.id ? 'Downloading...' : 'Download'}
                     </Button>
                   </div>
                 </div>

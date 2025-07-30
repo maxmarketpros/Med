@@ -35,6 +35,7 @@ export interface Quiz {
   cmeCredits: number;
   estimatedTime: number;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  isFinalExam?: boolean; // Flag to identify final exams that trigger evaluation flow
 }
 
 export interface QuizQuestion {
@@ -95,4 +96,27 @@ export interface Activity {
   title: string;
   date: string;
   details?: string;
+}
+
+export interface CMEEvaluation {
+  id: string;
+  quizAttemptId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  credentials: 'PA' | 'NP' | 'RN' | 'MD' | 'Other';
+  programContent: number; // 1-5 rating
+  relevancyToPractice: number; // 1-5 rating
+  objectivesStated: number; // 1-5 rating
+  objectivesMet: number; // 1-5 rating
+  overallRating: number; // 1-5 rating
+  practiceChange: 'Yes' | 'Maybe' | 'No';
+  drugsProductsAwareness: 'Yes' | 'No';
+  balancedViewPresented: 'Yes' | 'No';
+  biasDetected: 'Yes' | 'No';
+  brandMentions?: string;
+  unlabeledUses: 'Yes' | 'No';
+  relationshipsDisclosed: 'Yes' | 'No';
+  programName: string;
+  completedAt: string;
 }
