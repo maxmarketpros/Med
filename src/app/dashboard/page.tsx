@@ -111,17 +111,19 @@ export default function DashboardPage() {
 
         <Card>
           <CardContent className="pt-4 sm:pt-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-violet-100 rounded-lg flex-shrink-0">
-                <svg className="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <Link href="/dashboard/cme/final-exam" className="block">
+              <div className="flex items-center hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
+                <div className="p-2 bg-emerald-100 rounded-lg flex-shrink-0">
+                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="ml-4 min-w-0">
+                  <p className="text-sm font-medium text-gray-500">Take Final Exam</p>
+                  <p className="text-lg font-bold text-emerald-600">Start Now</p>
+                </div>
               </div>
-              <div className="ml-4 min-w-0">
-                <p className="text-sm font-medium text-gray-500">CME Credits Earned</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.earnedCredits}</p>
-              </div>
-            </div>
+            </Link>
           </CardContent>
         </Card>
       </div>

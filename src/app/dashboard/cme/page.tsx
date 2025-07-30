@@ -12,7 +12,7 @@ export default function CMEPage() {
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Tests</h1>
         <p className="mt-2 text-gray-600">
-          Take AMA PRA Category 1 Credit™ hospital medicine tests to earn CME credits and certificates.
+          Take AAPA Category 1 CME hospital medicine tests to earn CME credits and certificates.
         </p>
       </div>
 
@@ -44,7 +44,7 @@ export default function CMEPage() {
               </div>
               <div className="ml-4 min-w-0">
                 <p className="text-sm font-medium text-gray-500">Final Exam</p>
-                <p className="text-2xl font-bold text-gray-900">100 Questions</p>
+                <p className="text-2xl font-bold text-gray-900">74 Questions</p>
               </div>
             </div>
           </CardContent>
@@ -60,7 +60,7 @@ export default function CMEPage() {
               </div>
               <div className="ml-4 min-w-0">
                 <p className="text-sm font-medium text-gray-500">CME Credits</p>
-                <p className="text-2xl font-bold text-gray-900">1.0 AMA</p>
+                <p className="text-2xl font-bold text-gray-900">10 AAPA</p>
               </div>
             </div>
           </CardContent>
@@ -150,8 +150,8 @@ export default function CMEPage() {
                   </div>
                   
                   <p className="text-gray-600 mb-4 line-clamp-3">
-                    Comprehensive hospital medicine final exam with 100 case-based questions covering all major specialties. 
-                    Pass with 70% or higher to earn 1.0 AMA PRA Category 1 Credit™ and receive your official certificate.
+                    Comprehensive hospital medicine final exam with 74 case-based questions covering all major specialties. 
+                    Pass with 70% or higher to earn 10 AAPA Category 1 CME credits possible and receive your official certificate.
                   </p>
                   
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-4 mb-4">
@@ -171,13 +171,13 @@ export default function CMEPage() {
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      1.0 CME Credits
+                      10 CME Credits
                     </div>
                     <div className="flex items-center text-xs sm:text-sm text-gray-500 col-span-2 sm:col-span-1">
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                       </svg>
-                      100 Questions
+                      74 Questions
                     </div>
                   </div>
                   
@@ -191,7 +191,7 @@ export default function CMEPage() {
                   </div>
                   
                   <p className="text-sm text-gray-500">
-                    Passing Score: 70% • AMA PRA Category 1 Credit™ • Certificate provided upon passing
+                    Passing Score: 70% • 10 AAPA Category 1 CME credits possible • Certificate provided upon passing
                   </p>
                 </div>
                 
@@ -228,8 +228,8 @@ export default function CMEPage() {
             <div>
               <h4 className="font-semibold text-gray-900 mb-2">Final Exam</h4>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• 100 comprehensive questions</li>
-                <li>• 1.0 AMA PRA Category 1 Credit™</li>
+                <li>• 74 comprehensive questions</li>
+                <li>• 10 AAPA Category 1 CME credits possible</li>
                 <li>• Official certificate upon passing</li>
                 <li>• 70% passing score required</li>
                 <li>• Post-test evaluation required</li>

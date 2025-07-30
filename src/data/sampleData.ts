@@ -160,7 +160,7 @@ export const sampleQuizzes: Quiz[] = [
 
 export const sampleDashboardStats: DashboardStats = {
   totalCheatSheets: sampleCheatSheets.length,
-  completedQuizzes: 0,
+  completedQuizzes: 3,
   earnedCredits: 0,
   totalAvailableCredits: 45.0,
   recentActivity: [
