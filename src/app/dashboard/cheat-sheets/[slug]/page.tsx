@@ -87,8 +87,11 @@ export default function CheatSheetDetailPage() {
   const handleDownload = () => {
     if (!cheatSheet) return;
     
+    // Properly encode the PDF URL
+    const encodedFilePath = cheatSheet.filePath.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    
     const link = document.createElement('a');
-    link.href = cheatSheet.filePath; // Direct link to static file
+    link.href = encodedFilePath;
     link.download = cheatSheet.fileName;
     document.body.appendChild(link);
     link.click();
@@ -98,7 +101,9 @@ export default function CheatSheetDetailPage() {
   const handlePrint = () => {
     if (!cheatSheet) return;
     
-    window.open(cheatSheet.filePath, '_blank'); // Direct link to static file
+    // Properly encode the PDF URL
+    const encodedFilePath = cheatSheet.filePath.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    window.open(encodedFilePath, '_blank');
   };
 
   return (

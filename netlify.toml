@@ -32,6 +32,7 @@
     Access-Control-Allow-Headers = "Range, Content-Type"
     Cache-Control = "public, max-age=86400"
     Accept-Ranges = "bytes"
+    X-Frame-Options = "SAMEORIGIN"
 
 # Static asset caching
 [[headers]]
@@ -45,11 +46,11 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# Security headers
+# Security headers (allow same-origin frames for PDF viewing)
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
