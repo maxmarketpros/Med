@@ -13,13 +13,18 @@
   # Enable Next.js App Router compatibility
   NEXT_PRIVATE_TARGET = "server"
 
-# Handle API routes as manual Netlify Functions
+# Handle API routes as manual Netlify Functions  
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/api/:function"
+  to = "/.netlify/functions/:function"
   status = 200
 
-# SPA fallback for client-side routing
+[[redirects]]
+  from = "/api/:function/*"
+  to = "/.netlify/functions/:function/:splat"
+  status = 200
+
+# SPA fallback for client-side routing (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
