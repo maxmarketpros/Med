@@ -296,112 +296,18 @@ const staticCheatSheets: CheatSheet[] = [
   },
 ];
 
-// Function to generate a slug from filename
-function generateSlug(filename: string): string {
-  return filename
-    .replace('.pdf', '')
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-// Detect deployment environment with comprehensive logging
-function getEnvironmentInfo() {
-  const env = {
-    netlify: !!process.env.NETLIFY,
-    vercel: !!process.env.VERCEL,
-    lambda: !!process.env.AWS_LAMBDA_FUNCTION_NAME,
-    function: !!process.env.FUNCTION_NAME,
-    nodeEnv: process.env.NODE_ENV,
-    context: process.env.CONTEXT,
-    buildId: process.env.BUILD_ID
-  };
-  
-  console.log('Environment detection:', JSON.stringify(env, null, 2));
-  
-  const isServerless = !!(env.netlify || env.vercel || env.lambda || env.function);
-  console.log('Is serverless environment:', isServerless);
-  
-  return { ...env, isServerless };
-}
-
-// Server-side function to scan PDF files
+/**
+ * Provides a consistent list of cheat sheets for all environments.
+ * This function is the single source of truth for cheat sheet data, ensuring
+ * reliability for deployments on Netlify and other serverless platforms.
+ * To add a new cheat sheet, you must add its metadata to the `staticCheatSheets`
+ * array above and place the corresponding PDF file in the `cheat-sheets` directory.
+ */
 export async function scanPDFFiles(): Promise<CheatSheet[]> {
-  const envInfo = getEnvironmentInfo();
-  
-  console.log('scanPDFFiles called');
-  console.log('Process environment keys:', Object.keys(process.env).filter(k => 
-    k.includes('NETLIFY') || k.includes('BUILD') || k.includes('DEPLOY') || k.includes('FUNCTION')
-  ));
-
-  // Always try static data first for reliability in production
-  if (process.env.NODE_ENV === 'production' || envInfo.isServerless) {
-    console.log('Using static cheat sheets data (production/serverless mode)');
-    const sortedSheets = staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
-    console.log(`Returning ${sortedSheets.length} static cheat sheets`);
-    return sortedSheets;
-  }
-
-  // Only try filesystem scanning in development
-  try {
-    console.log('Attempting filesystem scan (development mode)');
-    const fs = require('fs');
-    const path = require('path');
-    
-    const cheatSheetsDir = path.join(process.cwd(), 'cheat-sheets');
-    const cheatSheets: CheatSheet[] = [];
-    
-    // Check if cheat-sheets directory exists
-    if (!fs.existsSync(cheatSheetsDir)) {
-      console.log('Cheat sheets directory not found, falling back to static data');
-      return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
-    }
-    
-    // Read all specialty directories
-    const specialtyDirs = fs.readdirSync(cheatSheetsDir, { withFileTypes: true })
-      .filter((dirent: any) => dirent.isDirectory())
-      .map((dirent: any) => dirent.name);
-    
-    for (const specialty of specialtyDirs) {
-      const specialtyPath = path.join(cheatSheetsDir, specialty);
-      
-      // Read all PDF files in this specialty directory
-      const files = fs.readdirSync(specialtyPath)
-        .filter((file: string) => file.toLowerCase().endsWith('.pdf') && !file.includes('Zone.Identifier'));
-      
-      for (const fileName of files) {
-        const filePath = path.join(specialtyPath, fileName);
-        const stats = fs.statSync(filePath);
-        const title = fileName.replace('.pdf', '');
-        const slug = generateSlug(fileName);
-        const id = `${slug}-${specialty.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-        
-        cheatSheets.push({
-          id,
-          title,
-          slug,
-          specialty,
-          fileName,
-          filePath: `/cheat-sheets/${specialty}/${fileName}`,
-          description: `Clinical reference guide for ${title.toLowerCase()}`,
-          tags: [specialty.toLowerCase().replace(/[^a-z0-9]/g, '-')],
-          lastUpdated: stats.mtime.toISOString(),
-          difficulty: 'Intermediate', // Default difficulty
-          estimatedReadTime: Math.max(5, Math.min(15, Math.floor(stats.size / 10240))), // Estimate based on file size
-          downloadCount: Math.floor(Math.random() * 300) + 50, // Random download count for demo
-          fileSize: `${Math.round(stats.size / 1024)} KB`,
-        });
-      }
-    }
-    
-    console.log(`Scanned ${cheatSheets.length} PDF files from ${specialtyDirs.length} specialties`);
-    return cheatSheets.sort((a, b) => a.title.localeCompare(b.title));
-    
-  } catch (error) {
-    console.error('Error scanning PDF files, falling back to static data:', error);
-    return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
-  }
+  console.log('Fetching cheat sheets exclusively from static data source.');
+  const sortedSheets = staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+  console.log(`Returning ${sortedSheets.length} static cheat sheets.`);
+  return sortedSheets;
 }
 
 // Export static cheat sheets for use in components

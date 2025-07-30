@@ -2,44 +2,25 @@ import { NextResponse } from 'next/server';
 import { scanPDFFiles } from '@/lib/pdfScanner';
 
 export async function GET() {
-  console.log('=== API Route /api/cheat-sheets called ===');
-  console.log('NODE_ENV:', process.env.NODE_ENV);
-  console.log('NETLIFY env var:', process.env.NETLIFY);
-  console.log('Request timestamp:', new Date().toISOString());
-  
   try {
-    console.log('API: Calling scanPDFFiles...');
     const cheatSheets = await scanPDFFiles();
-    console.log(`API: Successfully retrieved ${cheatSheets.length} cheat sheets`);
     
-    if (cheatSheets.length > 0) {
-      console.log('Sample cheat sheet titles:', cheatSheets.slice(0, 3).map(s => s.title));
-    } else {
-      console.error('API: WARNING - No cheat sheets returned from scanPDFFiles!');
-    }
-    
-    const response = NextResponse.json(cheatSheets, {
+    return NextResponse.json(cheatSheets, {
       headers: {
-        'Cache-Control': 'public, max-age=300',
+        // Cache for 5 minutes in browser and at the edge
+        'Cache-Control': 'public, max-age=300, s-maxage=300',
         'Content-Type': 'application/json',
       },
     });
-    
-    console.log('API: Returning response with', cheatSheets.length, 'items');
-    return response;
-    
   } catch (error) {
-    console.error('API: Critical error in /api/cheat-sheets:', error);
-    console.error('API: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('API Error in /api/cheat-sheets:', error);
     
-    // Return empty array as fallback instead of error
-    const response = NextResponse.json([], {
+    // Return empty array as a fallback
+    return NextResponse.json([], {
+      status: 500,
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    
-    console.log('API: Returning empty array due to error');
-    return response;
   }
 }
