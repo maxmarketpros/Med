@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "mkdir -p public/cheat-sheets && cp -r cheat-sheets/* public/cheat-sheets/ && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next build",
+    "deploy": "npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

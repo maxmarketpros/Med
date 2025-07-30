@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable static exports for better Netlify compatibility
+  trailingSlash: true,
   images: {
-    unoptimized: true,
+    domains: ['localhost'],
+    unoptimized: true, // Required for static export
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -9,6 +12,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Configure for Netlify
+  distDir: '.next',
   webpack: (config, { isServer }) => {
     // PDF.js compatibility fixes
     config.resolve.alias.canvas = false;

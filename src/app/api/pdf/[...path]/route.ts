@@ -5,23 +5,21 @@ export async function GET(
   { params }: { params: { path: string[] } }
 ) {
   try {
-    // Decode URI components to handle special characters properly
+    // For Netlify deployment, redirect to public static files
     const decodedPath = params.path.map(segment => decodeURIComponent(segment));
-    const pdfPath = `/cheat-sheets/${decodedPath.join('/')}`;
+    const publicPath = `/cheat-sheets/${decodedPath.join('/')}`;
     
     // Validate PDF extension
-    if (!pdfPath.endsWith('.pdf')) {
-      console.error('Not a PDF file:', pdfPath);
+    if (!publicPath.endsWith('.pdf')) {
+      console.error('Not a PDF file:', publicPath);
       return NextResponse.json({ error: 'Not a PDF file' }, { status: 400 });
     }
 
     // For Netlify deployment, redirect to the static PDF file
     // The PDFs are now served as static files from /public/cheat-sheets/
-    const staticPdfUrl = pdfPath;
+    console.log('Redirecting to PDF:', publicPath);
     
-    console.log('Redirecting to PDF:', staticPdfUrl);
-    
-    return NextResponse.redirect(new URL(staticPdfUrl, request.url), 302);
+    return NextResponse.redirect(new URL(publicPath, request.url), 302);
   } catch (error) {
     console.error('Error serving PDF:', error);
     return NextResponse.json({ 

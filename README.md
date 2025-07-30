@@ -1,6 +1,6 @@
-# Med Cheat Sheets Dashboard
+# Medical Cheat Sheets Dashboard
 
-A comprehensive medical reference dashboard built with Next.js, featuring interactive PDF cheat sheets organized by specialty.
+A comprehensive medical reference dashboard built with Next.js, featuring interactive PDF cheat sheets organized by specialty and CME (Continuing Medical Education) functionality.
 
 ## Features
 
@@ -9,6 +9,8 @@ A comprehensive medical reference dashboard built with Next.js, featuring intera
 - 📱 Responsive design that works on all devices
 - 📖 Interactive PDF viewer with zoom and navigation controls
 - 🏷️ Tag-based organization and discovery
+- 🎯 CME quizzes and practice tests
+- 📊 Dashboard with progress tracking
 - ⚡ Fast, modern interface built with Next.js 14
 
 ## Specialties Included
@@ -29,8 +31,9 @@ A comprehensive medical reference dashboard built with Next.js, featuring intera
 
 - Node.js 18+ and npm
 - Git
+- A Netlify account (for deployment)
 
-### Installation
+### Local Development
 
 1. Clone the repository:
 ```bash
@@ -50,29 +53,40 @@ npm run dev
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deployment
+## Deployment to Netlify
 
-### Deploy to Netlify
+This application is configured for deployment to Netlify. Follow these steps:
 
-This application is configured for easy deployment to Netlify:
+### Setup Steps
 
-1. **Connect your repository to Netlify:**
-   - Go to [Netlify](https://netlify.com) and sign in
-   - Click "New site from Git"
-   - Connect your GitHub repository
-   - Netlify will automatically detect the build settings from `netlify.toml`
+1. **Prepare PDF Files**
+   - Copy your PDF files to the `public/cheat-sheets/` directory
+   - Organize them by specialty in subdirectories:
+     - `public/cheat-sheets/Cardiology/`
+     - `public/cheat-sheets/Endocrinology/`
+     - `public/cheat-sheets/Gastroenterology/`
+     - `public/cheat-sheets/Nephrology/`
+     - `public/cheat-sheets/Infectious disease/`
+     - `public/cheat-sheets/Neurology/`
+     - `public/cheat-sheets/Pulmonology_crit care/`
 
-2. **Build settings are configured automatically:**
-   - Build command: `npm run build`
-   - Publish directory: `.next`
-   - The build process will copy PDF files to the public directory
+2. **Deploy to Netlify**
 
-3. **Environment variables (if needed):**
-   - No additional environment variables are required for basic functionality
+   **Option A: Drag and Drop (Quick Deploy)**
+   - Run `npm run build` locally
+   - Drag the `.next` folder to Netlify's deploy area
 
-4. **Deploy:**
-   - Push to your main branch to trigger automatic deployment
-   - Or manually deploy from the Netlify dashboard
+   **Option B: Git Integration (Recommended)**
+   - Push your code to GitHub/GitLab/Bitbucket
+   - Connect your repository to Netlify
+   - Set build settings:
+     - Build command: `npm run build`
+     - Publish directory: `.next`
+     - Node version: 18+
+
+3. **Environment Configuration**
+   - The `netlify.toml` file is already configured
+   - No additional environment variables needed for basic functionality
 
 ### Manual Build
 
@@ -136,6 +150,21 @@ npm start
 - Touch-friendly interface
 - Optimized for tablets and mobile devices
 
+## Adding New Cheat Sheets
+
+To add new cheat sheets:
+
+1. Place PDF files in the appropriate specialty folder under `public/cheat-sheets/`
+2. Update `src/lib/pdfScanner.ts` to include the new files in the `staticCheatSheets` array
+3. Follow the existing naming conventions
+4. Redeploy to Netlify
+
+### Troubleshooting
+
+- **PDFs not loading**: Ensure files are in `public/cheat-sheets/` and paths match in `pdfScanner.ts`
+- **Build failures**: Check Node.js version is 18+
+- **Function errors**: API routes are configured as Netlify Functions via `netlify.toml`
+
 ## Contributing
 
 1. Fork the repository
@@ -144,18 +173,10 @@ npm start
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## Adding New Cheat Sheets
-
-To add new cheat sheets:
-
-1. Place PDF files in the appropriate specialty folder under `cheat-sheets/`
-2. Follow the existing naming conventions
-3. The application will automatically scan and include new PDFs
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Support
 
-For support or questions, please open an issue in the GitHub repository. 
+For support or questions, please open an issue in the GitHub repository.
