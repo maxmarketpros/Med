@@ -6,6 +6,12 @@ const nextConfig = {
     domains: ['localhost'],
     unoptimized: true, // Required for static export
   },
+  // Ensure API routes work on Netlify
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/**/*': ['./src/lib/**/*'],
+    },
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

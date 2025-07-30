@@ -10,6 +10,8 @@
   NODE_VERSION = "18"
   # Disable secrets scanning - Netlify is incorrectly flagging URL paths as secrets
   SECRETS_SCAN_ENABLED = "false"
+  # Enable Next.js App Router compatibility
+  NEXT_PRIVATE_TARGET = "server"
 
 # Handle Next.js API routes as Netlify Functions
 [[redirects]]
