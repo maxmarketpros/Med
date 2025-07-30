@@ -64,7 +64,7 @@ export default function FinalExamPage() {
         explanation: "The patient has severe, symptomatic anemia in the setting of melena, indicating an acute upper GI bleed, likely exacerbated by NSAID use. Management includes PRBC transfusion for hemodynamic support and IV PPI to reduce the risk of rebleeding."
       },
       {
-        scenario: "A 48-year-old male with alcoholism presents with jaundice, fever, and RUQ tenderness. Labs: AST 250 U/L, ALT 90 U/L, bilirubin 12 mg/dL, Maddrey’s DF 40. What is the most appropriate therapy?",
+        scenario: "A 48-year-old male with alcoholism presents with jaundice, fever, and RUQ tenderness. Labs: AST 250 U/L, ALT 90 U/L, bilirubin 12 mg/dL, Maddrey's DF 40. What is the most appropriate therapy?",
         options: ["A. Prednisolone 40 mg PO", "B. Pentoxifylline 400 mg TID", "C. N-acetylcysteine IV", "D. Pentoxifylline + prednisolone"],
         correctAnswer: "A. Prednisolone 40 mg PO",
         explanation: "The presentation is classic for severe alcoholic hepatitis. A Maddrey's Discriminant Function (DF) score > 32 indicates severe disease, for which corticosteroids (prednisolone) are the first-line treatment to reduce mortality."
@@ -352,7 +352,7 @@ export default function FinalExamPage() {
         explanation: "This patient has acute decompensated heart failure due to severe mitral regurgitation. Management focuses on afterload reduction with nitroprusside to decrease the regurgitant fraction, and diuresis with furosemide to reduce pulmonary congestion."
       },
       {
-        scenario: "A 60-year-old male with fever and neck swelling. CT: Ludwig’s angina with airway compromise. What is the most appropriate management?",
+        scenario: "A 60-year-old male with fever and neck swelling. CT: Ludwig's angina with airway compromise. What is the most appropriate management?",
         options: ["A. Emergent surgical drainage + antibiotics", "B. Ceftriaxone 1 g IV alone", "C. Steroids 10 mg IV", "D. Observation with antibiotics"],
         correctAnswer: "A. Emergent surgical drainage + antibiotics",
         explanation: "Ludwig's angina is a rapidly progressive cellulitis of the floor of the mouth that can lead to life-threatening airway obstruction. Emergent surgical drainage to relieve pressure and broad-spectrum antibiotics are required. Airway management is also critical."
@@ -533,7 +533,7 @@ export default function FinalExamPage() {
         scenario.options.forEach((option: string, index: number) => {
           const button = document.createElement('button');
           button.textContent = option;
-          button.className = 'w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded transition-colors';
+          button.className = 'w-full text-left p-2 sm:p-3 bg-gray-100 hover:bg-gray-200 rounded transition-colors text-sm sm:text-base';
           button.addEventListener('click', () => selectAnswer(option, button));
           optionsElement.appendChild(button);
         });
@@ -601,7 +601,7 @@ export default function FinalExamPage() {
       if (nextButtonContainer) {
         const nextButton = document.createElement('button');
         nextButton.textContent = currentScenario < shuffledScenarios.length - 1 ? 'Next Question' : 'Complete Exam';
-        nextButton.className = 'bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors';
+        nextButton.className = 'bg-emerald-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-emerald-700 transition-colors text-sm sm:text-base w-full sm:w-auto';
         nextButton.addEventListener('click', nextQuestion);
         nextButtonContainer.appendChild(nextButton);
       }
@@ -618,6 +618,19 @@ export default function FinalExamPage() {
     function displayFinalScore() {
       const percentage = Math.round((score / shuffledScenarios.length) * 100);
       const passed = percentage >= 70;
+      
+      // Save exam completion status to localStorage
+      const examResults = {
+        completed: true,
+        passed: passed,
+        score: percentage,
+        totalQuestions: shuffledScenarios.length,
+        correctAnswers: score,
+        completedAt: new Date().toISOString(),
+        userId: 'current-user' // In a real app, this would be the actual user ID
+      };
+      localStorage.setItem('finalExamResults', JSON.stringify(examResults));
+      
       const scenarioElement = document.getElementById('scenario');
       const optionsElement = document.getElementById('options');
       const feedbackElement = document.getElementById('feedback');
@@ -651,7 +664,7 @@ export default function FinalExamPage() {
                 </p>
                 <p class="text-sm ${passed ? 'text-green-700' : 'text-red-700'} mt-1">
                   ${passed 
-                    ? 'You are eligible for 1.0 AMA PRA Category 1 Credit™' 
+                    ? 'You are eligible for 10 AAPA Category 1 CME credits' 
                     : 'A score of 70% or higher is required for CME credits'}
                 </p>
               </div>
@@ -659,9 +672,9 @@ export default function FinalExamPage() {
             ${passed ? `
               <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                 <p class="text-blue-800 font-semibold mb-2">🏆 Certificate Available</p>
-                <p class="text-blue-700 text-sm mb-3">Complete the evaluation to claim your CME certificate</p>
-                <a href="#" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm">
-                  Complete Evaluation & Get Certificate
+                <p class="text-blue-700 text-sm mb-3">Your CME certificate is ready to view and download</p>
+                <a href="/dashboard/cme/certificate" class="inline-block bg-blue-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm w-full sm:w-auto text-center">
+                  View Certificate
                 </a>
               </div>
             ` : ''}
@@ -675,11 +688,11 @@ export default function FinalExamPage() {
       
       if (nextButtonContainer) {
         nextButtonContainer.innerHTML = `
-          <div class="text-center space-x-4">
-            <button onclick="restartExam()" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors">
+          <div class="text-center space-y-2 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
+            <button onclick="restartExam()" class="bg-emerald-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-emerald-700 transition-colors text-sm sm:text-base w-full sm:w-auto">
               Retake Exam
             </button>
-            <a href="/dashboard/cme" class="inline-block bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+            <a href="/dashboard/cme" class="inline-block bg-gray-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-gray-700 transition-colors text-sm sm:text-base w-full sm:w-auto text-center">
               Back to CME Tests
             </a>
           </div>
@@ -713,9 +726,9 @@ export default function FinalExamPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Back Button */}
-      <div>
+      <div className="px-4 sm:px-0">
         <Link href="/dashboard/cme" className="inline-flex items-center text-emerald-600 hover:text-emerald-700">
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -725,17 +738,17 @@ export default function FinalExamPage() {
       </div>
 
       {/* Final Exam Container */}
-      <Card>
+      <Card className="mx-4 sm:mx-0">
         <CardContent className="p-0">
           <div 
             id="final-exam-container" 
-            className="w-full h-[85vh] border-0 rounded-lg overflow-hidden"
+            className="w-full min-h-[60vh] sm:min-h-[70vh] lg:h-[85vh] border-0 rounded-lg overflow-hidden"
             style={{ background: '#f4f4f9' }}
           >
-            <div className="flex justify-center items-start min-h-full p-4">
-              <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-                <h1 className="text-xl font-bold text-gray-800 mb-4 text-center">Hospital Medicine Test for CME</h1>
-                <div className="objectives text-gray-700 mb-4 text-left text-sm">
+            <div className="flex justify-center items-start min-h-full p-2 sm:p-4">
+              <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-lg shadow-lg w-full max-w-sm sm:max-w-2xl lg:max-w-3xl">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">Hospital Medicine Test for CME</h1>
+                <div className="objectives text-gray-700 mb-3 sm:mb-4 text-left text-xs sm:text-sm">
                   <p><strong>Learning Objectives:</strong></p>
                   <ul className="list-disc list-inside mt-2 space-y-1">
                     <li>Apply guideline-based management for acute hospital medicine conditions.</li>
@@ -744,14 +757,14 @@ export default function FinalExamPage() {
                   </ul>
                 </div>
                 <div id="game-content">
-                  <div id="question-counter" className="text-sm text-gray-600 mb-2"></div>
-                  <div id="progress" className="mb-4"></div>
-                  <div id="scenario" className="text-gray-700 mb-4 text-left"></div>
+                  <div id="question-counter" className="text-xs sm:text-sm text-gray-600 mb-2"></div>
+                  <div id="progress" className="mb-3 sm:mb-4"></div>
+                  <div id="scenario" className="text-gray-700 mb-3 sm:mb-4 text-left text-sm sm:text-base leading-relaxed"></div>
                   <div className="options flex flex-col gap-2" id="options"></div>
-                  <div id="feedback" className="mt-4 font-bold opacity-0 transition-opacity duration-500" aria-live="polite"></div>
-                  <div id="explanation" className="mt-2 text-gray-600 text-left overflow-wrap-break-word max-h-36 overflow-y-auto"></div>
-                  <div id="next-button-container" className="mt-4"></div>
-                  <div id="score" className="mt-2 text-gray-800">Score: 0%</div>
+                  <div id="feedback" className="mt-3 sm:mt-4 font-bold opacity-0 transition-opacity duration-500" aria-live="polite"></div>
+                  <div id="explanation" className="mt-2 text-gray-600 text-left overflow-wrap-break-word max-h-32 sm:max-h-36 overflow-y-auto text-sm leading-relaxed"></div>
+                  <div id="next-button-container" className="mt-3 sm:mt-4"></div>
+                  <div id="score" className="mt-2 text-gray-800 text-sm">Score: 0%</div>
                 </div>
               </div>
             </div>

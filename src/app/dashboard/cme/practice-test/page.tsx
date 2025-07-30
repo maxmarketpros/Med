@@ -212,7 +212,7 @@ export default function PracticeTestPage() {
         scenario.options.forEach((option: string, index: number) => {
           const button = document.createElement('button');
           button.textContent = option;
-          button.className = 'w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded transition-colors';
+          button.className = 'w-full text-left p-2 sm:p-3 bg-gray-100 hover:bg-gray-200 rounded transition-colors text-sm sm:text-base';
           button.addEventListener('click', () => selectAnswer(option, button));
           optionsElement.appendChild(button);
         });
@@ -278,7 +278,7 @@ export default function PracticeTestPage() {
       if (nextButtonContainer) {
         const nextButton = document.createElement('button');
         nextButton.textContent = currentScenario < shuffledScenarios.length - 1 ? 'Next Question' : 'View Final Score';
-        nextButton.className = 'bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors';
+        nextButton.className = 'bg-emerald-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-emerald-700 transition-colors text-sm sm:text-base w-full sm:w-auto';
         nextButton.addEventListener('click', nextQuestion);
         nextButtonContainer.appendChild(nextButton);
       }
@@ -317,11 +317,11 @@ export default function PracticeTestPage() {
       
       if (nextButtonContainer) {
         nextButtonContainer.innerHTML = `
-          <div class="text-center space-x-4">
-            <button onclick="restartTest()" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors">
+          <div class="text-center space-y-2 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
+            <button onclick="restartTest()" class="bg-emerald-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-emerald-700 transition-colors text-sm sm:text-base w-full sm:w-auto">
               Restart Practice Test
             </button>
-            <a href="/dashboard/cme/final-exam" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+            <a href="/dashboard/cme/final-exam" class="inline-block bg-blue-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm sm:text-base w-full sm:w-auto text-center">
               Take Final Exam
             </a>
           </div>
@@ -354,9 +354,9 @@ export default function PracticeTestPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Back Button */}
-      <div>
+      <div className="px-4 sm:px-0">
         <Link href="/dashboard/cme" className="inline-flex items-center text-emerald-600 hover:text-emerald-700">
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -366,23 +366,23 @@ export default function PracticeTestPage() {
       </div>
 
       {/* Practice Test Container */}
-      <Card>
+      <Card className="mx-4 sm:mx-0">
         <CardContent className="p-0">
           <div 
             id="practice-test-container" 
-            className="w-full h-[80vh] border-0 rounded-lg overflow-hidden"
+            className="w-full min-h-[60vh] sm:min-h-[70vh] lg:h-[80vh] border-0 rounded-lg overflow-hidden"
             style={{ background: '#f4f4f9' }}
           >
-            <div className="flex justify-center items-start min-h-full p-4">
-              <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-                <h1 className="text-xl font-bold text-gray-800 mb-4 text-center">Practice Questions</h1>
+            <div className="flex justify-center items-start min-h-full p-2 sm:p-4">
+              <div className="bg-white p-3 sm:p-4 lg:p-6 rounded-lg shadow-lg w-full max-w-sm sm:max-w-xl lg:max-w-2xl">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">Practice Questions</h1>
                 <div id="game-content">
-                  <div id="scenario" className="text-gray-700 mb-4 text-left"></div>
+                  <div id="scenario" className="text-gray-700 mb-3 sm:mb-4 text-left text-sm sm:text-base leading-relaxed"></div>
                   <div className="options flex flex-col gap-2" id="options" role="form"></div>
-                  <div id="feedback" className="mt-4 font-bold opacity-0 transition-opacity duration-300" role="alert"></div>
-                  <div id="explanation" className="mt-2 text-gray-700 text-left overflow-wrap-break-word max-h-36 overflow-y-auto"></div>
-                  <div id="next-button-container" className="mt-4"></div>
-                  <div id="score" className="mt-2 text-gray-800">Score: 0</div>
+                  <div id="feedback" className="mt-3 sm:mt-4 font-bold opacity-0 transition-opacity duration-300" role="alert"></div>
+                  <div id="explanation" className="mt-2 text-gray-700 text-left overflow-wrap-break-word max-h-32 sm:max-h-36 overflow-y-auto text-sm leading-relaxed"></div>
+                  <div id="next-button-container" className="mt-3 sm:mt-4"></div>
+                  <div id="score" className="mt-2 text-gray-800 text-sm">Score: 0</div>
                 </div>
               </div>
             </div>

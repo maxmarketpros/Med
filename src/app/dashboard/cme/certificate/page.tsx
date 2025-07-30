@@ -1,29 +1,43 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useUser } from '@/hooks/useUser';
+
+interface ExamResults {
+  completed: boolean;
+  passed: boolean;
+  score: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  completedAt: string;
+  userId: string;
+}
 
 export default function CertificatePage() {
-  const searchParams = useSearchParams();
+  const { user } = useUser();
+  const [examResults, setExamResults] = useState<ExamResults | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [certificateGenerated, setCertificateGenerated] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const name = searchParams.get('name');
-  const date = searchParams.get('date');
-
   useEffect(() => {
-    if (name && date) {
-      setCertificateGenerated(true);
+    // Check localStorage for exam completion status
+    const savedResults = localStorage.getItem('finalExamResults');
+    if (savedResults) {
+      try {
+        const results = JSON.parse(savedResults);
+        setExamResults(results);
+      } catch (error) {
+        console.error('Error parsing exam results:', error);
+      }
     }
-  }, [name, date]);
+  }, []);
 
   const handleDownloadCertificate = async () => {
-    if (!name || !date) {
-      setError('Missing name or date information');
+    if (!user || !examResults) {
+      setError('Missing user or exam information');
       return;
     }
 
@@ -37,8 +51,8 @@ export default function CertificatePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: decodeURIComponent(name),
-          date: decodeURIComponent(date),
+          name: user.name,
+          date: new Date(examResults.completedAt).toLocaleDateString(),
         }),
       });
 
@@ -53,7 +67,7 @@ export default function CertificatePage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `CME_Certificate_${name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
+      a.download = `CME_Certificate_${user.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -67,31 +81,61 @@ export default function CertificatePage() {
     }
   };
 
-  if (!name || !date) {
+  const handlePrintCertificate = () => {
+    window.print();
+  };
+
+  // If user hasn't passed the exam, show requirement message
+  if (!examResults || !examResults.completed || !examResults.passed) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Card>
           <CardContent className="text-center py-12">
-            <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.232 15.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
-              Certificate Information Missing
+              CME Certificate Not Available
             </h1>
-            <p className="text-gray-600 mb-6">
-              Required information for certificate generation is missing.
+            <p className="text-lg text-gray-600 mb-6">
+              You must pass the Hospital Medicine Final Exam with a score of 70% or higher to earn your CME certificate and <strong>10 AAPA Category 1 CME credits</strong>.
             </p>
-            <Link href="/dashboard/cme">
-              <Button>Back to CME Quizzes</Button>
-            </Link>
+            
+            {examResults && examResults.completed && !examResults.passed && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 max-w-md mx-auto">
+                <p className="text-red-800 text-sm mb-2">
+                  <strong>Previous Attempt:</strong> {examResults.score}% ({examResults.correctAnswers}/{examResults.totalQuestions} correct)
+                </p>
+                <p className="text-red-700 text-sm">
+                  You can retake the exam to improve your score.
+                </p>
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <Link href="/dashboard/cme/final-exam">
+                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+                  {examResults && examResults.completed ? 'Retake Final Exam' : 'Take Final Exam'}
+                </Button>
+              </Link>
+              
+              <div>
+                <Link href="/dashboard/cme">
+                  <Button variant="outline">
+                    Back to CME Tests
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
     );
   }
 
+  // If user has passed, show certificate options
   return (
     <div className="container mx-auto px-4 py-8">
       <Card>
@@ -107,21 +151,21 @@ export default function CertificatePage() {
           </h1>
           
           <p className="text-lg text-gray-600 mb-2">
-            Congratulations, <strong>{decodeURIComponent(name)}</strong>!
+            Congratulations, <strong>{user?.name || 'Student'}</strong>!
           </p>
           
           <p className="text-gray-600 mb-8">
-            You have successfully completed the Hospital Medicine CME program on {decodeURIComponent(date)}.
-            Your certificate is ready for download.
+            You have successfully completed the Hospital Medicine Final Exam with a score of <strong>{examResults.score}%</strong> on {new Date(examResults.completedAt).toLocaleDateString()}.
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8 max-w-md mx-auto">
             <h3 className="font-semibold text-blue-900 mb-2">Certificate Details</h3>
             <div className="text-sm text-blue-800 space-y-1">
-              <p><strong>Program:</strong> Hospital Medicine Cheat Sheets</p>
-              <p><strong>Recipient:</strong> {decodeURIComponent(name)}</p>
-              <p><strong>Date Completed:</strong> {decodeURIComponent(date)}</p>
-              <p><strong>CME Credits:</strong> 1.0 AMA PRA Category 1 Credit™</p>
+              <p><strong>Program:</strong> Hospital Medicine Final Exam</p>
+              <p><strong>Recipient:</strong> {user?.name || 'Student'}</p>
+              <p><strong>Date Completed:</strong> {new Date(examResults.completedAt).toLocaleDateString()}</p>
+              <p><strong>Score:</strong> {examResults.score}% ({examResults.correctAnswers}/{examResults.totalQuestions} correct)</p>
+              <p><strong>CME Credits:</strong> 10 AAPA Category 1 CME Credits</p>
             </div>
           </div>
 
@@ -132,31 +176,42 @@ export default function CertificatePage() {
           )}
 
           <div className="space-y-4">
-            <Button 
-              size="lg" 
-              onClick={handleDownloadCertificate}
-              disabled={isGenerating}
-              className="bg-green-600 hover:bg-green-700"
-            >
-              {isGenerating ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Generating Certificate...
-                </>
-              ) : (
-                <>
-                  📋 Download Certificate
-                </>
-              )}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                onClick={handleDownloadCertificate}
+                disabled={isGenerating}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                {isGenerating ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    📋 Download Certificate
+                  </>
+                )}
+              </Button>
+
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={handlePrintCertificate}
+                className="border-green-600 text-green-600 hover:bg-green-50"
+              >
+                🖨️ Print Certificate
+              </Button>
+            </div>
             
             <div>
               <Link href="/dashboard/cme">
                 <Button variant="outline">
-                  Back to CME Quizzes
+                  Back to CME Tests
                 </Button>
               </Link>
             </div>
@@ -164,9 +219,9 @@ export default function CertificatePage() {
 
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-500">
-              Your certificate will be saved to your profile for future access.
+              Keep this certificate for your CME records. You have earned 10 AAPA Category 1 CME credits.
               <br />
-              If you have any issues downloading, please contact support.
+              If you have any issues, please contact support.
             </p>
           </div>
         </CardContent>
