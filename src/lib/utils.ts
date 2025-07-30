@@ -5,6 +5,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Medical acronyms that should remain uppercase (based on the PDF collection)
+const MEDICAL_ACRONYMS = new Set([
+  'CHF', 'DKA', 'SJS', 'TEN', 'HLH', 'MGUS', 'MM', 'CAP', 'HCV', 'HIV', 
+  'SSTIs', 'UTIs', 'AKI', 'RTA', 'CSF', 'CVA', 'COPD', 'ILD', 'HTN', 
+  'ICDs', 'CRT-Ds', 'PAD', 'ALI', 'ABG', 'SBO', 'GIB', 'ACS', 'EKG', 
+  'ECG', 'CXR', 'CT', 'MRI', 'ICU', 'ED', 'ER', 'IV', 'PO', 'IM', 'SC',
+  'BUN', 'GFR', 'WBC', 'RBC', 'CBC', 'BMP', 'CMP', 'PT', 'PTT', 'INR',
+  'TSH', 'T3', 'T4', 'LFTs', 'AST', 'ALT', 'BNP', 'CK', 'MB', 'MI',
+  'PE', 'DVT', 'VTE', 'PICC', 'NG', 'PEG', 'CABG', 'PCI', 'STEMI',
+  'NSTEMI', 'UA', 'SVT', 'VT', 'VF', 'A-fib', 'A-flutter'
+]);
+
+export function toTitleCase(text: string): string {
+  return text
+    .split(/[\s\-_]+/)
+    .map(word => {
+      // Check if the word (uppercase) is a medical acronym
+      if (MEDICAL_ACRONYMS.has(word.toUpperCase())) {
+        return word.toUpperCase();
+      }
+      // Regular title case for other words
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
 export function formatDate(date: string): string {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',

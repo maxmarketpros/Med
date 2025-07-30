@@ -54,30 +54,6 @@ body {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-.react-pdf__Page {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 0 auto;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-
-.react-pdf__Page__canvas {
-  border-radius: 8px;
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
-}
-
-.react-pdf__Page__textContent {
-  border-radius: 8px;
-}
-
-.react-pdf__Page__annotations {
-  border-radius: 8px;
-}
-
 /* Line clamping utilities */
 .line-clamp-1 {
   overflow: hidden;

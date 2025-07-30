@@ -2,7 +2,9 @@ import { CheatSheet } from '@/types';
 import fs from 'fs';
 import path from 'path';
 
-const CHEAT_SHEETS_DIR = path.join(process.cwd(), 'cheat-sheets');
+const CHEAT_SHEETS_DIR = process.env.NODE_ENV === 'production' 
+  ? path.join(process.cwd(), 'public', 'cheat-sheets')
+  : path.join(process.cwd(), 'cheat-sheets');
 
 export interface PDFFile {
   fileName: string;
@@ -93,7 +95,7 @@ export async function scanPDFFiles(): Promise<CheatSheet[]> {
           slug: generateSlug(fileName),
           specialty: specialty,
           fileName: fileName,
-          filePath: `cheat-sheets/${specialty}/${fileName}`,
+          filePath: `/cheat-sheets/${specialty}/${fileName}`,
           description: `Clinical reference guide for ${title.toLowerCase()}`,
           tags: extractTags(fileName, specialty),
           lastUpdated: stats.mtime.toISOString(),
@@ -122,7 +124,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'atrial-fibrillation',
     specialty: 'Cardiology',
     fileName: 'Atrial fibrillation.pdf',
-    filePath: 'cheat-sheets/Cardiology/Atrial fibrillation.pdf',
+    filePath: '/cheat-sheets/Cardiology/Atrial fibrillation.pdf',
     description: 'Clinical reference guide for atrial fibrillation management',
     tags: ['cardiology', 'arrhythmia'],
     lastUpdated: '2024-01-15T00:00:00Z',
@@ -137,7 +139,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'chf',
     specialty: 'Cardiology',
     fileName: 'CHF.pdf',
-    filePath: 'cheat-sheets/Cardiology/CHF.pdf',
+    filePath: '/cheat-sheets/Cardiology/CHF.pdf',
     description: 'Clinical reference guide for congestive heart failure',
     tags: ['cardiology', 'heart', 'failure'],
     lastUpdated: '2024-01-12T00:00:00Z',
@@ -152,7 +154,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'acute-coronary-syndrome',
     specialty: 'Cardiology',
     fileName: 'Acute coronary syndrome.pdf',
-    filePath: 'cheat-sheets/Cardiology/Acute coronary syndrome.pdf',
+    filePath: '/cheat-sheets/Cardiology/Acute coronary syndrome.pdf',
     description: 'Clinical reference guide for acute coronary syndrome',
     tags: ['cardiology', 'acute', 'syndrome'],
     lastUpdated: '2024-01-10T00:00:00Z',
@@ -168,7 +170,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'hyponatremia',
     specialty: 'Nephrology',
     fileName: 'hyponatremia.pdf',
-    filePath: 'cheat-sheets/Nephrology/hyponatremia.pdf',
+    filePath: '/cheat-sheets/Nephrology/hyponatremia.pdf',
     description: 'Clinical reference guide for hyponatremia management',
     tags: ['nephrology'],
     lastUpdated: '2024-01-10T00:00:00Z',
@@ -183,7 +185,7 @@ export const mockPDFCheatSheets: CheatSheet[] = [
     slug: 'acute-kidney-injury',
     specialty: 'Nephrology',
     fileName: 'Acute Kidney Injury .pdf',
-    filePath: 'cheat-sheets/Nephrology/Acute Kidney Injury .pdf',
+    filePath: '/cheat-sheets/Nephrology/Acute Kidney Injury .pdf',
     description: 'Clinical reference guide for acute kidney injury',
     tags: ['nephrology', 'acute', 'kidney', 'injury'],
     lastUpdated: '2024-01-08T00:00:00Z',

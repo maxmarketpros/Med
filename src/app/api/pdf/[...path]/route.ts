@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
 export async function GET(
   request: NextRequest,
@@ -9,48 +7,21 @@ export async function GET(
   try {
     // Decode URI components to handle special characters properly
     const decodedPath = params.path.map(segment => decodeURIComponent(segment));
-    const filePath = path.join(process.cwd(), 'cheat-sheets', ...decodedPath);
+    const pdfPath = `/cheat-sheets/${decodedPath.join('/')}`;
     
-    // Security: ensure the file is within the cheat-sheets directory
-    const resolvedPath = path.resolve(filePath);
-    const cheatSheetsDir = path.resolve(path.join(process.cwd(), 'cheat-sheets'));
-    
-    if (!resolvedPath.startsWith(cheatSheetsDir)) {
-      console.error('Access denied for path:', resolvedPath);
-      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
-    }
-
-    if (!fs.existsSync(resolvedPath)) {
-      console.error('File not found:', resolvedPath);
-      return NextResponse.json({ error: 'File not found' }, { status: 404 });
-    }
-
-    if (!resolvedPath.endsWith('.pdf')) {
-      console.error('Not a PDF file:', resolvedPath);
+    // Validate PDF extension
+    if (!pdfPath.endsWith('.pdf')) {
+      console.error('Not a PDF file:', pdfPath);
       return NextResponse.json({ error: 'Not a PDF file' }, { status: 400 });
     }
 
-    console.log('Serving PDF:', resolvedPath);
-    const fileBuffer = fs.readFileSync(resolvedPath);
-    const fileName = path.basename(resolvedPath);
-    const fileStats = fs.statSync(resolvedPath);
-
-    return new NextResponse(fileBuffer, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="${encodeURIComponent(fileName)}"`,
-        'Content-Length': fileStats.size.toString(),
-        'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
-        'Accept-Ranges': 'bytes',
-        // CORS headers to prevent loading issues
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, OPTIONS',
-        'Access-Control-Allow-Headers': 'Range, Content-Type',
-        // Additional headers for PDF.js compatibility
-        'Cross-Origin-Embedder-Policy': 'credentialless',
-        'Cross-Origin-Opener-Policy': 'cross-origin',
-      },
-    });
+    // For Netlify deployment, redirect to the static PDF file
+    // The PDFs are now served as static files from /public/cheat-sheets/
+    const staticPdfUrl = pdfPath;
+    
+    console.log('Redirecting to PDF:', staticPdfUrl);
+    
+    return NextResponse.redirect(new URL(staticPdfUrl, request.url), 302);
   } catch (error) {
     console.error('Error serving PDF:', error);
     return NextResponse.json({ 

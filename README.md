@@ -1,301 +1,161 @@
 # Med Cheat Sheets Dashboard
 
-A modern, professional medical education platform built with Next.js 14 and TailwindCSS, designed specifically for new clinicians (PAs, NPs, RNs, MDs) entering hospital medicine.
+A comprehensive medical reference dashboard built with Next.js, featuring interactive PDF cheat sheets organized by specialty.
 
-## 🏥 About
+## Features
 
-Med Cheat Sheets is a comprehensive web-based platform that supports healthcare professionals with:
+- 📚 Extensive collection of medical cheat sheets organized by specialty
+- 🔍 Smart search and filtering capabilities
+- 📱 Responsive design that works on all devices
+- 📖 Interactive PDF viewer with zoom and navigation controls
+- 🏷️ Tag-based organization and discovery
+- ⚡ Fast, modern interface built with Next.js 14
 
-- **Searchable Medical References**: Curated cheat sheets organized by specialty
-- **AAPA-Accredited CME Quizzes**: Interactive assessments for continuing education credits
-- **Certificate Generation**: Automated PDF certificates upon quiz completion
-- **Progress Tracking**: Personal dashboard with learning analytics
+## Specialties Included
 
-## 🚀 Features
+- **Cardiology** - Arrhythmias, heart failure, acute coronary syndromes, and more
+- **Nephrology** - Electrolyte disorders, AKI, hyponatremia, and kidney diseases  
+- **Pulmonology** - Respiratory failure, COPD, asthma, pulmonary embolism
+- **Gastroenterology** - GI bleeding, pancreatitis, hepatitis, and liver disease
+- **Neurology** - Stroke, seizures, delirium, and neurological emergencies
+- **Infectious Disease** - Pneumonia, bacteremia, meningitis, and hospital infections
+- **Endocrinology** - DKA, thyroid emergencies, adrenal crises
+- **Hematology/Oncology** - Anemia, coagulopathy, oncologic emergencies
+- **And many more...** - Including psychiatry, rheumatology, orthopedics, and dermatology
 
-### Core Functionality
-- ✅ **Responsive Dashboard** with medical-themed design
-- ✅ **Cheat Sheets Library** with fuzzy search and specialty filtering
-- ✅ **Interactive CME Quizzes** with real-time scoring
-- ✅ **Certificate Management** with download tracking
-- ✅ **User Profiles** with progress analytics
-- ✅ **Dark Mode Support** (configurable)
-
-### Technical Features
-- 🔒 **Route Protection** with mock authentication
-- 🎨 **Modern UI** with TailwindCSS and custom components
-- 📱 **Mobile Responsive** design throughout
-- ⚡ **Fast Search** using Fuse.js fuzzy matching
-- 🎯 **TypeScript** for type safety
-- 🏗️ **Component Architecture** with reusable UI elements
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: TailwindCSS with custom medical theme
-- **TypeScript**: Full type safety
-- **Components**: Custom UI library with Headless UI
-- **Search**: Fuse.js for fuzzy matching
-- **PDF Generation**: jsPDF for certificates
-- **Icons**: Heroicons
-- **State Management**: React hooks
-
-## 📂 Project Structure
-
-```
-Med Cheat Sheets/
-├── src/
-│   ├── app/                    # Next.js 14 App Router pages
-│   │   ├── dashboard/         # Protected dashboard routes
-│   │   │   ├── cheat-sheets/  # Medical reference library
-│   │   │   ├── cme/          # CME quiz system
-│   │   │   └── profile/      # User management
-│   │   ├── globals.css       # Global styles
-│   │   └── layout.tsx        # Root layout
-│   ├── components/           # Reusable components
-│   │   ├── ui/              # Base UI components
-│   │   ├── dashboard/       # Dashboard-specific components
-│   │   ├── cheat-sheets/    # Medical reference components
-│   │   └── cme/            # Quiz and education components
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utility functions
-│   ├── data/               # Sample data and mock content
-│   └── types/              # TypeScript type definitions
-├── public/                 # Static assets
-├── tailwind.config.js     # TailwindCSS configuration
-└── package.json           # Dependencies and scripts
-```
-
-## 🎨 Design System
-
-### Color Palette
-- **Primary**: Emerald (`emerald-500`) - Medical trust and reliability
-- **Secondary**: Sky Blue (`sky-400`) - Clean, professional feel
-- **Accent**: Violet (`violet-400`) - Certificates and achievements
-- **Background**: Soft gradient (lavender to pale blue)
-
-### Components
-- **Cards**: White backgrounds with subtle shadows
-- **Typography**: Inter font family for readability
-- **Buttons**: Multiple variants with consistent styling
-- **Navigation**: Fixed sidebar with active state indicators
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+
+- Node.js 18+ and npm
+- Git
 
 ### Installation
 
-1. **Clone the repository**
+1. Clone the repository:
 ```bash
 git clone <repository-url>
 cd med-cheat-sheets
 ```
 
-2. **Install dependencies**
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. **Start development server**
+3. Run the development server:
 ```bash
 npm run dev
 ```
 
-4. **Open your browser**
-Navigate to `http://localhost:3000`
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Build for Production
+## Deployment
+
+### Deploy to Netlify
+
+This application is configured for easy deployment to Netlify:
+
+1. **Connect your repository to Netlify:**
+   - Go to [Netlify](https://netlify.com) and sign in
+   - Click "New site from Git"
+   - Connect your GitHub repository
+   - Netlify will automatically detect the build settings from `netlify.toml`
+
+2. **Build settings are configured automatically:**
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+   - The build process will copy PDF files to the public directory
+
+3. **Environment variables (if needed):**
+   - No additional environment variables are required for basic functionality
+
+4. **Deploy:**
+   - Push to your main branch to trigger automatic deployment
+   - Or manually deploy from the Netlify dashboard
+
+### Manual Build
+
+To build the project manually:
+
 ```bash
+# Install dependencies
+npm install
+
+# Copy PDFs to public directory and build
 npm run build
+
+# Start production server (for local testing)
 npm start
 ```
 
-## 📚 Usage
+## Project Structure
 
-### For Developers
-
-#### Adding New Cheat Sheets
-```typescript
-// src/data/sampleData.ts
-export const sampleCheatSheets: CheatSheet[] = [
-  {
-    id: 'unique-id',
-    title: 'New Medical Topic',
-    slug: 'new-medical-topic',
-    specialty: 'Cardiology',
-    tags: ['tag1', 'tag2'],
-    description: 'Brief description',
-    content: 'Detailed medical content...',
-    // ... other properties
-  }
-];
+```
+├── src/
+│   ├── app/                 # Next.js 14 App Router
+│   │   ├── dashboard/       # Main dashboard pages
+│   │   ├── api/            # API routes for PDF serving
+│   │   └── globals.css     # Global styles
+│   ├── components/         # Reusable React components
+│   │   ├── cheat-sheets/   # PDF viewer and card components
+│   │   ├── dashboard/      # Dashboard-specific components
+│   │   └── ui/            # Base UI components
+│   ├── lib/               # Utility functions and PDF scanner
+│   └── types/             # TypeScript type definitions
+├── cheat-sheets/          # PDF files organized by specialty
+├── public/               # Static assets (PDFs copied here during build)
+├── netlify.toml          # Netlify deployment configuration
+└── package.json          # Dependencies and scripts
 ```
 
-#### Creating New Quiz Questions
-```typescript
-// src/data/sampleData.ts
-const newQuiz: Quiz = {
-  id: 'quiz-id',
-  title: 'Quiz Title',
-  questions: [
-    {
-      id: 'q1',
-      question: 'Clinical question?',
-      options: ['A', 'B', 'C', 'D'],
-      correctAnswer: 0,
-      explanation: 'Detailed explanation...',
-      category: 'Topic Area'
-    }
-  ],
-  // ... other properties
-};
-```
+## Technology Stack
 
-#### Customizing Themes
-```javascript
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          // Custom color palette
-        }
-      }
-    }
-  }
-};
-```
+- **Framework:** Next.js 14 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **PDF Handling:** Browser native PDF viewer
+- **Search:** Fuse.js for fuzzy search
+- **Icons:** Heroicons
+- **Deployment:** Netlify with Netlify Functions
 
-### For Content Creators
+## Features in Detail
 
-1. **Medical Content**: Add new cheat sheets in `src/data/sampleData.ts`
-2. **Quiz Questions**: Create evidence-based questions with explanations
-3. **Specialties**: Add new medical specialties to the filter system
-4. **Difficulty Levels**: Assign appropriate difficulty ratings
+### PDF Viewer
+- Browser native PDF viewing
+- Native zoom controls and page navigation
+- Download and print functionality via browser
 
-## 🔧 Configuration
+### Search and Filtering
+- Real-time search across titles, specialties, and tags
+- Filter by specialty
+- Fuzzy search with Fuse.js
 
-### Environment Variables
-Create a `.env.local` file for production settings:
-```env
-NEXT_PUBLIC_APP_URL=https://your-domain.com
-DATABASE_URL=your-database-connection
-```
+### Responsive Design
+- Mobile-first design approach
+- Touch-friendly interface
+- Optimized for tablets and mobile devices
 
-### Authentication Integration
-Replace the mock `useUser` hook with your authentication provider:
-```typescript
-// src/hooks/useUser.ts
-// Replace mock implementation with real auth provider
-// (Memberstack, Auth0, Firebase Auth, etc.)
-```
-
-## 📱 Mobile Responsiveness
-
-The application is fully responsive with breakpoints for:
-- **Mobile**: < 768px
-- **Tablet**: 768px - 1024px  
-- **Desktop**: > 1024px
-
-Key mobile optimizations:
-- Collapsible sidebar navigation
-- Touch-friendly quiz interface
-- Optimized card layouts
-- Readable typography scaling
-
-## 🧪 Testing
-
-### Component Testing
-```bash
-# Add testing framework
-npm install --save-dev @testing-library/react jest
-```
-
-### Manual Testing Checklist
-- [ ] Navigation between all pages
-- [ ] Search and filter functionality
-- [ ] Quiz completion flow
-- [ ] Mobile responsiveness
-- [ ] Certificate generation
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-```bash
-npm install -g vercel
-vercel
-```
-
-### Other Platforms
-- **Netlify**: Connect repository and deploy
-- **AWS**: Use AWS Amplify for easy deployment
-- **Docker**: Containerize with the included Dockerfile
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/medical-specialty`)
-3. Commit changes (`git commit -m 'Add new cardiology content'`)
-4. Push to branch (`git push origin feature/medical-specialty`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Content Guidelines
-- Medical accuracy is paramount
-- Include proper citations for clinical guidelines
-- Use evidence-based information only
-- Follow accessibility standards
+## Adding New Cheat Sheets
 
-## 📋 Roadmap
+To add new cheat sheets:
 
-### Phase 1 (Current)
-- [x] Core dashboard functionality
-- [x] Cheat sheets library
-- [x] CME quiz system
-- [x] Basic certificate generation
+1. Place PDF files in the appropriate specialty folder under `cheat-sheets/`
+2. Follow the existing naming conventions
+3. The application will automatically scan and include new PDFs
 
-### Phase 2 (Future)
-- [ ] Real authentication integration
-- [ ] Database connectivity
-- [ ] Advanced analytics
-- [ ] Offline capability
-- [ ] Mobile app version
+## License
 
-### Phase 3 (Future)
-- [ ] Multi-language support
-- [ ] Advanced search with NLP
-- [ ] Collaborative features
-- [ ] Integration with EMR systems
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📄 License
+## Support
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support and questions:
-- **Documentation**: Check this README and inline code comments
-- **Issues**: Open a GitHub issue
-- **Medical Content**: Consult with medical professionals for accuracy
-
-## ⚡ Performance
-
-### Optimization Features
-- Next.js automatic code splitting
-- Image optimization with Next.js Image component
-- Lazy loading for large components
-- Efficient search with debounced input
-- Minimal JavaScript bundle size
-
-### Performance Metrics
-- Lighthouse Score: 95+ (aim)
-- First Contentful Paint: < 1.5s
-- Time to Interactive: < 3s
-- Core Web Vitals: All green
-
----
-
-Built with ❤️ for healthcare professionals by developers who care about medical education. 
+For support or questions, please open an issue in the GitHub repository. 

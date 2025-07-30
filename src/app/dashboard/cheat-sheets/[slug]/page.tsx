@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CheatSheet } from '@/types';
-import { formatDateShort } from '@/lib/utils';
+import { toTitleCase } from '@/lib/utils';
 import PdfViewer from '@/components/cheat-sheets/PdfViewer';
 
 export default function CheatSheetDetailPage() {
@@ -88,27 +88,11 @@ export default function CheatSheetDetailPage() {
     );
   }
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Beginner':
-        return 'bg-green-100 text-green-800';
-      case 'Intermediate':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Advanced':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const handleDownload = () => {
     if (!cheatSheet) return;
     
     const link = document.createElement('a');
-    const apiPath = cheatSheet.filePath.startsWith('cheat-sheets/') 
-      ? cheatSheet.filePath.substring('cheat-sheets/'.length)
-      : cheatSheet.filePath;
-    link.href = `/api/pdf/${apiPath}`;
+    link.href = cheatSheet.filePath; // Direct link to static file
     link.download = cheatSheet.fileName;
     document.body.appendChild(link);
     link.click();
@@ -118,16 +102,7 @@ export default function CheatSheetDetailPage() {
   const handlePrint = () => {
     if (!cheatSheet) return;
     
-    const apiPath = cheatSheet.filePath.startsWith('cheat-sheets/') 
-      ? cheatSheet.filePath.substring('cheat-sheets/'.length)
-      : cheatSheet.filePath;
-    window.open(`/api/pdf/${apiPath}`, '_blank');
-  };
-
-  const formatFileSize = (size: string) => {
-    const bytes = parseInt(size);
-    const mb = bytes / (1024 * 1024);
-    return `${mb.toFixed(1)} MB`;
+    window.open(cheatSheet.filePath, '_blank'); // Direct link to static file
   };
 
   return (
@@ -146,33 +121,18 @@ export default function CheatSheetDetailPage() {
       <div className="bg-white rounded-xl card-shadow p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">{cheatSheet.title}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">{toTitleCase(cheatSheet.title)}</h1>
             <p className="text-gray-600 mb-4">{cheatSheet.description}</p>
             
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
-                {cheatSheet.specialty}
-              </span>
-              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(cheatSheet.difficulty)}`}>
-                {cheatSheet.difficulty}
+                {toTitleCase(cheatSheet.specialty)}
               </span>
               <div className="flex items-center text-sm text-gray-500">
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {cheatSheet.estimatedReadTime} min read
-              </div>
-              <div className="flex items-center text-sm text-gray-500">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                {formatFileSize(cheatSheet.fileSize)}
-              </div>
-              <div className="flex items-center text-sm text-gray-500">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                {cheatSheet.downloadCount} downloads
               </div>
             </div>
 
@@ -182,7 +142,7 @@ export default function CheatSheetDetailPage() {
                   key={tag}
                   className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700"
                 >
-                  {tag}
+                  {toTitleCase(tag)}
                 </span>
               ))}
             </div>
@@ -193,18 +153,12 @@ export default function CheatSheetDetailPage() {
             <Button variant="outline" onClick={handlePrint}>Open in New Tab</Button>
           </div>
         </div>
-
-        <div className="mt-4 pt-4 border-t border-gray-200 text-sm text-gray-500">
-          Last updated: {formatDateShort(cheatSheet.lastUpdated)}
-        </div>
       </div>
 
       {/* PDF Viewer */}
       <PdfViewer
-        pdfUrl={`/api/pdf/${cheatSheet.filePath.startsWith('cheat-sheets/') 
-          ? cheatSheet.filePath.substring('cheat-sheets/'.length)
-          : cheatSheet.filePath}`}
-        title={cheatSheet.title}
+        pdfUrl={cheatSheet.filePath}
+        title={toTitleCase(cheatSheet.title)}
       />
 
       {/* Related Cheat Sheets */}
@@ -219,11 +173,10 @@ export default function CheatSheetDetailPage() {
                   href={`/dashboard/cheat-sheets/${relatedSheet.slug}`}
                   className="block p-4 border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50 transition-colors"
                 >
-                  <h4 className="font-medium text-gray-900 mb-1">{relatedSheet.title}</h4>
+                  <h4 className="font-medium text-gray-900 mb-1">{toTitleCase(relatedSheet.title)}</h4>
                   <p className="text-sm text-gray-600 mb-2 line-clamp-2">{relatedSheet.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-emerald-600">{relatedSheet.specialty}</span>
-                    <span className="text-xs text-gray-500">{formatFileSize(relatedSheet.fileSize)}</span>
+                    <span className="text-xs text-emerald-600">{toTitleCase(relatedSheet.specialty)}</span>
                   </div>
                 </Link>
               ))}
