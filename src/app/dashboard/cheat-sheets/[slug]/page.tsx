@@ -8,16 +8,19 @@ import { Button } from '@/components/ui/Button';
 import { CheatSheet } from '@/types';
 import { toTitleCase } from '@/lib/utils';
 import { mockPDFCheatSheets } from '@/lib/pdfScanner';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 import PdfViewer from '@/components/cheat-sheets/PdfViewer';
 
 export default function CheatSheetDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { addActivity } = useActivityTracker();
   
   const [cheatSheet, setCheatSheet] = useState<CheatSheet | null>(null);
   const [relatedSheets, setRelatedSheets] = useState<CheatSheet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasTrackedView, setHasTrackedView] = useState(false);
 
   useEffect(() => {
     const loadData = () => {
@@ -32,6 +35,12 @@ export default function CheatSheetDetailPage() {
         }
         
         setCheatSheet(foundSheet);
+        
+        // Track the cheat sheet view activity (only once per load)
+        if (!hasTrackedView) {
+          addActivity('cheat_sheet_viewed', foundSheet.title);
+          setHasTrackedView(true);
+        }
         
         // Find related sheets (same specialty or common tags)
         const related = mockPDFCheatSheets
@@ -52,7 +61,7 @@ export default function CheatSheetDetailPage() {
     };
 
     loadData();
-  }, [slug]);
+  }, [slug, addActivity, hasTrackedView]);
 
   if (loading) {
     return (

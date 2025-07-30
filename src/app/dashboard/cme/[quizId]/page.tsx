@@ -7,11 +7,13 @@ import { sampleQuizzes } from '@/data/sampleData';
 import { QuizInterface } from '@/components/cme/QuizInterface';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 
 export default function QuizPage() {
   const params = useParams();
   const router = useRouter();
   const quizId = params.quizId as string;
+  const { addActivity } = useActivityTracker();
   
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -32,6 +34,14 @@ export default function QuizPage() {
 
   const handleQuizComplete = (answers: number[], score: number) => {
     setQuizCompleted(true);
+    
+    // Track the quiz completion activity
+    addActivity(
+      'quiz_completed',
+      quiz.title,
+      `Score: ${score}% (${answers.filter((answer, index) => answer === quiz.questions[index].correctAnswer).length}/${quiz.questions.length} correct)`
+    );
+    
     // In a real app, you would save the quiz results to a database
     console.log('Quiz completed:', { quizId, answers, score });
   };

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useUser } from '@/hooks/useUser';
+import { formatDate } from '@/lib/utils';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 
 interface ExamResults {
   completed: boolean;
@@ -21,6 +23,8 @@ export default function CertificatePage() {
   const [examResults, setExamResults] = useState<ExamResults | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [certificateGenerated, setCertificateGenerated] = useState(false);
+  const { addActivity } = useActivityTracker();
 
   useEffect(() => {
     // Check localStorage for exam completion status
@@ -72,6 +76,13 @@ export default function CertificatePage() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
+
+      // Track the certificate download activity
+      addActivity(
+        'certificate_downloaded',
+        'CME Final Exam Certificate',
+        `Exam Score: ${examResults.score}% - ${examResults.correctAnswers}/${examResults.totalQuestions} correct`
+      );
 
     } catch (error) {
       console.error('Download error:', error);

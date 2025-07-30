@@ -631,6 +631,20 @@ export default function FinalExamPage() {
       };
       localStorage.setItem('finalExamResults', JSON.stringify(examResults));
       
+      // Track the final exam completion activity
+      const activityData = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        type: 'quiz_completed',
+        title: 'CME Final Exam',
+        date: new Date().toISOString(),
+        details: `Score: ${percentage}% (${score}/${shuffledScenarios.length} correct)${passed ? ' - PASSED' : ' - FAILED'}`
+      };
+      
+      // Add to existing activities
+      const existingActivities = JSON.parse(localStorage.getItem('userActivities') || '[]');
+      const updatedActivities = [activityData, ...existingActivities].slice(0, 50);
+      localStorage.setItem('userActivities', JSON.stringify(updatedActivities));
+      
       const scenarioElement = document.getElementById('scenario');
       const optionsElement = document.getElementById('options');
       const feedbackElement = document.getElementById('feedback');

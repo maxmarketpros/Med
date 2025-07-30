@@ -85,6 +85,8 @@ export interface Certificate {
 export interface DashboardStats {
   totalCheatSheets: number;
   completedQuizzes: number;
+  availableTests: number;
+  availablePatientSimulators: number;
   earnedCredits: number;
   totalAvailableCredits: number;
   recentActivity: Activity[];

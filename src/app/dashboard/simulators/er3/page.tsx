@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { SimulatorInterface } from '@/components/simulators/SimulatorInterface';
+import { Simulator } from '@/types';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Simulator } from '@/types';
+import { SimulatorInterface } from '@/components/simulators/SimulatorInterface';
+import { useActivityTracker } from '@/hooks/useActivityTracker';
 
 const copdSimulator: Simulator = {
   id: 'er3',
@@ -87,12 +88,22 @@ const copdSimulator: Simulator = {
 export default function ER3Page() {
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const { addActivity } = useActivityTracker();
 
   const handleComplete = (answers: { stepId: string; selectedOption: number; isCorrect: boolean; }[]) => {
     setCompleted(true);
+    
     // Calculate score and save progress
     const correctAnswers = answers.filter(a => a.isCorrect).length;
-    const score = (correctAnswers / answers.length) * 100;
+    const score = Math.round((correctAnswers / answers.length) * 100);
+    
+    // Track the simulator completion activity
+    addActivity(
+      'simulator_completed',
+      copdSimulator.title,
+      `Score: ${score}% (${correctAnswers}/${answers.length} correct)`
+    );
+    
     console.log('Simulation completed:', { answers, score });
   };
 

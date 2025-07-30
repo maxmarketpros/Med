@@ -161,39 +161,50 @@ export const sampleQuizzes: Quiz[] = [
 export const sampleDashboardStats: DashboardStats = {
   totalCheatSheets: sampleCheatSheets.length,
   completedQuizzes: 3,
+  availableTests: 2,
+  availablePatientSimulators: 3,
   earnedCredits: 0,
   totalAvailableCredits: 45.0,
   recentActivity: [
     {
       id: '1',
-      type: 'cheat_sheet_viewed',
-      title: 'Acute Coronary Syndrome',
-      date: '2024-01-15T14:30:00Z'
+      type: 'simulator_completed',
+      title: 'Advanced Cardiac Life Support Simulator',
+      date: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
+      details: 'Completed successfully - 92% score'
     },
     {
       id: '2',
       type: 'cheat_sheet_viewed',
-      title: 'DKA',
-      date: '2024-01-14T09:15:00Z'
+      title: 'Acute Coronary Syndrome',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() // 2 hours ago
     },
     {
       id: '3',
-      type: 'cheat_sheet_viewed',
-      title: 'Atrial Fibrillation',
-      date: '2024-01-13T16:45:00Z'
+      type: 'quiz_completed',
+      title: 'Emergency Medicine Practice Test',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), // 5 hours ago
+      details: 'Score: 85% (17/20 correct)'
     },
     {
       id: '4',
-      type: 'cheat_sheet_viewed',
-      title: 'Pulmonary Embolism',
-      date: '2024-01-12T11:20:00Z'
+      type: 'certificate_downloaded',
+      title: 'CME Certificate - Critical Care Module',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
+      details: '15 CME credits earned'
     },
     {
       id: '5',
-      type: 'quiz_completed',
-      title: 'Practice Test',
-      date: '2024-01-11T13:10:00Z',
-      details: 'Score: 78% (19/25 correct)'
+      type: 'cheat_sheet_viewed',
+      title: 'DKA Management Protocol',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString() // 2 days ago
+    },
+    {
+      id: '6',
+      type: 'simulator_completed',
+      title: 'Sepsis Management Scenario',
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), // 3 days ago
+      details: 'Excellent performance - 96% score'
     }
   ]
 };
