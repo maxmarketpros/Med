@@ -1,6 +1,6 @@
 import { CheatSheet } from '@/types';
 
-// Static data for cheat sheets (for Netlify deployment)
+// Static data for cheat sheets (for reliable deployment)
 const staticCheatSheets: CheatSheet[] = [
   // Cardiology
   {
@@ -93,6 +93,36 @@ const staticCheatSheets: CheatSheet[] = [
     downloadCount: 145,
     fileSize: '183 KB',
   },
+  {
+    id: 'syncope-cardiology',
+    title: 'Syncope',
+    slug: 'syncope',
+    specialty: 'Cardiology',
+    fileName: 'syncope.pdf',
+    filePath: '/cheat-sheets/Cardiology/syncope.pdf',
+    description: 'Clinical reference guide for syncope evaluation',
+    tags: ['cardiology', 'syncope'],
+    lastUpdated: '2024-01-09T00:00:00Z',
+    difficulty: 'Intermediate',
+    estimatedReadTime: 8,
+    downloadCount: 178,
+    fileSize: '66 KB',
+  },
+  {
+    id: 'endocarditis-cardiology',
+    title: 'Endocarditis',
+    slug: 'endocarditis',
+    specialty: 'Cardiology',
+    fileName: 'Endocarditis.pdf',
+    filePath: '/cheat-sheets/Cardiology/Endocarditis.pdf',
+    description: 'Clinical reference guide for endocarditis',
+    tags: ['cardiology', 'infection'],
+    lastUpdated: '2024-01-07T00:00:00Z',
+    difficulty: 'Advanced',
+    estimatedReadTime: 9,
+    downloadCount: 156,
+    fileSize: '50 KB',
+  },
   // Nephrology
   {
     id: 'hyponatremia-nephrology',
@@ -102,7 +132,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'hyponatremia.pdf',
     filePath: '/cheat-sheets/Nephrology/hyponatremia.pdf',
     description: 'Clinical reference guide for hyponatremia management',
-    tags: ['nephrology'],
+    tags: ['nephrology', 'electrolytes'],
     lastUpdated: '2024-01-10T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 7,
@@ -133,7 +163,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'DKA.pdf',
     filePath: '/cheat-sheets/Endocrinology/DKA.pdf',
     description: 'Clinical reference guide for diabetic ketoacidosis',
-    tags: ['endocrinology', 'diabetes'],
+    tags: ['endocrinology', 'diabetes', 'emergency'],
     lastUpdated: '2024-01-05T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 6,
@@ -148,7 +178,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Thyroid emergencies.pdf',
     filePath: '/cheat-sheets/Endocrinology/Thyroid emergencies.pdf',
     description: 'Clinical reference guide for thyroid emergencies',
-    tags: ['endocrinology', 'emergency'],
+    tags: ['endocrinology', 'thyroid', 'emergency'],
     lastUpdated: '2024-01-03T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 8,
@@ -164,7 +194,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'GIB.pdf',
     filePath: '/cheat-sheets/Gastroenterology/GIB.pdf',
     description: 'Clinical reference guide for gastrointestinal bleeding',
-    tags: ['gastroenterology'],
+    tags: ['gastroenterology', 'bleeding'],
     lastUpdated: '2024-01-02T00:00:00Z',
     difficulty: 'Intermediate',
     estimatedReadTime: 7,
@@ -179,7 +209,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Acute pancreatitis.pdf',
     filePath: '/cheat-sheets/Gastroenterology/Acute pancreatitis.pdf',
     description: 'Clinical reference guide for acute pancreatitis',
-    tags: ['gastroenterology', 'acute'],
+    tags: ['gastroenterology', 'pancreatitis', 'acute'],
     lastUpdated: '2024-01-01T00:00:00Z',
     difficulty: 'Intermediate',
     estimatedReadTime: 6,
@@ -195,7 +225,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Asthma exacercations.pdf',
     filePath: '/cheat-sheets/Pulmonology_crit care/Asthma exacercations.pdf',
     description: 'Clinical reference guide for asthma exacerbations',
-    tags: ['pulmonology'],
+    tags: ['pulmonology', 'asthma'],
     lastUpdated: '2023-12-30T00:00:00Z',
     difficulty: 'Intermediate',
     estimatedReadTime: 5,
@@ -211,7 +241,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'CAP.pdf',
     filePath: '/cheat-sheets/Infectious disease/CAP.pdf',
     description: 'Clinical reference guide for community-acquired pneumonia',
-    tags: ['infectious disease'],
+    tags: ['infectious disease', 'pneumonia'],
     lastUpdated: '2023-12-28T00:00:00Z',
     difficulty: 'Intermediate',
     estimatedReadTime: 6,
@@ -226,7 +256,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Meningitis.pdf',
     filePath: '/cheat-sheets/Infectious disease/Meningitis.pdf',
     description: 'Clinical reference guide for meningitis',
-    tags: ['infectious disease', 'emergency'],
+    tags: ['infectious disease', 'meningitis', 'emergency'],
     lastUpdated: '2023-12-25T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 8,
@@ -242,7 +272,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Seizures.pdf',
     filePath: '/cheat-sheets/Neurology/Seizures.pdf',
     description: 'Clinical reference guide for seizures',
-    tags: ['neurology', 'emergency'],
+    tags: ['neurology', 'seizures', 'emergency'],
     lastUpdated: '2023-12-20T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 7,
@@ -257,7 +287,7 @@ const staticCheatSheets: CheatSheet[] = [
     fileName: 'Ischemic CVA.pdf',
     filePath: '/cheat-sheets/Neurology/Ischemic CVA.pdf',
     description: 'Clinical reference guide for ischemic cerebrovascular accident',
-    tags: ['neurology', 'emergency'],
+    tags: ['neurology', 'stroke', 'emergency'],
     lastUpdated: '2023-12-18T00:00:00Z',
     difficulty: 'Advanced',
     estimatedReadTime: 9,
@@ -276,25 +306,46 @@ function generateSlug(filename: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-// Detect if we're in a serverless environment
-function isServerlessEnvironment(): boolean {
-  return !!(
-    process.env.NETLIFY || 
-    process.env.VERCEL || 
-    process.env.AWS_LAMBDA_FUNCTION_NAME ||
-    process.env.FUNCTION_NAME
-  );
+// Detect deployment environment with comprehensive logging
+function getEnvironmentInfo() {
+  const env = {
+    netlify: !!process.env.NETLIFY,
+    vercel: !!process.env.VERCEL,
+    lambda: !!process.env.AWS_LAMBDA_FUNCTION_NAME,
+    function: !!process.env.FUNCTION_NAME,
+    nodeEnv: process.env.NODE_ENV,
+    context: process.env.CONTEXT,
+    buildId: process.env.BUILD_ID
+  };
+  
+  console.log('Environment detection:', JSON.stringify(env, null, 2));
+  
+  const isServerless = !!(env.netlify || env.vercel || env.lambda || env.function);
+  console.log('Is serverless environment:', isServerless);
+  
+  return { ...env, isServerless };
 }
 
 // Server-side function to scan PDF files
 export async function scanPDFFiles(): Promise<CheatSheet[]> {
-  // In serverless environments, prioritize static data for reliability
-  if (isServerlessEnvironment()) {
-    console.log('Serverless environment detected, using static cheat sheets data');
-    return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+  const envInfo = getEnvironmentInfo();
+  
+  console.log('scanPDFFiles called');
+  console.log('Process environment keys:', Object.keys(process.env).filter(k => 
+    k.includes('NETLIFY') || k.includes('BUILD') || k.includes('DEPLOY') || k.includes('FUNCTION')
+  ));
+
+  // Always try static data first for reliability in production
+  if (process.env.NODE_ENV === 'production' || envInfo.isServerless) {
+    console.log('Using static cheat sheets data (production/serverless mode)');
+    const sortedSheets = staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
+    console.log(`Returning ${sortedSheets.length} static cheat sheets`);
+    return sortedSheets;
   }
 
+  // Only try filesystem scanning in development
   try {
+    console.log('Attempting filesystem scan (development mode)');
     const fs = require('fs');
     const path = require('path');
     
@@ -303,7 +354,7 @@ export async function scanPDFFiles(): Promise<CheatSheet[]> {
     
     // Check if cheat-sheets directory exists
     if (!fs.existsSync(cheatSheetsDir)) {
-      console.log('Cheat sheets directory not found, returning static data');
+      console.log('Cheat sheets directory not found, falling back to static data');
       return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
     }
     
@@ -348,7 +399,7 @@ export async function scanPDFFiles(): Promise<CheatSheet[]> {
     return cheatSheets.sort((a, b) => a.title.localeCompare(b.title));
     
   } catch (error) {
-    console.error('Error scanning PDF files, returning static data:', error);
+    console.error('Error scanning PDF files, falling back to static data:', error);
     return staticCheatSheets.sort((a, b) => a.title.localeCompare(b.title));
   }
 }
