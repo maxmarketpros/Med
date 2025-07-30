@@ -8,9 +8,12 @@ import { SubscriptionAccess } from '@/lib/subscription-config';
 interface UserSubscription {
   id: string;
   user_id: string;
+  stripe_session_id?: string;
+  stripe_customer_id?: string;
+  stripe_subscription_id?: string;
   plan_type: SubscriptionAccess;
   plan_duration: string;
-  status: 'active' | 'expired' | 'cancelled';
+  status: 'active' | 'expired' | 'cancelled' | 'past_due';
   expires_at: string;
   amount_paid: number;
   currency: string;
