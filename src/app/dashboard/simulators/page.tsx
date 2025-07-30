@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering to avoid build-time Clerk errors
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';

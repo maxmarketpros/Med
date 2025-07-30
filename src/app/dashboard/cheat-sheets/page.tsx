@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering to avoid build-time Clerk errors
+export const dynamic = 'force-dynamic';
+
 import React, { useState, useMemo, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import { CheatSheetCard } from '@/components/cheat-sheets/CheatSheetCard';
