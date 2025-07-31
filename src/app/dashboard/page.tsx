@@ -98,160 +98,155 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          Welcome back, {user?.firstName}!
-        </h1>
-        <p className="mt-2 text-gray-600">
-          Here's what's happening with your medical education progress.
-        </p>
-      </div>
+    <div className="dashboard-bg min-h-screen -m-6 p-6">
+      <div className="space-y-8">
+        {/* Header */}
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            Welcome back{user?.firstName ? `, ${user.firstName}` : ''}
+          </h1>
+          <p className="mt-2 text-gray-600">
+            Here's what's happening with your medical education progress.
+          </p>
+        </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <Card>
-          <CardContent className="pt-4 sm:pt-6">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="stats-card-green enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300 hover:-translate-y-1 rounded-xl p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-emerald-100 rounded-lg flex-shrink-0">
-                <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-3 bg-emerald-200 rounded-lg flex-shrink-0">
+                <svg className="w-7 h-7 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
               <div className="ml-4 min-w-0">
-                <p className="text-sm font-medium text-gray-500">Available Cheat Sheets</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalCheatSheets}</p>
+                <p className="text-sm font-semibold text-emerald-700">Cheat Sheets</p>
+                <p className="text-3xl font-bold text-emerald-900">{stats.totalCheatSheets}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardContent className="pt-4 sm:pt-6">
+          <div className="stats-card-blue enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300 hover:-translate-y-1 rounded-xl p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-sky-100 rounded-lg flex-shrink-0">
-                <svg className="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-3 bg-sky-200 rounded-lg flex-shrink-0">
+                <svg className="w-7 h-7 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
               </div>
               <div className="ml-4 min-w-0">
-                <p className="text-sm font-medium text-gray-500">Available Tests</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.availableTests}</p>
+                <p className="text-sm font-semibold text-sky-700">Tests</p>
+                <p className="text-3xl font-bold text-sky-900">{stats.availableTests}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardContent className="pt-4 sm:pt-6">
+          <div className="stats-card-purple enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300 hover:-translate-y-1 rounded-xl p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-3 bg-purple-200 rounded-lg flex-shrink-0">
+                <svg className="w-7 h-7 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
               <div className="ml-4 min-w-0">
-                <p className="text-sm font-medium text-gray-500">Available Patient Simulators</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.availablePatientSimulators}</p>
+                <p className="text-sm font-semibold text-purple-700">Patient Simulators</p>
+                <p className="text-3xl font-bold text-purple-900">{stats.availablePatientSimulators}</p>
               </div>
+            </div>
+          </div>
+
+          <Card className="enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300 hover:-translate-y-1">
+            <CardContent className="pt-4 sm:pt-6">
+              <Link href="/dashboard/cme/final-exam" className="block">
+                <div className="flex items-center hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
+                  <div className="p-3 bg-emerald-200 rounded-lg flex-shrink-0">
+                    <svg className="w-7 h-7 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="ml-4 min-w-0">
+                    <p className="text-sm font-semibold text-gray-600">Take Final Exam</p>
+                    <p className="text-xl font-bold text-emerald-700">Start Now</p>
+                  </div>
+                </div>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <Card className="enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300">
+          <CardHeader className="card-header-gradient rounded-t-xl -m-6 mb-4 p-6">
+            <CardTitle className="text-xl font-bold text-gray-900">Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Link href="/dashboard/cheat-sheets" className="block">
+                <div className="quick-action-button p-6 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 enhanced-card-shadow hover:enhanced-card-shadow-hover">
+                  <div className="flex items-center">
+                    <svg className="w-7 h-7 text-emerald-600 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-gray-900 text-lg">Browse Cheat Sheets</h3>
+                      <p className="text-sm text-gray-600 font-medium">Access medical references</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/dashboard/cme" className="block">
+                <div className="quick-action-button p-6 border border-gray-200 rounded-xl hover:border-sky-300 hover:bg-sky-50 enhanced-card-shadow hover:enhanced-card-shadow-hover">
+                  <div className="flex items-center">
+                    <svg className="w-7 h-7 text-sky-600 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-gray-900 text-lg">Take CME Practice Test</h3>
+                      <p className="text-sm text-gray-600 font-medium">Earn continuing education credits</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/dashboard/cme/certificate" className="block">
+                <div className="quick-action-button p-6 border border-gray-200 rounded-xl hover:border-violet-300 hover:bg-violet-50 enhanced-card-shadow hover:enhanced-card-shadow-hover">
+                  <div className="flex items-center">
+                    <svg className="w-7 h-7 text-violet-600 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-gray-900 text-lg">CME Certificate</h3>
+                      <p className="text-sm text-gray-600 font-medium">View and download your certificate</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="pt-4 sm:pt-6">
-            <Link href="/dashboard/cme/final-exam" className="block">
-              <div className="flex items-center hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
-                <div className="p-2 bg-emerald-100 rounded-lg flex-shrink-0">
-                  <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="ml-4 min-w-0">
-                  <p className="text-sm font-medium text-gray-500">Take Final Exam</p>
-                  <p className="text-lg font-bold text-emerald-600">Start Now</p>
-                </div>
+        {/* Recent Activity */}
+        <Card className="enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300">
+          <CardHeader className="card-header-gradient rounded-t-xl -m-6 mb-4 p-6">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xl font-bold text-gray-900">Recent Activity</CardTitle>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600 font-medium">
+                  {recentActivities.length > 0 ? `${recentActivities.length} activities` : 'No activities yet'}
+                </span>
+                {recentActivities.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleClearActivities}
+                    className="text-xs enhanced-card-shadow hover:enhanced-card-shadow-hover transition-all duration-300 hover:-translate-y-0.5"
+                  >
+                    Clear History
+                  </Button>
+                )}
               </div>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/dashboard/cheat-sheets" className="block">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50 transition-colors">
-                <div className="flex items-center">
-                  <svg className="w-6 h-6 text-emerald-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <div className="min-w-0">
-                    <h3 className="font-medium text-gray-900">Browse Cheat Sheets</h3>
-                    <p className="text-sm text-gray-500">Access medical references</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/dashboard/cme" className="block">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-sky-200 hover:bg-sky-50 transition-colors">
-                <div className="flex items-center">
-                  <svg className="w-6 h-6 text-sky-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                  <div className="min-w-0">
-                    <h3 className="font-medium text-gray-900">Take CME Practice Test</h3>
-                    <p className="text-sm text-gray-500">Earn continuing education credits</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/dashboard/cme/certificate" className="block">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-violet-200 hover:bg-violet-50 transition-colors">
-                <div className="flex items-center">
-                  <svg className="w-6 h-6 text-violet-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <div className="min-w-0">
-                    <h3 className="font-medium text-gray-900">CME Certificate</h3>
-                    <p className="text-sm text-gray-500">View and download your certificate</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Recent Activity</CardTitle>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">
-                {recentActivities.length > 0 ? `${recentActivities.length} activities` : 'No activities yet'}
-              </span>
-              {recentActivities.length > 0 && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClearActivities}
-                  className="text-xs"
-                >
-                  Clear History
-                </Button>
-              )}
             </div>
-          </div>
-        </CardHeader>
+          </CardHeader>
         <CardContent>
           {recentActivities.length === 0 ? (
             <div className="text-center py-8">
@@ -290,7 +285,8 @@ export default function DashboardPage() {
             </div>
           )}
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 } 
