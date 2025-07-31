@@ -9,8 +9,11 @@ import { CheatSheetCard } from '@/components/cheat-sheets/CheatSheetCard';
 import { Button } from '@/components/ui/Button';
 import { mockPDFCheatSheets } from '@/lib/pdfScanner';
 import { CheatSheet } from '@/types';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 
 export default function CheatSheetsPage() {
+  const { hasAccess, loading: subscriptionLoading } = useSubscription();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('All Specialties');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -66,6 +69,35 @@ export default function CheatSheetsPage() {
 
     return filtered;
   }, [cheatSheets, selectedSpecialty, searchTerm, fuse]);
+
+  // Show loading state while checking subscription
+  if (subscriptionLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  // Show upgrade prompt if user doesn't have access
+  if (!hasAccess('cheat_sheets')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Cheat Sheets</h1>
+          <p className="mt-2 text-gray-600">
+            Access 100+ comprehensive cheat sheets for hospital medicine.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="Cheat Sheets Access Required"
+          description="Access 100+ comprehensive cheat sheets covering all aspects of hospital medicine. Get instant access to evidence-based quick references."
+          feature="Cheat Sheets Library"
+        />
+      </div>
+    );
+  }
 
   if (loading) {
     return (

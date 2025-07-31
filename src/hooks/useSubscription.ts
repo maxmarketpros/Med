@@ -26,21 +26,15 @@ export function useSubscription() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      checkSubscriptionStatus(user.id);
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
-
   const checkSubscriptionStatus = async (userId: string) => {
     try {
       setLoading(true);
       setError(null);
+      console.log('Checking subscription for user:', userId);
 
       const supabase = getSupabase();
       if (!supabase) {
+        console.error('Supabase not available');
         setError('Database not available');
         setSubscription(null);
         return;
@@ -53,31 +47,42 @@ export function useSubscription() {
         .eq('status', 'active')
         .order('payment_date', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no results
 
       if (supabaseError) {
-        if (supabaseError.code !== 'PGRST116') { // Not found error
-          throw supabaseError;
-        }
-        // No subscription found - user has no access to premium features
+        console.error('Supabase error:', supabaseError);
+        setError(`Database error: ${supabaseError.message}`);
         setSubscription(null);
+        return;
+      }
+
+      if (!data) {
+        // No subscription found - user has no access to premium features
+        console.log('No active subscription found for user');
+        setSubscription(null);
+        return;
+      }
+
+      // Check if subscription is still valid
+      const subscription = data as UserSubscription;
+      const expiresAt = new Date(subscription.expires_at);
+      const now = new Date();
+      
+      console.log('Found subscription:', subscription);
+      console.log('Expires at:', expiresAt, 'Current time:', now);
+      
+      if (expiresAt > now) {
+        console.log('Subscription is active');
+        setSubscription(subscription);
       } else {
-        // Check if subscription is still valid
-        const subscription = data as unknown as UserSubscription;
-        const expiresAt = new Date(subscription.expires_at);
-        const now = new Date();
+        console.log('Subscription expired, updating status');
+        // Subscription expired, update status
+        await supabase
+          .from('user_subscriptions')
+          .update({ status: 'expired' })
+          .eq('id', subscription.id);
         
-        if (expiresAt > now) {
-          setSubscription(subscription);
-        } else {
-          // Subscription expired, update status
-          await supabase
-            .from('user_subscriptions')
-            .update({ status: 'expired' })
-            .eq('id', subscription.id);
-          
-          setSubscription(null);
-        }
+        setSubscription(null);
       }
     } catch (err) {
       console.error('Error checking subscription:', err);
@@ -88,19 +93,39 @@ export function useSubscription() {
     }
   };
 
+  useEffect(() => {
+    if (user?.id) {
+      checkSubscriptionStatus(user.id);
+    } else {
+      setLoading(false);
+      setSubscription(null);
+    }
+  }, [user?.id]); // Fixed: Added user?.id to dependency array
+
   const hasAccess = (requiredAccess?: SubscriptionAccess): boolean => {
-    if (!subscription) return false;
+    if (!subscription) {
+      console.log('No subscription, denying access');
+      return false;
+    }
     
-    if (!requiredAccess) return true; // Any active subscription
+    if (!requiredAccess) {
+      console.log('No specific access required, allowing access');
+      return true; // Any active subscription
+    }
     
     if (requiredAccess === 'cheat_sheets') {
-      return subscription.plan_type === 'cheat_sheets' || subscription.plan_type === 'all_access';
+      const hasAccess = subscription.plan_type === 'cheat_sheets' || subscription.plan_type === 'all_access';
+      console.log(`Checking cheat_sheets access: ${hasAccess} (plan: ${subscription.plan_type})`);
+      return hasAccess;
     }
     
     if (requiredAccess === 'all_access') {
-      return subscription.plan_type === 'all_access';
+      const hasAccess = subscription.plan_type === 'all_access';
+      console.log(`Checking all_access: ${hasAccess} (plan: ${subscription.plan_type})`);
+      return hasAccess;
     }
     
+    console.log('Unknown access type requested:', requiredAccess);
     return false;
   };
 
@@ -118,6 +143,6 @@ export function useSubscription() {
     planType,
     expiresAt,
     hasAccess,
-    refetch: () => user && checkSubscriptionStatus(user.id)
+    refetch: () => user?.id && checkSubscriptionStatus(user.id)
   };
 } 

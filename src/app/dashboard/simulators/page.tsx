@@ -7,8 +7,41 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 
 export default function SimulatorsPage() {
+  const { hasAccess, loading } = useSubscription();
+
+  // Show loading state while checking subscription
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  // Show upgrade prompt if user doesn't have access
+  if (!hasAccess('cheat_sheets')) { // Simulators are included in both plans
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Interactive Patient Simulators</h1>
+          <p className="mt-2 text-gray-600">
+            Practice clinical decision-making with realistic patient scenarios.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="Patient Simulators Access Required"
+          description="Practice clinical decision-making with interactive patient simulators. Available with both Cheat Sheets and All-Access plans."
+          feature="Interactive Patient Simulators"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}

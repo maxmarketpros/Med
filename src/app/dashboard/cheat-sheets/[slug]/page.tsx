@@ -13,11 +13,14 @@ import { toTitleCase } from '@/lib/utils';
 import { mockPDFCheatSheets } from '@/lib/pdfScanner';
 import { useActivityTracker } from '@/hooks/useActivityTracker';
 import PdfViewer from '@/components/cheat-sheets/PdfViewer';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 
 export default function CheatSheetDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const { addActivity } = useActivityTracker();
+  const { hasAccess, loading: subscriptionLoading } = useSubscription();
   
   const [cheatSheet, setCheatSheet] = useState<CheatSheet | null>(null);
   const [relatedSheets, setRelatedSheets] = useState<CheatSheet[]>([]);
@@ -48,16 +51,19 @@ export default function CheatSheetDetailPage() {
         // Find related sheets (same specialty or common tags)
         const related = mockPDFCheatSheets
           .filter(sheet => 
-            sheet.id !== foundSheet.id && 
-            (sheet.specialty === foundSheet.specialty || 
-             sheet.tags.some(tag => foundSheet.tags.includes(tag)))
+            sheet.slug !== slug && (
+              sheet.specialty === foundSheet.specialty ||
+              sheet.tags.some(tag => foundSheet.tags.includes(tag))
+            )
           )
           .slice(0, 4);
         
         setRelatedSheets(related);
+        
         console.log(`Loaded cheat sheet: ${foundSheet.title} with ${related.length} related sheets`);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+      } catch (error) {
+        console.error('Error loading cheat sheet:', error);
+        setError('Failed to load cheat sheet');
       } finally {
         setLoading(false);
       }
@@ -65,6 +71,35 @@ export default function CheatSheetDetailPage() {
 
     loadData();
   }, [slug, addActivity, hasTrackedView]);
+
+  // Show loading state while checking subscription
+  if (subscriptionLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  // Show upgrade prompt if user doesn't have access
+  if (!hasAccess('cheat_sheets')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Cheat Sheet Access Required</h1>
+          <p className="mt-2 text-gray-600">
+            This cheat sheet requires a subscription to view.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="Cheat Sheet Access Required"
+          description="Access this cheat sheet and 100+ more comprehensive quick references for hospital medicine."
+          feature="Cheat Sheets Library"
+        />
+      </div>
+    );
+  }
 
   if (loading) {
     return (
