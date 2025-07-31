@@ -41,10 +41,17 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const supabase = getSupabaseService();
+    let supabase = getSupabaseService();
+    
+    // Fallback to regular supabase client if service role isn't available
+    if (!supabase) {
+      console.log('Service role not available, using regular supabase client for webhook');
+      const { getSupabase } = await import('@/lib/supabase');
+      supabase = getSupabase();
+    }
     
     if (!supabase) {
-      console.error('Supabase not configured');
+      console.error('Supabase not configured - check environment variables');
       return NextResponse.json({ error: 'Database not available' }, { status: 500 });
     }
     
@@ -74,6 +81,7 @@ export async function POST(req: NextRequest) {
             };
             
             console.log('Inserting subscription data:', JSON.stringify(subscriptionData, null, 2));
+            console.log('Using supabase client type:', supabase === getSupabaseService() ? 'service_role' : 'regular');
             
             const { data, error } = await supabase
               .from('user_subscriptions')
