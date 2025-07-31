@@ -108,6 +108,71 @@ export default function CMEPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
+            {/* Temporary CME Test Button */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                    <h3 className="text-lg font-semibold text-yellow-900 line-clamp-2">🧪 Test CME Generation (TEMPORARY)</h3>
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 w-fit">
+                      DEV ONLY
+                    </span>
+                  </div>
+                  
+                  <p className="text-yellow-800 mb-4 line-clamp-3">
+                    Click this button to simulate passing the final exam with 75% score and test the certificate generation flow.
+                    This will skip the actual test and take you directly to the form and PDF generation.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 text-xs text-yellow-700">
+                    <span className="px-2 py-1 bg-yellow-100 rounded">⚡ Instant Pass</span>
+                    <span className="px-2 py-1 bg-yellow-100 rounded">📋 Form Test</span>
+                    <span className="px-2 py-1 bg-yellow-100 rounded">📄 PDF Generation</span>
+                  </div>
+                </div>
+                
+                <div className="flex-shrink-0">
+                  <button
+                    onClick={() => {
+                      // Create fake exam results that simulate a passing score
+                      const fakeExamResults = {
+                        completed: true,
+                        passed: true,
+                        score: 75,
+                        totalQuestions: 74,
+                        correctAnswers: 56,
+                        completedAt: new Date().toISOString(),
+                        userId: 'test-user'
+                      };
+                      
+                      // Store in localStorage
+                      localStorage.setItem('finalExamResults', JSON.stringify(fakeExamResults));
+                      
+                      // Track fake completion activity
+                      const activityData = {
+                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                        type: 'quiz_completed',
+                        title: 'CME Final Exam (TEST)',
+                        date: new Date().toISOString(),
+                        details: 'Score: 75% (56/74 correct) - PASSED (TEST MODE)'
+                      };
+                      
+                      // Add to existing activities
+                      const existingActivities = JSON.parse(localStorage.getItem('userActivities') || '[]');
+                      const updatedActivities = [activityData, ...existingActivities].slice(0, 50);
+                      localStorage.setItem('userActivities', JSON.stringify(updatedActivities));
+                      
+                      // Redirect to certificate page
+                      window.location.href = '/dashboard/cme/certificate';
+                    }}
+                    className="bg-yellow-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-yellow-700 transition-colors text-sm sm:text-base w-full sm:w-auto"
+                  >
+                    🚀 Test Certificate Generation
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Practice Test */}
             <div className="border border-gray-200 rounded-lg p-4 sm:p-6 hover:border-emerald-200 transition-colors">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
