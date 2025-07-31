@@ -1,7 +1,6 @@
 [build]
   command = "npm run build"
   publish = ".next"
-  functions = ".netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -10,25 +9,6 @@
   NODE_VERSION = "18"
   # Disable secrets scanning - Netlify is incorrectly flagging URL paths as secrets
   SECRETS_SCAN_ENABLED = "false"
-  # Enable Next.js App Router compatibility
-  NEXT_PRIVATE_TARGET = "server"
-
-# Handle API routes as manual Netlify Functions  
-[[redirects]]
-  from = "/api/:function"
-  to = "/.netlify/functions/:function"
-  status = 200
-
-[[redirects]]
-  from = "/api/:function/*"
-  to = "/.netlify/functions/:function/:splat"
-  status = 200
-
-# SPA fallback for client-side routing (must be last)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
 
 # PDF file headers for optimal viewing
 [[headers]]
@@ -63,7 +43,3 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
