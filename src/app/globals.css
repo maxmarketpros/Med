@@ -144,4 +144,80 @@ textarea:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid #10b981;
   outline-offset: 2px;
+}
+
+/* Choose Plan Page Animations */
+@keyframes gradient-x {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+  background-size: 400% 400%;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Custom delay classes for staggered animations */
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Hover transform scale utilities */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Backdrop blur enhanced */
+.backdrop-blur-enhanced {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Glass morphism effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 } 

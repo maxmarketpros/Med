@@ -6,8 +6,11 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Med Cheat Sheets - Dashboard',
-  description: 'Professional medical education platform for hospital medicine practitioners',
+  title: 'Med Cheat Sheets - Professional Medical Education Platform',
+  description: 'Access comprehensive medical cheat sheets, CME courses, and patient simulators designed for hospital medicine practitioners. Earn AAPA Category 1 CME credits.',
+  keywords: ['medical education', 'hospital medicine', 'cheat sheets', 'CME', 'AAPA credits', 'medical training'],
+  authors: [{ name: 'Med Cheat Sheets' }],
+  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
