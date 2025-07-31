@@ -165,13 +165,6 @@ export default function ProfilePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
-                {getUserName()}
-              </div>
-            </div>
-            
-            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
                 {user.emailAddresses[0]?.emailAddress || 'No email'}
@@ -181,7 +174,7 @@ export default function ProfilePage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Member Since</label>
               <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
-                {formatDate(user.createdAt!)}
+                {formatDate(user.createdAt!.toString())}
               </div>
             </div>
             

@@ -7,7 +7,16 @@ import { cn } from '@/lib/utils';
 import { useUser, useClerk } from '@clerk/nextjs';
 import { useSubscription } from '@/hooks/useSubscription';
 
-const navigation = [
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ReactNode;
+  requiredAccess?: 'cheat_sheets' | 'all_access';
+  upgradeFeature?: string;
+  upgradeUrl?: string;
+}
+
+const navigation: NavigationItem[] = [
   {
     name: 'Dashboard',
     href: '/dashboard',
@@ -18,16 +27,6 @@ const navigation = [
       </svg>
     ),
     // Dashboard should be available to any authenticated user
-  },
-  {
-    name: 'Profile',
-    href: '/dashboard/profile',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-    // Profile should be available to any authenticated user
   },
   {
     name: 'Cheat Sheets',
@@ -48,7 +47,8 @@ const navigation = [
       </svg>
     ),
     requiredAccess: 'all_access',
-    upgradeFeature: 'CME Tests and Certificates'
+    upgradeFeature: 'CME Tests and Certificates',
+    upgradeUrl: 'https://medcheatsheets.netlify.app/dashboard/cme/'
   },
   {
     name: 'Patient Simulators',
@@ -69,7 +69,18 @@ const navigation = [
       </svg>
     ),
     requiredAccess: 'all_access',
-    upgradeFeature: 'CME Certificates'
+    upgradeFeature: 'CME Certificates',
+    upgradeUrl: 'https://medcheatsheets.netlify.app/dashboard/cme/certificate/'
+  },
+  {
+    name: 'Profile',
+    href: '/dashboard/profile',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+    ),
+    // Profile should be available to any authenticated user
   },
 ];
 
@@ -95,6 +106,10 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     window.location.href = '/choose-plan';
   };
 
+  const handleSpecificUpgradeClick = (upgradeUrl: string) => {
+    window.location.href = upgradeUrl;
+  };
+
   const handleSignOut = () => {
     signOut(() => {
       window.location.href = '/';
@@ -113,7 +128,7 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     return `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.emailAddresses[0]?.emailAddress || 'User';
   };
 
-  const renderNavigationItem = (item: typeof navigation[0]) => {
+  const renderNavigationItem = (item: NavigationItem) => {
     const isActive = pathname === item.href || 
       (item.href !== '/dashboard' && pathname.startsWith(item.href));
     
@@ -158,10 +173,14 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       );
     } else {
       // Show upgrade prompt for ANY restricted items (both cheat_sheets and all_access)
+      const clickHandler = item.upgradeUrl 
+        ? () => handleSpecificUpgradeClick(item.upgradeUrl!)
+        : handleUpgradeClick;
+        
       return (
         <div
           key={item.name}
-          onClick={handleUpgradeClick}
+          onClick={clickHandler}
           className="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer text-gray-400 hover:text-violet-600 hover:bg-violet-50 relative"
         >
           {item.icon}
