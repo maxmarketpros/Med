@@ -58,35 +58,48 @@ export async function POST(req: NextRequest) {
         
         // Store initial subscription data
         if (session.metadata) {
-          const subscriptionData = {
-            user_id: session.metadata.userId,
-            stripe_session_id: session.id,
-            stripe_customer_id: session.customer,
-            stripe_subscription_id: session.subscription,
-            plan_type: session.metadata.planType,
-            plan_duration: session.metadata.planDuration,
-            status: 'active',
-            amount_paid: session.amount_total,
-            currency: session.currency,
-            payment_date: new Date().toISOString(),
-            expires_at: calculateExpirationDate(session.metadata.planDuration)
-          };
-          
-          console.log('Inserting subscription data:', subscriptionData);
-          
-          const { data, error } = await supabase
-            .from('user_subscriptions')
-            .insert(subscriptionData)
-            .select();
+          try {
+            const subscriptionData = {
+              user_id: session.metadata.userId,
+              stripe_session_id: session.id,
+              stripe_customer_id: session.customer,
+              stripe_subscription_id: session.subscription,
+              plan_type: session.metadata.planType,
+              plan_duration: session.metadata.planDuration,
+              status: 'active',
+              amount_paid: session.amount_total,
+              currency: session.currency,
+              payment_date: new Date().toISOString(),
+              expires_at: calculateExpirationDate(session.metadata.planDuration)
+            };
             
-          if (error) {
-            console.error('Error inserting subscription:', error);
-            throw error;
+            console.log('Inserting subscription data:', JSON.stringify(subscriptionData, null, 2));
+            
+            const { data, error } = await supabase
+              .from('user_subscriptions')
+              .insert(subscriptionData)
+              .select();
+              
+            if (error) {
+              console.error('Supabase error details:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+              });
+              throw new Error(`Database error: ${error.message}`);
+            }
+            
+            console.log('Successfully created subscription:', data);
+          } catch (insertError) {
+            console.error('Error in subscription creation block:', insertError);
+            console.error('Error type:', typeof insertError);
+            console.error('Error stack:', insertError instanceof Error ? insertError.stack : 'No stack trace');
+            throw insertError;
           }
-          
-          console.log('Successfully created/updated subscription:', data);
         } else {
           console.error('No metadata found in checkout session');
+          throw new Error('No metadata found in checkout session');
         }
         break;
 
@@ -167,9 +180,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error('Error processing webhook:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error constructor:', error?.constructor?.name);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : 'No stack',
+      ...(error && typeof error === 'object' ? error : {})
+    });
+    
     return NextResponse.json({ 
       error: 'Webhook processing failed',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : `Unknown error: ${String(error)}`,
+      errorType: typeof error,
+      errorConstructor: error?.constructor?.name || 'unknown'
     }, { status: 500 });
   }
 }
