@@ -1,19 +1,19 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@clerk/nextjs';
 
 export default function HomePage() {
-  const { isAuthenticated, isLoading } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    if (isLoaded && isSignedIn) {
       // Redirect to dashboard if authenticated
       window.location.href = '/dashboard';
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isLoaded, isSignedIn]);
 
-  if (isLoading) {
+  if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
@@ -33,7 +33,7 @@ export default function HomePage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Med Cheat Sheets</h1>
           <p className="text-gray-600 mb-6">Professional medical education platform for hospital medicine practitioners</p>
           <p className="text-sm text-gray-500">
-            Please sign in through Memberstack to access your dashboard
+            Please sign in to access your dashboard
           </p>
         </div>
       </div>

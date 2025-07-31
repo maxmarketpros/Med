@@ -20,19 +20,6 @@ interface UserSubscription {
   payment_date: string;
 }
 
-// Mock subscription for development - change this to test different access levels
-const mockSubscription: UserSubscription = {
-  id: 'mock-sub-1',
-  user_id: '1',
-  plan_type: 'all_access', // Change this to 'cheat_sheets' to test basic plan
-  plan_duration: '12 months',
-  status: 'active',
-  expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year from now
-  amount_paid: 39900,
-  currency: 'usd',
-  payment_date: new Date().toISOString()
-};
-
 export function useSubscription() {
   const { user } = useUser();
   const [subscription, setSubscription] = useState<UserSubscription | null>(null);
@@ -53,11 +40,9 @@ export function useSubscription() {
       setError(null);
 
       const supabase = getSupabase();
-      
-      // Development fallback: if no Supabase or mock user, use mock subscription
-      if (!supabase || userId === '1') {
-        console.log('🔧 Using mock subscription data for development');
-        setSubscription(mockSubscription);
+      if (!supabase) {
+        setError('Database not available');
+        setSubscription(null);
         return;
       }
 
@@ -74,7 +59,7 @@ export function useSubscription() {
         if (supabaseError.code !== 'PGRST116') { // Not found error
           throw supabaseError;
         }
-        // No subscription found
+        // No subscription found - user has no access to premium features
         setSubscription(null);
       } else {
         // Check if subscription is still valid
@@ -97,6 +82,7 @@ export function useSubscription() {
     } catch (err) {
       console.error('Error checking subscription:', err);
       setError(err instanceof Error ? err.message : 'Failed to check subscription');
+      setSubscription(null);
     } finally {
       setLoading(false);
     }

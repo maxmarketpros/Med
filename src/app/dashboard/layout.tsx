@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@clerk/nextjs';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 
 export default function DashboardLayout({
@@ -9,10 +9,10 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, isLoading } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (isLoading) {
+  if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
@@ -20,9 +20,9 @@ export default function DashboardLayout({
     );
   }
 
-  if (!isAuthenticated) {
-    // Redirect to login - in a real app, this would be handled by auth provider
-    window.location.href = '/';
+  if (!isSignedIn) {
+    // Redirect to sign in
+    window.location.href = '/sign-in';
     return null;
   }
 

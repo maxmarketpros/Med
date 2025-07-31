@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@clerk/nextjs';
 import { useActivityTracker } from '@/hooks/useActivityTracker';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -102,7 +102,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          Welcome back, {user?.name.split(' ')[0]}!
+          Welcome back, {user?.firstName}!
         </h1>
         <p className="mt-2 text-gray-600">
           Here's what's happening with your medical education progress.

@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { useUser } from '@/hooks/useUser';
+import { useUser } from '@clerk/nextjs';
 import { useSubscription } from '@/hooks/useSubscription';
 import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 import { formatDate } from '@/lib/utils';
@@ -72,11 +72,18 @@ export default function CertificatePage() {
     }
   }, []);
 
+  const getUserName = () => {
+    if (!user) return 'Student';
+    return `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.emailAddresses[0]?.emailAddress || 'Student';
+  };
+
   const handleDownloadCertificate = async () => {
     if (!user || !examResults) {
       setError('Missing user or exam information');
       return;
     }
+
+    const userName = getUserName();
 
     setIsGenerating(true);
     setError(null);
@@ -88,7 +95,7 @@ export default function CertificatePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: user.name,
+          name: userName,
           date: new Date(examResults.completedAt).toLocaleDateString(),
         }),
       });
@@ -104,7 +111,7 @@ export default function CertificatePage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `CME_Certificate_${user.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
+      a.download = `CME_Certificate_${userName.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -195,7 +202,7 @@ export default function CertificatePage() {
           </h1>
           
           <p className="text-lg text-gray-600 mb-2">
-            Congratulations, <strong>{user?.name || 'Student'}</strong>!
+            Congratulations, <strong>{getUserName()}</strong>!
           </p>
           
           <p className="text-gray-600 mb-8">
@@ -206,7 +213,7 @@ export default function CertificatePage() {
             <h3 className="font-semibold text-blue-900 mb-2">Certificate Details</h3>
             <div className="text-sm text-blue-800 space-y-1">
               <p><strong>Program:</strong> Hospital Medicine Final Exam</p>
-              <p><strong>Recipient:</strong> {user?.name || 'Student'}</p>
+              <p><strong>Recipient:</strong> {getUserName()}</p>
               <p><strong>Date Completed:</strong> {new Date(examResults.completedAt).toLocaleDateString()}</p>
               <p><strong>Score:</strong> {examResults.score}% ({examResults.correctAnswers}/{examResults.totalQuestions} correct)</p>
               <p><strong>CME Credits:</strong> 10 AAPA Category 1 CME Credits</p>

@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useUser } from '@/hooks/useUser';
+import { useUser, useClerk } from '@clerk/nextjs';
 import { useSubscription } from '@/hooks/useSubscription';
 
 const navigation = [
@@ -70,7 +70,8 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { user, logout } = useUser();
+  const { user } = useUser();
+  const { signOut } = useClerk();
   const { hasAccess, planType } = useSubscription();
 
   const handleLinkClick = () => {
@@ -82,6 +83,24 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
   const handleUpgradeClick = () => {
     window.location.href = '/choose-plan';
+  };
+
+  const handleSignOut = () => {
+    signOut(() => {
+      window.location.href = '/';
+    });
+  };
+
+  const getUserInitials = () => {
+    if (!user) return '';
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+    return `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase() || user.emailAddresses[0]?.emailAddress[0]?.toUpperCase() || 'U';
+  };
+
+  const getUserName = () => {
+    if (!user) return 'User';
+    return `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.emailAddresses[0]?.emailAddress || 'User';
   };
 
   const renderNavigationItem = (item: typeof navigation[0]) => {
@@ -197,20 +216,20 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             <div className="flex items-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-emerald-700">
-                  {user?.name.split(' ').map(n => n[0]).join('')}
+                  {getUserInitials()}
                 </span>
               </div>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">
-                  {user?.name}
+                  {getUserName()}
                 </p>
                 <p className="text-xs text-gray-500">
-                  {user?.role} • {user?.membershipLevel}
+                  {user?.emailAddresses[0]?.emailAddress || 'User'}
                 </p>
               </div>
             </div>
             <button
-              onClick={logout}
+              onClick={handleSignOut}
               className="mt-3 w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
             >
               Sign out
@@ -279,23 +298,20 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             <div className="flex items-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-emerald-700">
-                  {user?.name.split(' ').map(n => n[0]).join('')}
+                  {getUserInitials()}
                 </span>
               </div>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">
-                  {user?.name}
+                  {getUserName()}
                 </p>
                 <p className="text-xs text-gray-500">
-                  {user?.role} • {user?.membershipLevel}
+                  {user?.emailAddresses[0]?.emailAddress || 'User'}
                 </p>
               </div>
             </div>
             <button
-              onClick={() => {
-                logout();
-                handleLinkClick();
-              }}
+              onClick={handleSignOut}
               className="mt-3 w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
             >
               Sign out
