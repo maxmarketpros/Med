@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
-import { getSupabase } from '@/lib/supabase';
+import { getSupabaseService } from '@/lib/supabase-service';
 import { headers } from 'next/headers';
 
 export async function POST(req: NextRequest) {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseService();
     
     if (!supabase) {
       console.error('Supabase not configured');
