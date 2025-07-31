@@ -146,8 +146,8 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
           <span className="ml-3">{item.name}</span>
         </Link>
       );
-    } else if (item.requiredAccess === 'all_access') {
-      // Show upgrade prompt for restricted items
+    } else {
+      // Show upgrade prompt for ANY restricted items (both cheat_sheets and all_access)
       return (
         <div
           key={item.name}
@@ -162,9 +162,6 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         </div>
       );
     }
-    
-    // For cheat_sheets level items that user doesn't have access to, don't show them
-    return null;
   };
 
   return (
