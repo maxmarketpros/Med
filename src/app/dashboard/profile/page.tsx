@@ -51,7 +51,13 @@ export default function ProfilePage() {
   };
 
   const handleCancelSubscription = async () => {
-    if (!subscription?.stripe_subscription_id) return;
+    console.log('Subscription data:', subscription);
+    console.log('Stripe subscription ID:', subscription?.stripe_subscription_id);
+    
+    if (!subscription?.stripe_subscription_id) {
+      alert('No valid subscription found to cancel. Please contact support if you believe this is an error.');
+      return;
+    }
     
     if (!confirm('Are you sure you want to cancel your subscription? This action cannot be undone and you will lose access to premium features.')) {
       return;
@@ -71,9 +77,12 @@ export default function ProfilePage() {
 
       if (!response.ok) {
         const error = await response.json();
+        console.error('Cancel subscription error:', error);
         throw new Error(error.message || 'Failed to cancel subscription');
       }
 
+      const result = await response.json();
+      console.log('Cancellation result:', result);
       alert('Your subscription has been cancelled successfully.');
       refetch(); // Refresh subscription data
     } catch (error) {

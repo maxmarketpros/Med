@@ -64,10 +64,18 @@ export async function POST(req: NextRequest) {
     const currentPeriodEnd = new Date((updatedSubscription as any).current_period_end * 1000);
 
     // Update the subscription in Supabase
-    const supabase = getSupabaseService();
+    let supabase = getSupabaseService();
+    
+    // Fallback to regular supabase client if service role isn't available
+    if (!supabase) {
+      console.log('Service role not available, using regular supabase client');
+      const { getSupabase } = await import('@/lib/supabase');
+      supabase = getSupabase();
+    }
+    
     if (!supabase) {
       return NextResponse.json(
-        { message: 'Database service unavailable' },
+        { message: 'Database service unavailable - check environment variables' },
         { status: 500 }
       );
     }

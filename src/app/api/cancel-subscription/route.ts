@@ -23,16 +23,46 @@ export async function POST(req: NextRequest) {
 
     console.log('Cancelling subscription:', subscriptionId, 'for user:', userId);
 
+    // First check if subscription exists in Stripe
+    let existingSubscription;
+    try {
+      existingSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+      console.log('Found subscription in Stripe:', existingSubscription.status);
+    } catch (stripeError) {
+      console.error('Subscription not found in Stripe:', stripeError);
+      return NextResponse.json(
+        { message: `Subscription not found in Stripe: ${subscriptionId}` },
+        { status: 404 }
+      );
+    }
+
+    // Check if already cancelled
+    if (existingSubscription.status === 'canceled') {
+      console.log('Subscription already cancelled in Stripe');
+      return NextResponse.json(
+        { message: 'Subscription is already cancelled' },
+        { status: 400 }
+      );
+    }
+
     // Cancel the subscription in Stripe
     const cancelledSubscription = await stripe.subscriptions.cancel(subscriptionId);
     
     console.log('Stripe subscription cancelled:', cancelledSubscription.id);
 
     // Update the subscription status in Supabase
-    const supabase = getSupabaseService();
+    let supabase = getSupabaseService();
+    
+    // Fallback to regular supabase client if service role isn't available
+    if (!supabase) {
+      console.log('Service role not available, using regular supabase client');
+      const { getSupabase } = await import('@/lib/supabase');
+      supabase = getSupabase();
+    }
+    
     if (!supabase) {
       return NextResponse.json(
-        { message: 'Database service unavailable' },
+        { message: 'Database service unavailable - check environment variables' },
         { status: 500 }
       );
     }
