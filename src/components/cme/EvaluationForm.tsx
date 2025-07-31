@@ -70,10 +70,29 @@ export function EvaluationForm() {
 
     setIsSubmitting(true);
     
-    // After successful submission, redirect to certificate page
-    const userName = encodeURIComponent(formData.fullName);
-    const today = new Date().toLocaleDateString();
-    window.location.href = `/dashboard/cme/certificate?name=${userName}&date=${encodeURIComponent(today)}`;
+    try {
+      // Submit to Netlify forms first
+      const formElement = e.target as HTMLFormElement;
+      const submissionData = new FormData(formElement);
+      
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(submissionData as any).toString()
+      });
+      
+      // After successful Netlify submission, redirect to certificate page with user data
+      const userName = encodeURIComponent(submissionData.get('full-name') as string);
+      const today = new Date().toLocaleDateString();
+      window.location.href = `/dashboard/cme/certificate?name=${userName}&date=${encodeURIComponent(today)}`;
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      // Still redirect to certificate page even if Netlify submission fails - use React state as fallback
+      const userName = encodeURIComponent(formData.fullName || 'Student');
+      const today = new Date().toLocaleDateString();
+      window.location.href = `/dashboard/cme/certificate?name=${userName}&date=${encodeURIComponent(today)}`;
+    }
   };
 
   const RatingScale = ({ name, value, onChange, question }: { 
@@ -148,7 +167,6 @@ export function EvaluationForm() {
             name="cme-final-evaluation" 
             method="POST" 
             data-netlify="true"
-            action="/dashboard/cme/certificate"
             onSubmit={handleSubmit}
             className="space-y-6"
           >

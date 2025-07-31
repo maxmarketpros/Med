@@ -110,47 +110,8 @@ export default function CertificatePage() {
   };
 
   const handlePrintCertificate = () => {
-    // Focus on the certificate element for printing
-    const certificateElement = document.getElementById('certificate-to-print');
-    if (certificateElement) {
-      // Create a new window for printing the certificate
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>CME Certificate - ${getUserName()}</title>
-            <style>
-              @media print {
-                @page {
-                  size: landscape;
-                  margin: 0.5in;
-                }
-                body {
-                  margin: 0;
-                  padding: 0;
-                  width: 100%;
-                  height: 100%;
-                  background: white !important;
-                  -webkit-print-color-adjust: exact !important;
-                  color-adjust: exact !important;
-                  print-color-adjust: exact !important;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            ${certificateElement.outerHTML}
-          </body>
-          </html>
-        `);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
-      }
-    }
+    // Simple print using window.print() - this will use the existing CSS print media queries
+    window.print();
 
     // Track the certificate print activity
     addActivity(
