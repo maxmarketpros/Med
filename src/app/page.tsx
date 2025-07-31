@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default function HomePage() {
   const { isLoaded, isSignedIn } = useUser();
@@ -32,8 +33,23 @@ export default function HomePage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Med Cheat Sheets</h1>
           <p className="text-gray-600 mb-6">Professional medical education platform for hospital medicine practitioners</p>
-          <p className="text-sm text-gray-500">
-            Please sign in to access your dashboard
+          
+          <div className="space-y-4">
+            <Link href="/sign-in">
+              <button className="w-full bg-violet-600 hover:bg-violet-700 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                Sign In
+              </button>
+            </Link>
+            
+            <Link href="/sign-up">
+              <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors">
+                Create Account
+              </button>
+            </Link>
+          </div>
+          
+          <p className="text-sm text-gray-500 mt-6">
+            Access your medical education dashboard
           </p>
         </div>
       </div>
