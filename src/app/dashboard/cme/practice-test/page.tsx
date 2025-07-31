@@ -353,9 +353,19 @@ export default function PracticeTestPage() {
       displayScenario();
     };
 
-    // Initialize
-    loadProgress();
-    displayScenario();
+    // Initialize with a small delay to ensure DOM is ready
+    const initializeQuiz = () => {
+      const scenarioElement = document.getElementById('scenario');
+      if (scenarioElement) {
+        loadProgress();
+        displayScenario();
+      } else {
+        // If DOM not ready, try again after a short delay
+        setTimeout(initializeQuiz, 100);
+      }
+    };
+    
+    initializeQuiz();
   }, []);
 
   if (loading) {
