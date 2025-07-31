@@ -30,10 +30,22 @@ export default function CertificatePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [certificateGenerated, setCertificateGenerated] = useState(false);
+  const [formSubmittedName, setFormSubmittedName] = useState<string | null>(null);
+  const [formSubmittedDate, setFormSubmittedDate] = useState<string | null>(null);
   const { addActivity } = useActivityTracker();
 
   // Move useEffect before any conditional returns to follow Rules of Hooks
   useEffect(() => {
+    // First, check for URL parameters from form submission
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameParam = urlParams.get('name');
+    const dateParam = urlParams.get('date');
+    
+    if (nameParam && dateParam) {
+      setFormSubmittedName(decodeURIComponent(nameParam));
+      setFormSubmittedDate(decodeURIComponent(dateParam));
+    }
+
     // Check localStorage for exam completion status
     const savedResults = localStorage.getItem('finalExamResults');
     if (savedResults) {
@@ -74,8 +86,28 @@ export default function CertificatePage() {
   }
 
   const getUserName = () => {
+    // Use form-submitted name if available (from evaluation form)
+    if (formSubmittedName) {
+      return formSubmittedName;
+    }
+    
+    // Fallback to Clerk user data
     if (!user) return 'Student';
     return `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.emailAddresses[0]?.emailAddress || 'Student';
+  };
+
+  const getCertificateDate = () => {
+    // Use form-submitted date if available
+    if (formSubmittedDate) {
+      return formSubmittedDate;
+    }
+    
+    // Fallback to exam completion date
+    if (examResults?.completedAt) {
+      return new Date(examResults.completedAt).toLocaleDateString();
+    }
+    
+    return new Date().toLocaleDateString();
   };
 
   const handleDownloadCertificate = async () => {
@@ -97,7 +129,7 @@ export default function CertificatePage() {
         },
         body: JSON.stringify({
           name: userName,
-          date: new Date(examResults.completedAt).toLocaleDateString(),
+          date: getCertificateDate(),
         }),
       });
 
@@ -207,7 +239,7 @@ export default function CertificatePage() {
           </p>
           
           <p className="text-gray-600 mb-8">
-            You have successfully completed the Hospital Medicine Final Exam with a score of <strong>{examResults.score}%</strong> on {new Date(examResults.completedAt).toLocaleDateString()}.
+            You have successfully completed the Hospital Medicine Final Exam with a score of <strong>{examResults.score}%</strong> on {getCertificateDate()}.
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8 max-w-md mx-auto">
@@ -215,7 +247,7 @@ export default function CertificatePage() {
             <div className="text-sm text-blue-800 space-y-1">
               <p><strong>Program:</strong> Hospital Medicine Final Exam</p>
               <p><strong>Recipient:</strong> {getUserName()}</p>
-              <p><strong>Date Completed:</strong> {new Date(examResults.completedAt).toLocaleDateString()}</p>
+              <p><strong>Date Completed:</strong> {getCertificateDate()}</p>
               <p><strong>Score:</strong> {examResults.score}% ({examResults.correctAnswers}/{examResults.totalQuestions} correct)</p>
               <p><strong>CME Credits:</strong> 10 AAPA Category 1 CME Credits</p>
             </div>

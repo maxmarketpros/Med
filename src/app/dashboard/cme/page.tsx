@@ -162,8 +162,8 @@ export default function CMEPage() {
                       const updatedActivities = [activityData, ...existingActivities].slice(0, 50);
                       localStorage.setItem('userActivities', JSON.stringify(updatedActivities));
                       
-                      // Redirect to certificate page
-                      window.location.href = '/dashboard/cme/certificate';
+                      // Redirect to evaluation form (proper flow)
+                      window.location.href = '/dashboard/cme/final-evaluation';
                     }}
                     className="bg-yellow-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-yellow-700 transition-colors text-sm sm:text-base w-full sm:w-auto"
                   >

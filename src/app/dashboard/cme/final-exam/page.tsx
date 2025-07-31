@@ -695,8 +695,8 @@ export default function FinalExamPage() {
               <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                 <p class="text-blue-800 font-semibold mb-2">🏆 Certificate Available</p>
                 <p class="text-blue-700 text-sm mb-3">Your CME certificate is ready to view and download</p>
-                <a href="/dashboard/cme/certificate" class="inline-block bg-blue-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm w-full sm:w-auto text-center">
-                  View Certificate
+                <a href="/dashboard/cme/final-evaluation" class="inline-block bg-blue-600 text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm w-full sm:w-auto text-center">
+                  Complete Evaluation & Get Certificate
                 </a>
               </div>
             ` : ''}
