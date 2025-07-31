@@ -76,10 +76,8 @@ export async function POST(req: NextRequest) {
           
           const { data, error } = await supabase
             .from('user_subscriptions')
-            .upsert(subscriptionData, { 
-              onConflict: 'user_id,stripe_session_id',
-              ignoreDuplicates: false 
-            });
+            .insert(subscriptionData)
+            .select();
             
           if (error) {
             console.error('Error inserting subscription:', error);
