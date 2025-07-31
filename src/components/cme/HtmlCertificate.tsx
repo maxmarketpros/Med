@@ -200,6 +200,7 @@ export function HtmlCertificate({ learnerName, completionDate }: HtmlCertificate
           <img src="/images/certificate/aapa-category-1-circle.png" alt="AAPA Category 1 CME" className="aapa-logo" />
         </div>
       </div>
+      </div>
     </>
   );
 }
