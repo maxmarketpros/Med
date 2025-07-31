@@ -17,7 +17,7 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6a2 2 0 01-2 2H10a2 2 0 01-2-2V5z" />
       </svg>
     ),
-    requiredAccess: 'cheat_sheets'
+    // Dashboard should be available to any authenticated user
   },
   {
     name: 'Cheat Sheets',
@@ -88,6 +88,26 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     const isActive = pathname === item.href || 
       (item.href !== '/dashboard' && pathname.startsWith(item.href));
     
+    // If no requiredAccess is specified, show the item (like Dashboard)
+    if (!item.requiredAccess) {
+      return (
+        <Link
+          key={item.name}
+          href={item.href}
+          onClick={handleLinkClick}
+          className={cn(
+            'flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors',
+            isActive
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+          )}
+        >
+          {item.icon}
+          <span className="ml-3">{item.name}</span>
+        </Link>
+      );
+    }
+    
     const userHasAccess = hasAccess(item.requiredAccess as any);
     
     if (userHasAccess) {
@@ -124,6 +144,7 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       );
     }
     
+    // For cheat_sheets level items that user doesn't have access to, don't show them
     return null;
   };
 
