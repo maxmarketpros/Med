@@ -7,8 +7,39 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 
 export default function CMEPage() {
+  const { hasAccess, loading } = useSubscription();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  if (!hasAccess('all_access')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Tests</h1>
+          <p className="mt-2 text-gray-600">
+            Take AAPA Category 1 CME hospital medicine tests to earn CME credits and certificates.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="CME Tests - All-Access Required"
+          description="Access comprehensive CME tests and earn 10 AAPA Category 1 CME credits with the All-Access plan."
+          feature="CME Tests and Certificates"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}

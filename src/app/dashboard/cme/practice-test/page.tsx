@@ -4,8 +4,39 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 
 export default function PracticeTestPage() {
+  const { hasAccess, loading } = useSubscription();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  if (!hasAccess('all_access')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Practice Test</h1>
+          <p className="mt-2 text-gray-600">
+            Test your knowledge with 25 high-yield hospital medicine questions.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="Practice Test - All-Access Required"
+          description="Access the CME practice test to prepare for your final exam with the All-Access plan."
+          feature="CME Practice Tests"
+        />
+      </div>
+    );
+  }
+
   useEffect(() => {
     // Practice Test JavaScript functionality
     const scenarios = [

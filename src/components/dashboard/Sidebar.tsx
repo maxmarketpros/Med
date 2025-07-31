@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/hooks/useUser';
+import { useSubscription } from '@/hooks/useSubscription';
 
 const navigation = [
   {
@@ -16,6 +17,7 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6a2 2 0 01-2 2H10a2 2 0 01-2-2V5z" />
       </svg>
     ),
+    requiredAccess: 'cheat_sheets'
   },
   {
     name: 'Cheat Sheets',
@@ -25,6 +27,7 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
+    requiredAccess: 'cheat_sheets'
   },
   {
     name: 'CME Tests',
@@ -34,6 +37,8 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
       </svg>
     ),
+    requiredAccess: 'all_access',
+    upgradeFeature: 'CME Tests and Certificates'
   },
   {
     name: 'Patient Simulators',
@@ -43,15 +48,18 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v14a2 2 0 002 2z" />
       </svg>
     ),
+    requiredAccess: 'cheat_sheets'
   },
   {
     name: 'CME Certificate',
     href: '/dashboard/cme/certificate',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
       </svg>
     ),
+    requiredAccess: 'all_access',
+    upgradeFeature: 'CME Certificates'
   },
 ];
 
@@ -63,12 +71,60 @@ interface SidebarProps {
 export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useUser();
+  const { hasAccess, planType } = useSubscription();
 
   const handleLinkClick = () => {
     // Close mobile sidebar when a link is clicked
     if (onClose) {
       onClose();
     }
+  };
+
+  const handleUpgradeClick = () => {
+    window.location.href = '/choose-plan';
+  };
+
+  const renderNavigationItem = (item: typeof navigation[0]) => {
+    const isActive = pathname === item.href || 
+      (item.href !== '/dashboard' && pathname.startsWith(item.href));
+    
+    const userHasAccess = hasAccess(item.requiredAccess as any);
+    
+    if (userHasAccess) {
+      return (
+        <Link
+          key={item.name}
+          href={item.href}
+          onClick={handleLinkClick}
+          className={cn(
+            'flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors',
+            isActive
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+          )}
+        >
+          {item.icon}
+          <span className="ml-3">{item.name}</span>
+        </Link>
+      );
+    } else if (item.requiredAccess === 'all_access') {
+      // Show upgrade prompt for restricted items
+      return (
+        <div
+          key={item.name}
+          onClick={handleUpgradeClick}
+          className="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer text-gray-400 hover:text-violet-600 hover:bg-violet-50 relative"
+        >
+          {item.icon}
+          <span className="ml-3">{item.name}</span>
+          <svg className="w-4 h-4 ml-auto text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2-2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+      );
+    }
+    
+    return null;
   };
 
   return (
@@ -88,30 +144,35 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-1">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href || 
-                (item.href !== '/dashboard' && pathname.startsWith(item.href));
-              
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    'flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-                    isActive
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  )}
-                >
-                  {item.icon}
-                  <span className="ml-3">{item.name}</span>
-                </Link>
-              );
-            })}
+            {navigation.map((item) => renderNavigationItem(item))}
           </nav>
 
           {/* User Info */}
           <div className="px-4 py-4 border-t border-gray-200">
+            {/* Plan Indicator */}
+            {planType && (
+              <div className="mb-3 p-2 rounded-lg bg-gradient-to-r from-emerald-50 to-sky-50 border border-emerald-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-emerald-700">
+                      {planType === 'all_access' ? 'All-Access Plan' : 'Cheat Sheets Plan'}
+                    </p>
+                    <p className="text-xs text-emerald-600">
+                      {planType === 'all_access' ? 'Full access to all features' : 'Cheat sheets & simulators'}
+                    </p>
+                  </div>
+                  {planType === 'cheat_sheets' && (
+                    <button
+                      onClick={handleUpgradeClick}
+                      className="text-xs px-2 py-1 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition-colors"
+                    >
+                      Upgrade
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+            
             <div className="flex items-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-emerald-700">
@@ -165,31 +226,35 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-1">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href || 
-                (item.href !== '/dashboard' && pathname.startsWith(item.href));
-              
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={handleLinkClick}
-                  className={cn(
-                    'flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-                    isActive
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  )}
-                >
-                  {item.icon}
-                  <span className="ml-3">{item.name}</span>
-                </Link>
-              );
-            })}
+            {navigation.map((item) => renderNavigationItem(item))}
           </nav>
 
           {/* User Info */}
           <div className="px-4 py-4 border-t border-gray-200">
+            {/* Plan Indicator */}
+            {planType && (
+              <div className="mb-3 p-2 rounded-lg bg-gradient-to-r from-emerald-50 to-sky-50 border border-emerald-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-emerald-700">
+                      {planType === 'all_access' ? 'All-Access Plan' : 'Cheat Sheets Plan'}
+                    </p>
+                    <p className="text-xs text-emerald-600">
+                      {planType === 'all_access' ? 'Full access to all features' : 'Cheat sheets & simulators'}
+                    </p>
+                  </div>
+                  {planType === 'cheat_sheets' && (
+                    <button
+                      onClick={handleUpgradeClick}
+                      className="text-xs px-2 py-1 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition-colors"
+                    >
+                      Upgrade
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+            
             <div className="flex items-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-emerald-700">

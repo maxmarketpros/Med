@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useUser } from '@/hooks/useUser';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 import { formatDate } from '@/lib/utils';
 import { useActivityTracker } from '@/hooks/useActivityTracker';
 
@@ -23,11 +25,39 @@ interface ExamResults {
 
 export default function CertificatePage() {
   const { user } = useUser();
+  const { hasAccess, loading } = useSubscription();
   const [examResults, setExamResults] = useState<ExamResults | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [certificateGenerated, setCertificateGenerated] = useState(false);
   const { addActivity } = useActivityTracker();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  if (!hasAccess('all_access')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Certificate</h1>
+          <p className="mt-2 text-gray-600">
+            Download your official CME certificate after completing the final exam.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="CME Certificate - All-Access Required"
+          description="Complete the CME final exam and download your official certificate with the All-Access plan."
+          feature="CME Certificates"
+        />
+      </div>
+    );
+  }
 
   useEffect(() => {
     // Check localStorage for exam completion status
