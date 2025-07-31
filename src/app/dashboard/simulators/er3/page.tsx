@@ -10,7 +10,7 @@ import { useActivityTracker } from '@/hooks/useActivityTracker';
 
 const copdSimulator: Simulator = {
   id: 'er3',
-  title: 'COPD Exacerbation with PE',
+  title: 'Emergency Room 3',
   roomNumber: '786',
   specialty: 'Pulmonology',
   description: 'Manage a patient with COPD exacerbation who develops a pulmonary embolism during hospitalization.',
@@ -127,7 +127,7 @@ export default function ER3Page() {
 
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Congratulations!</h3>
             <p className="text-gray-600 mb-6">
-              You have completed the COPD Exacerbation with PE simulation.
+              You have completed the Emergency Room 3 simulation.
             </p>
 
             <div className="flex justify-center gap-4">

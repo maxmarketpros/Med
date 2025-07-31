@@ -115,7 +115,7 @@ export default function SimulatorsPage() {
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">Heart Failure Management</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Emergency Room 1</h3>
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 w-fit">
                       Room 252
                     </span>
@@ -156,7 +156,7 @@ export default function SimulatorsPage() {
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">MRSA Endocarditis</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Emergency Room 2</h3>
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 w-fit">
                       Room 351
                     </span>
@@ -197,7 +197,7 @@ export default function SimulatorsPage() {
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">COPD Exacerbation with PE</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Emergency Room 3</h3>
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 w-fit">
                       Room 786
                     </span>

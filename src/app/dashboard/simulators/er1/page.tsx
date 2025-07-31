@@ -9,7 +9,7 @@ import { Simulator } from '@/types';
 
 const heartFailureSimulator: Simulator = {
   id: 'er1',
-  title: 'Heart Failure Management',
+  title: 'Emergency Room 1',
   roomNumber: '252',
   specialty: 'Cardiology',
   description: 'Manage a complex case of decompensated heart failure in an elderly patient with multiple comorbidities.',
@@ -529,7 +529,7 @@ export default function ER1Page() {
 
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Congratulations!</h3>
             <p className="text-gray-600 mb-6">
-              You've completed the Heart Failure Management simulation.
+              You've completed the Emergency Room 1 simulation.
             </p>
 
             <div className="flex justify-center gap-4">
