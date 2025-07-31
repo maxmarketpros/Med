@@ -199,13 +199,12 @@ export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:bg-white lg:shadow-lg">
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-center px-6 py-3 border-b border-gray-200">
             <img 
               src="/images/Logo.png" 
               alt="Med Cheat Sheets" 
-              className="w-8 h-8 object-contain"
+              className="h-20 w-auto object-contain"
             />
-            <span className="ml-3 text-lg font-semibold text-gray-900">Med Cheat Sheets</span>
           </div>
 
           {/* Navigation */}

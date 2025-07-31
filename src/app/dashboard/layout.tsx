@@ -40,24 +40,21 @@ export default function DashboardLayout({
       
       <div className="lg:pl-64">
         {/* Mobile header */}
-        <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 px-4 py-3">
-          <div className="flex items-center justify-between">
+        <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 px-4 py-2">
+          <div className="flex items-center justify-center relative">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="absolute left-0 p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div className="flex items-center">
-              <img 
-                src="/images/Logo.png" 
-                alt="Med Cheat Sheets" 
-                className="w-6 h-6 object-contain"
-              />
-              <span className="ml-2 text-lg font-semibold text-gray-900">Med Cheat Sheets</span>
-            </div>
+            <img 
+              src="/images/Logo.png" 
+              alt="Med Cheat Sheets" 
+              className="h-20 w-auto object-contain"
+            />
           </div>
         </div>
         
