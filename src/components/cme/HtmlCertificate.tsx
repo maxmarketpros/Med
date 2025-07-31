@@ -13,31 +13,105 @@ export function HtmlCertificate({ learnerName, completionDate }: HtmlCertificate
       <style dangerouslySetInnerHTML={{
         __html: `
           @media print {
+            /* Hide everything except the certificate */
+            body * {
+              visibility: hidden !important;
+            }
+            
+            .certificate-container,
+            .certificate-container * {
+              visibility: visible !important;
+            }
+            
+            /* Hide navigation and other elements */
+            nav, header, .no-print, .navbar, .sidebar, .header, [role="navigation"],
+            [data-testid="navigation"], .top-nav, .main-nav, .navigation,
+            .container > *:not(.certificate-container),
+            body > *:not(.certificate-container):not(style),
+            main > *:not(.certificate-container) {
+              display: none !important;
+            }
+            
+            /* Ensure main containers don't interfere */
+            .container, main, body {
+              padding: 0 !important;
+              margin: 0 !important;
+              background: white !important;
+            }
+            
+            @page {
+              size: landscape;
+              margin: 0.3in;
+            }
+            
             .certificate-container {
-              width: 100vw !important;
-              height: 100vh !important;
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
               margin: 0 !important;
               padding: 0 !important;
               background: white !important;
               -webkit-print-color-adjust: exact !important;
               color-adjust: exact !important;
               print-color-adjust: exact !important;
-            }
-            
-            @page {
-              size: landscape;
-              margin: 0.5in;
-            }
-            
-            .no-print {
-              display: none !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
             }
             
             .certificate-content {
+              width: 95% !important;
+              max-width: 900px !important;
+              height: auto !important;
+              margin: 0 auto !important;
+              padding: 20px !important;
               transform: none !important;
-              width: 100% !important;
-              height: 100% !important;
-              max-width: none !important;
+              page-break-inside: avoid !important;
+            }
+            
+            .side-logos {
+              display: none !important;
+            }
+            
+            .top-banner {
+              max-width: 500px !important;
+              margin: 0 auto 15px !important;
+            }
+            
+            .certificate-title {
+              font-size: 24px !important;
+              margin: 15px 0 !important;
+            }
+            
+            .certificate-subtitle {
+              font-size: 20px !important;
+              margin: 15px 0 !important;
+            }
+            
+            .certificate-text {
+              font-size: 14px !important;
+              margin: 15px 0 !important;
+            }
+            
+            .learner-name {
+              font-size: 20px !important;
+              margin: 8px 0 !important;
+            }
+            
+            .completion-date {
+              font-size: 18px !important;
+              margin: 15px 0 !important;
+            }
+            
+            .compliance-text {
+              font-size: 11px !important;
+              margin: 20px auto !important;
+            }
+            
+            .aapa-logo {
+              width: 100px !important;
             }
           }
           
@@ -58,6 +132,14 @@ export function HtmlCertificate({ learnerName, completionDate }: HtmlCertificate
             position: relative;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border: 3px solid #6c757d;
+          }
+          
+          @media screen {
+            .certificate-container {
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+              overflow: hidden;
+            }
           }
           
           .side-logos {

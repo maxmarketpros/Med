@@ -175,7 +175,7 @@ export default function CertificatePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Certificate Actions */}
-      <div className="text-center mb-8 no-print">
+      <div className="text-center mb-8 no-print" style={{pageBreakInside: 'avoid'}}>
         <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
