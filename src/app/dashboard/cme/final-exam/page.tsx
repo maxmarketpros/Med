@@ -13,33 +13,7 @@ import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 export default function FinalExamPage() {
   const { hasAccess, loading } = useSubscription();
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
-      </div>
-    );
-  }
-
-  if (!hasAccess('all_access')) {
-    return (
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Final Exam</h1>
-          <p className="mt-2 text-gray-600">
-            Complete the comprehensive final exam to earn 10 AAPA Category 1 CME credits.
-          </p>
-        </div>
-
-        <UpgradePrompt 
-          title="Final Exam - All-Access Required"
-          description="Take the comprehensive CME final exam and earn 10 AAPA Category 1 CME credits with the All-Access plan."
-          feature="CME Final Exam & Certificates"
-        />
-      </div>
-    );
-  }
-
+  // Move useEffect before any conditional returns to follow Rules of Hooks
   useEffect(() => {
     // Final Exam JavaScript functionality
     const scenarios = [
@@ -772,6 +746,33 @@ export default function FinalExamPage() {
     loadProgress();
     displayScenario();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
+
+  if (!hasAccess('all_access')) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CME Final Exam</h1>
+          <p className="mt-2 text-gray-600">
+            Complete the comprehensive final exam to earn 10 AAPA Category 1 CME credits.
+          </p>
+        </div>
+
+        <UpgradePrompt 
+          title="Final Exam - All-Access Required"
+          description="Take the comprehensive CME final exam and earn 10 AAPA Category 1 CME credits with the All-Access plan."
+          feature="CME Final Exam & Certificates"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6">

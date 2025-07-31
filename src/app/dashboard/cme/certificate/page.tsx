@@ -32,6 +32,20 @@ export default function CertificatePage() {
   const [certificateGenerated, setCertificateGenerated] = useState(false);
   const { addActivity } = useActivityTracker();
 
+  // Move useEffect before any conditional returns to follow Rules of Hooks
+  useEffect(() => {
+    // Check localStorage for exam completion status
+    const savedResults = localStorage.getItem('finalExamResults');
+    if (savedResults) {
+      try {
+        const results = JSON.parse(savedResults);
+        setExamResults(results);
+      } catch (error) {
+        console.error('Error parsing exam results:', error);
+      }
+    }
+  }, []);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-64">
@@ -58,19 +72,6 @@ export default function CertificatePage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    // Check localStorage for exam completion status
-    const savedResults = localStorage.getItem('finalExamResults');
-    if (savedResults) {
-      try {
-        const results = JSON.parse(savedResults);
-        setExamResults(results);
-      } catch (error) {
-        console.error('Error parsing exam results:', error);
-      }
-    }
-  }, []);
 
   const getUserName = () => {
     if (!user) return 'Student';
