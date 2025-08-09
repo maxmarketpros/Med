@@ -13,7 +13,7 @@ A comprehensive medical reference dashboard built with Next.js, featuring intera
 - 📊 Dashboard with progress tracking
 - ⚡ Fast, modern interface built with Next.js 14
 
-## Specialties Included
+## Specialties Includeded
 
 - **Cardiology** - Arrhythmias, heart failure, acute coronary syndromes, and more
 - **Nephrology** - Electrolyte disorders, AKI, hyponatremia, and kidney diseases  
