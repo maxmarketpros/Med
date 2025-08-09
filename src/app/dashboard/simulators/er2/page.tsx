@@ -13,14 +13,15 @@ const mrsaSimulator: Simulator = {
   title: 'Emergency Room 2',
   roomNumber: '351',
   specialty: 'Infectious Disease',
-  description: 'Diagnose and treat a complex case of MRSA endocarditis in an IV drug user with HIV.',
+  description: 'Patient presents to ED with fever, shortness of breath, chest pain and fatigue',
   difficulty: 'Advanced',
   estimatedTime: 60,
   learningObjectives: [
-    'Diagnose and manage MRSA endocarditis',
-    'Recognize and treat complications of endocarditis',
-    'Manage concurrent HIV infection',
-    'Address substance use disorder and social determinants of health'
+    'Evaluate and manage a complex medical scenario involving a patient with acute symptoms, a history of intravenous drug use, and chronic medical conditions in the hospital setting.',
+    'Formulate a differential diagnosis for acute presentations in patients with complex medical and social histories.',
+    'Develop an evidence-based treatment plan incorporating guideline-directed therapies for infectious and coexisting conditions.',
+    'Identify and manage potential complications associated with severe infections.',
+    'Address social and behavioral factors impacting health outcomes, including coordinating multidisciplinary care.'
   ],
   steps: [
     {

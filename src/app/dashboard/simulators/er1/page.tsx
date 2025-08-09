@@ -12,14 +12,15 @@ const heartFailureSimulator: Simulator = {
   title: 'Emergency Room 1',
   roomNumber: '252',
   specialty: 'Cardiology',
-  description: 'Manage a complex case of decompensated heart failure in an elderly patient with multiple comorbidities.',
+  description: 'Patient presents to the ED with shortness of breath, chest pain, and abdominal distention',
   difficulty: 'Intermediate',
   estimatedTime: 45,
   learningObjectives: [
-    'Diagnose and manage acute decompensated heart failure',
-    'Optimize guideline-directed medical therapy (GDMT)',
-    'Recognize and treat complications',
-    'Plan appropriate follow-up care'
+    'Navigate a complex medical scenario involving an elderly patient presenting with acute symptoms and multiple comorbidities in the hospital setting.',
+    'Evaluate and prioritize differential diagnoses for acute presentations in complex patients.',
+    'Develop an evidence-based management plan incorporating guideline-directed therapies.',
+    'Identify and address potential complications in the inpatient setting.',
+    'Coordinate comprehensive follow-up care to optimize patient outcomes.'
   ],
   steps: [
     {

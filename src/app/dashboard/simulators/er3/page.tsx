@@ -13,14 +13,15 @@ const copdSimulator: Simulator = {
   title: 'Emergency Room 3',
   roomNumber: '786',
   specialty: 'Pulmonology',
-  description: 'Manage a patient with COPD exacerbation who develops a pulmonary embolism during hospitalization.',
+  description: 'Patient presents to the ER with shortness of breath, productive cough',
   difficulty: 'Intermediate',
   estimatedTime: 45,
   learningObjectives: [
-    'Diagnose and manage acute COPD exacerbation',
-    'Recognize and treat hospital-acquired pulmonary embolism',
-    'Manage anticoagulation in complex patients',
-    'Optimize COPD therapy and prevent future exacerbations'
+    'Navigate a complex medical scenario involving a patient presenting with acute respiratory symptoms and developing additional complications during hospitalization, requiring comprehensive management in the inpatient setting.',
+    'Evaluate and prioritize differential diagnoses for acute respiratory presentations in patients with chronic lung conditions.',
+    'Develop an evidence-based management plan incorporating guideline-directed therapies for acute and hospital-acquired conditions.',
+    'Identify and address complications arising during hospitalization, including appropriate therapeutic interventions.',
+    'Optimize long-term therapy and coordinate follow-up care to improve patient outcomes and prevent recurrence.'
   ],
   steps: [
     {

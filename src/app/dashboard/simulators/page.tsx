@@ -122,7 +122,7 @@ export default function SimulatorsPage() {
                   </div>
                   
                   <p className="text-gray-600 mb-4">
-                    Manage a complex case of decompensated heart failure in an elderly patient with multiple comorbidities.
+                    Patient presents to the ED with shortness of breath, chest pain, and abdominal distention
                   </p>
                   
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-4 mb-4">
@@ -163,7 +163,7 @@ export default function SimulatorsPage() {
                   </div>
                   
                   <p className="text-gray-600 mb-4">
-                    Diagnose and treat a complex case of MRSA endocarditis in an IV drug user with HIV.
+                    Patient presents to ED with fever, shortness of breath, chest pain and fatigue
                   </p>
                   
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-4 mb-4">
@@ -204,7 +204,7 @@ export default function SimulatorsPage() {
                   </div>
                   
                   <p className="text-gray-600 mb-4">
-                    Manage a patient with COPD exacerbation who develops a pulmonary embolism during hospitalization.
+                    Patient presents to the ER with shortness of breath, productive cough
                   </p>
                   
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-4 mb-4">
