@@ -112,6 +112,12 @@ export function SimulatorInterface({ simulator, onComplete }: SimulatorInterface
             )}
           </div>
 
+          {step.question && (
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="font-semibold text-blue-900 text-lg">{step.question}</p>
+            </div>
+          )}
+
           <div className="mt-6 space-y-3">
             {step.options.map((option, index) => (
               <button
