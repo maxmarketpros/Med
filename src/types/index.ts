@@ -136,6 +136,7 @@ export interface PatientVitals {
 export interface SimulatorStep {
   id: string;
   scenario: string;
+  question?: string;
   vitals?: PatientVitals;
   physicalExam?: string;
   labResults?: string;

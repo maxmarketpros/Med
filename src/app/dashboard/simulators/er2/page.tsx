@@ -26,6 +26,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step1',
       scenario: 'A 38-year-old man presents with fever, dyspnea, chest pain, and fatigue for 4 days. He has a history of IV drug use, is homeless, and admits to recent heroin use with shared needles. Vitals: BP 100/60, HR 110, RR 24, O2 sat 92% on 2L NC, temp 39.2°C. Exam: track marks on arms, 4/6 holosystolic murmur at right sternal border, crackles in right lung.',
+      question: 'What is your initial diagnostic workup?',
       options: [
         {
           text: 'Blood cultures, CBC, CMP, HIV test, TTE, chest CT, sputum culture',
@@ -47,6 +48,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step2',
       scenario: 'Labs: CBC: WBC 15, Hb 11, platelets 120. CMP: Na 135, K 4.0, Cr 1.3, ALT 50, AST 60. HIV: positive, CD4 150, viral load 200,000. Blood cultures: MRSA. Imaging: Chest CT: multiple bilateral pulmonary nodules, some cavitating. TTE: 2 cm vegetation on tricuspid valve, severe tricuspid regurgitation, RV dilation, pulmonary artery pressure 50 mmHg. Sputum: Negative for AFB.',
+      question: 'What is the most likely diagnosis?',
       options: [
         {
           text: 'MRSA bacteremia with tricuspid endocarditis and septic pulmonary emboli',
@@ -68,6 +70,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step3',
       scenario: 'The patient has MRSA bacteremia, endocarditis, and septic emboli. BP drops to 90/55, HR 115, O2 sat 90% on 4L NC.',
+      question: 'What is your initial treatment plan?',
       options: [
         {
           text: 'Vancomycin IV, 1L NS bolus, ID and cardiology consults',
@@ -89,6 +92,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step4',
       scenario: 'On day 1, the patient becomes irritable and agitated, with sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea. Vitals: BP 150/95, HR 110, RR 22, O2 sat 93% on 2L NC, temp 37.8°C. Labs: WBC 14, Hb 11, Cr 1.3, ALT 55, AST 65.',
+      question: 'What is the diagnosis?',
       options: [
         {
           text: 'Opioid withdrawal',
@@ -110,6 +114,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step5',
       scenario: 'The patient is diagnosed with opioid withdrawal. Symptoms include irritability, agitation, sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea. Vitals: BP 150/95, HR 110.',
+      question: 'What is your management plan?',
       options: [
         {
           text: 'Start methadone, consult addiction medicine',
@@ -131,6 +136,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step6',
       scenario: 'Vancomycin trough is 10 mcg/mL (target 15-20). BP is 110/70, fever persists (38.8°C), blood cultures positive.',
+      question: 'What is your next step?',
       options: [
         {
           text: 'Increase vancomycin dose, add gentamicin',
@@ -152,6 +158,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step7',
       scenario: 'Blood cultures clear on vancomycin/gentamicin. The patient was feeling okay but developed lower extremity edema, abdominal fullness, and elevated LFTs. RUQ ultrasound shows dilated IVC and hepatic veins. BP is 115/75, HR 100, O2 sat 92% on 4L NC.',
+      question: 'What is the next step?',
       options: [
         {
           text: 'Start furosemide IV, restrict fluids',
@@ -173,6 +180,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step8',
       scenario: 'Despite diuresis, TTE confirms persistent 2 cm vegetation, severe TR, and RV dysfunction. Dyspnea and edema persist.',
+      question: 'What is your surgical plan?',
       options: [
         {
           text: 'Consult cardiothoracic surgery for tricuspid valve replacement',
@@ -194,6 +202,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step9',
       scenario: 'Cardiothoracic surgery agrees to valve replacement. The patient is stable, Cr 1.4.',
+      question: 'What cardiac workup do you order?',
       options: [
         {
           text: 'Coronary angiography to assess CAD',
@@ -215,6 +224,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step10',
       scenario: 'Coronary angiography shows no significant CAD. Surgery is scheduled in 1 week.',
+      question: 'What dental evaluation is needed?',
       options: [
         {
           text: 'Dental consult to rule out oral infection',
@@ -236,6 +246,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step11',
       scenario: 'Dental exam clears oral infection. The patient is malnourished (BMI 18, albumin 2.8).',
+      question: 'How do you optimize nutrition preoperatively?',
       options: [
         {
           text: 'Consult nutrition, start enteral supplements',
@@ -257,6 +268,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step12',
       scenario: 'With regards to the patient\'s CD4 T-cell count of 150, what is your next step in management?',
+      question: 'With regards to the patient\'s CD4 T-cell count of 150, what is your next step in management?',
       options: [
         {
           text: 'Consult ID, start bictegravir/tenofovir alafenamide/emtricitabine',
@@ -278,6 +290,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step13',
       scenario: 'ART is started. CD4 150, no cough or neurologic symptoms.',
+      question: 'What prophylaxis do you initiate?',
       options: [
         {
           text: 'Trimethoprim-sulfamethoxazole for PCP',
@@ -299,6 +312,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step14',
       scenario: 'The patient undergoes tricuspid valve replacement (bioprosthetic). Post-op, he is stable, Cr 1.5, on vancomycin/gentamicin.',
+      question: 'What is your post-op antibiotic plan?',
       options: [
         {
           text: 'Continue vancomycin/gentamicin for 6 weeks from surgery',
@@ -320,6 +334,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step15',
       scenario: 'Five days post-op, labs show: Cr 2.9 (from 1.5), BUN 55, K 5.0, urine output 250 mL/day. FeNa 1.9%, no casts.',
+      question: 'What is the likely cause of AKI?',
       options: [
         {
           text: 'Gentamicin nephrotoxicity',
@@ -341,6 +356,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step16',
       scenario: 'Two weeks into ART, labs show: ALT 220, AST 190, bilirubin 2.7. The patient is asymptomatic.',
+      question: 'What is your next step?',
       options: [
         {
           text: 'Continue ART, monitor LFTs weekly',
@@ -362,6 +378,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step17',
       scenario: 'Three weeks into ART, the patient develops fever (39°C), worsening dyspnea, and new pulmonary nodules on CT. Labs: CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr. BP 120/80, HR 100, O2 sat 90% on 4L NC.',
+      question: 'What is your initial workup?',
       options: [
         {
           text: 'Blood cultures, sputum cultures, bronchoscopy',
@@ -383,6 +400,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step18',
       scenario: 'Workup shows negative blood and sputum cultures, negative BAL for bacteria, fungi, and AFB. TTE is unchanged. Labs: CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr.',
+      question: 'What is the diagnosis?',
       options: [
         {
           text: 'Immune reconstitution inflammatory syndrome (IRIS)',
@@ -404,6 +422,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step19',
       scenario: 'The patient is diagnosed with IRIS, with fever, dyspnea, and new pulmonary nodules linked to immune recovery. Labs: CD4 200, viral load 500.',
+      question: 'What is your management plan?',
       options: [
         {
           text: 'Continue ART, start prednisone, repeat cultures',
@@ -425,6 +444,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step20',
       scenario: 'AKI is attributed to gentamicin. BP is 115/75, HR 90.',
+      question: 'What is your management plan?',
       options: [
         {
           text: 'Stop gentamicin, continue vancomycin, IV fluids, monitor Cr',
@@ -446,6 +466,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step21',
       scenario: 'The patient expresses concern about returning to homelessness and IVDU, fearing ART non-adherence.',
+      question: 'What is your social work plan?',
       options: [
         {
           text: 'Refer to case management for housing, link to addiction support',
@@ -467,6 +488,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step22',
       scenario: 'The patient reports low mood and hopelessness, linked to HIV diagnosis and IVDU history.',
+      question: 'What is your next step?',
       options: [
         {
           text: 'Screen for depression, consult psychiatry',
@@ -488,6 +510,7 @@ const mrsaSimulator: Simulator = {
     {
       id: 'step23',
       scenario: 'The patient is stable on ART, TMP-SMX, vancomycin (5 weeks completed), methadone, and sertraline. He is linked to housing and addiction support.',
+      question: 'What is your discharge plan?',
       options: [
         {
           text: 'Continue ART, TMP-SMX, vancomycin via PICC for 1 week, ID and HIV clinic follow-up in 1 week, naloxone kit',

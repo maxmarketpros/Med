@@ -25,6 +25,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step1',
       scenario: 'A 72-year-old man presents with shortness of breath, chest pain, and abdominal fullness for 6 days, worsening today. He reports orthopnea, paroxysmal nocturnal dyspnea, and fatigue. Past medical history includes hypertension, type 2 diabetes, remote MI (10 years ago), and smoking (30 pack-years, quit 5 years ago). He lives alone and admits to missing medication doses. He is frail (slow gait, weight loss).',
+      question: 'What labs and diagnostic studies do you order?',
       vitals: {
         bloodPressure: '160/90',
         heartRate: 92,
@@ -54,6 +55,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step2',
       scenario: 'Labs show: BMP: Na 137, K 4.1, Cl 99, HCO3 23, BUN 24, Cr 1.2, glucose 145. CBC: Hb 12.0, WBC 8.5, platelets 180. BNP 1100 pg/mL. Troponin T 0.03 ng/mL (normal). Iron studies: ferritin 45 ng/mL, TSAT 14%.',
+      question: 'What is the most likely diagnosis?',
       imaging: 'Chest X-ray: pulmonary edema, cardiomegaly. Echocardiogram: EF 35%, global hypokinesis, mild MR.',
       labResults: 'EKG: Sinus rhythm, old Q waves in inferior leads, no acute ST changes.',
       options: [
@@ -77,6 +79,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step3',
       scenario: 'The patient has decompensated HFrEF. His O2 sat drops to 87% despite 2L NC, and BP is now 145/88.',
+      question: 'What is your initial treatment plan?',
       vitals: {
         bloodPressure: '145/88',
         heartRate: 92,
@@ -105,6 +108,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step4',
       scenario: 'After furosemide, urine output is 1L, but O2 sat is 85% on 4L NC. BP is 135/85, HR 95. Exam shows persistent crackles. The patient is alert but dyspneic.',
+      question: 'What is your next step?',
       vitals: {
         bloodPressure: '135/85',
         heartRate: 95,
@@ -133,6 +137,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step5',
       scenario: 'With BiPAP (IPAP 10, EPAP 5), O2 sat improves to 92%. BP is 130/80, edema reduced to 1+. Cardiology is consulted for HFrEF and ischemic evaluation.',
+      question: 'What additional information do you provide to cardiology?',
       vitals: {
         bloodPressure: '130/80',
         heartRate: 90,
@@ -161,6 +166,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step6',
       scenario: 'Overnight, the patient develops irregular tachycardia (HR 120-140). EKG shows atrial fibrillation. BP is 125/78, O2 sat 90% on BiPAP.',
+      question: 'What is your immediate management?',
       vitals: {
         bloodPressure: '125/78',
         heartRate: 130,
@@ -189,6 +195,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step7',
       scenario: 'HR stabilizes to 90 with metoprolol. CHA2DS2-VASc score is 4 (age, HTN, DM, prior MI). The patient is euvolemic, and heart cath is planned tomorrow.',
+      question: 'What is your anticoagulation plan?',
       vitals: {
         bloodPressure: '125/78',
         heartRate: 90,
@@ -217,6 +224,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step8',
       scenario: 'Left heart catheterization reveals a culprit lesion in the mid-LAD artery with 90% stenosis. A drug-eluting stent is placed. BP is 125/80, HR 85.',
+      question: 'What is your next step?',
       vitals: {
         bloodPressure: '125/80',
         heartRate: 85,
@@ -245,6 +253,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step9',
       scenario: 'Right heart catheterization is performed to assess volume status. Values: RAP 4 mmHg, PAP 28/12 mmHg (mean 18 mmHg), PCWP 10 mmHg, CO 3.2 L/min, CI 1.8 L/min/m².',
+      question: 'What do these values indicate about the patient\'s volume status and cardiac function?',
       vitals: {
         bloodPressure: '125/80',
         heartRate: 85,
@@ -273,6 +282,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step10',
       scenario: 'Two days post-cath, labs show: Cr 2.4 (from 1.2), BUN 42, HCO3 29, K 4.8, urine output 350 mL/day. Urine studies: FeNa 2.1%, no casts.',
+      question: 'What is the diagnosis?',
       vitals: {
         bloodPressure: '120/75',
         heartRate: 85,
@@ -301,6 +311,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step11',
       scenario: 'AKI is confirmed. BP is 120/75, HR 85. The patient is euvolemic but frail.',
+      question: 'What is your management plan?',
       vitals: {
         bloodPressure: '120/75',
         heartRate: 85,
@@ -329,6 +340,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step12',
       scenario: 'AKI resolves (Cr 1.3). The patient is euvolemic, BP 115/70, HR 80. Cardiology recommends initiating GDMT for HFrEF (EF 35%).',
+      question: 'Which medication do you initiate first?',
       vitals: {
         bloodPressure: '115/70',
         heartRate: 80,
@@ -357,6 +369,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step13',
       scenario: 'Entresto is started and tolerated. Labs show: K 4.3, Cr 1.3, BP 112/68, HR 78. The patient is asymptomatic, and GDMT optimization continues.',
+      question: 'Which GDMT medication do you add next?',
       vitals: {
         bloodPressure: '112/68',
         heartRate: 78,
@@ -385,6 +398,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step14',
       scenario: 'Metoprolol succinate is added. Labs show: K 4.5, Cr 1.4, BP 110/70, HR 70. The patient remains stable. Cardiology advises continuing GDMT.',
+      question: 'Which GDMT medication do you add next?',
       vitals: {
         bloodPressure: '110/70',
         heartRate: 70,
@@ -413,6 +427,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step15',
       scenario: 'Iron studies confirm deficiency (ferritin 45, TSAT 14%). The patient is anemic (Hb 12.0).',
+      question: 'What is your plan for iron deficiency?',
       vitals: {
         bloodPressure: '110/70',
         heartRate: 70,
@@ -441,6 +456,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step16',
       scenario: 'The patient expresses concern about returning to homelessness and IVDU, fearing ART non-adherence.',
+      question: 'How do you address adherence?',
       vitals: {
         bloodPressure: '110/70',
         heartRate: 70,
@@ -469,6 +485,7 @@ const heartFailureSimulator: Simulator = {
     {
       id: 'step17',
       scenario: 'The patient has a drug-eluting stent in the LAD, placed for severe stenosis. AF persists with CHA2DS2-VASc 4, HAS-BLED 2. He is stable on Entresto, metoprolol succinate, spironolactone, empagliflozin, aspirin, clopidogrel, and apixaban. He is frail and lives alone.',
+      question: 'What is your management and discharge plan?',
       vitals: {
         bloodPressure: '110/70',
         heartRate: 70,
