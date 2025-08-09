@@ -16,7 +16,6 @@ const heartFailureSimulator: Simulator = {
   difficulty: 'Intermediate',
   estimatedTime: 45,
   learningObjectives: [
-    'Navigate a complex medical scenario involving an elderly patient presenting with acute symptoms and multiple comorbidities in the hospital setting.',
     'Evaluate and prioritize differential diagnoses for acute presentations in complex patients.',
     'Develop an evidence-based management plan incorporating guideline-directed therapies.',
     'Identify and address potential complications in the inpatient setting.',
@@ -560,7 +559,9 @@ export default function ER1Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Case Overview</h3>
-                <p className="text-gray-600 mb-4">{heartFailureSimulator.description}</p>
+                <p className="text-gray-600 mb-2">Navigate a complex medical scenario involving an elderly patient presenting with acute symptoms and multiple comorbidities in the hospital setting.</p>
+                <p className="text-gray-600 mb-1"><strong>Specialty:</strong> Cardiology</p>
+                <p className="text-gray-600 mb-4"><strong>Level:</strong> Intermediate</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">

@@ -17,7 +17,6 @@ const mrsaSimulator: Simulator = {
   difficulty: 'Advanced',
   estimatedTime: 60,
   learningObjectives: [
-    'Evaluate and manage a complex medical scenario involving a patient with acute symptoms, a history of intravenous drug use, and chronic medical conditions in the hospital setting.',
     'Formulate a differential diagnosis for acute presentations in patients with complex medical and social histories.',
     'Develop an evidence-based treatment plan incorporating guideline-directed therapies for infectious and coexisting conditions.',
     'Identify and manage potential complications associated with severe infections.',
@@ -582,7 +581,9 @@ export default function ER2Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Case Overview</h3>
-                <p className="text-gray-600 mb-4">{mrsaSimulator.description}</p>
+                <p className="text-gray-600 mb-2">Evaluate and manage a complex medical scenario involving a patient with acute symptoms, a history of intravenous drug use, and chronic medical conditions in the hospital setting.</p>
+                <p className="text-gray-600 mb-1"><strong>Specialty:</strong> Infectious Disease</p>
+                <p className="text-gray-600 mb-4"><strong>Level:</strong> Advanced</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">

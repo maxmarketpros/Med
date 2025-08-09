@@ -17,7 +17,6 @@ const copdSimulator: Simulator = {
   difficulty: 'Intermediate',
   estimatedTime: 45,
   learningObjectives: [
-    'Navigate a complex medical scenario involving a patient presenting with acute respiratory symptoms and developing additional complications during hospitalization, requiring comprehensive management in the inpatient setting.',
     'Evaluate and prioritize differential diagnoses for acute respiratory presentations in patients with chronic lung conditions.',
     'Develop an evidence-based management plan incorporating guideline-directed therapies for acute and hospital-acquired conditions.',
     'Identify and address complications arising during hospitalization, including appropriate therapeutic interventions.',
@@ -158,7 +157,9 @@ export default function ER3Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Case Overview</h3>
-                <p className="text-gray-600 mb-4">{copdSimulator.description}</p>
+                <p className="text-gray-600 mb-2">Navigate a complex medical scenario involving a patient presenting with acute respiratory symptoms and developing additional complications during hospitalization, requiring comprehensive management in the inpatient setting.</p>
+                <p className="text-gray-600 mb-1"><strong>Specialty:</strong> Pulmonology</p>
+                <p className="text-gray-600 mb-4"><strong>Level:</strong> Intermediate</p>
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
