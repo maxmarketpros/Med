@@ -1,6 +1,6 @@
 'use client';
 
-// Force dynamic rendering to avoid build-time Clerk errors
+// Force dynamic rendering to avoid build-time Clerk errorss
 export const dynamic = 'force-dynamic';
 
 import React, { useState, useMemo, useEffect } from 'react';
