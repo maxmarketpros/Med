@@ -33,7 +33,7 @@ export default function CertificatePage() {
   const [formSubmittedDate, setFormSubmittedDate] = useState<string | null>(null);
   const { addActivity } = useActivityTracker();
 
-  // Move useEffect before any conditional returns to follow Rules of Hooks
+  // Move useEffect before any conditional returns to follow Rules of Hook
   useEffect(() => {
     // First, check for URL parameters from form submission
     const urlParams = new URLSearchParams(window.location.search);
