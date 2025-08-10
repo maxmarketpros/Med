@@ -35,7 +35,7 @@ export default function CertificatePage() {
 
   // Move useEffect before any conditional returns to follow Rules of Hook
   useEffect(() => {
-    // First, check for URL parameters from form submission
+    // First, check for URL parameters from form submissio
     const urlParams = new URLSearchParams(window.location.search);
     const nameParam = urlParams.get('name');
     const dateParam = urlParams.get('date');
