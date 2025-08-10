@@ -25,8 +25,16 @@ const mrsaSimulator: Simulator = {
   steps: [
     {
       id: 'step1',
-      scenario: 'A 38-year-old man presents with fever, dyspnea, chest pain, and fatigue for 4 days. He has a history of IV drug use, is homeless, and admits to recent heroin use with shared needles. Vitals: BP 100/60, HR 110, RR 24, O2 sat 92% on 2L NC, temp 39.2°C. Exam: track marks on arms, 4/6 holosystolic murmur at right sternal border, crackles in right lung.',
+      scenario: 'A 38-year-old man presents with fever, dyspnea, chest pain, and fatigue for 4 days. He has a history of IV drug use, is homeless, and admits to recent heroin use with shared needles.',
       question: 'What is your initial diagnostic workup?',
+      vitals: {
+        bloodPressure: '100/60',
+        heartRate: 110,
+        respiratoryRate: 24,
+        oxygenSaturation: 92,
+        temperature: 39.2
+      },
+      physicalExam: 'Track marks on arms, 4/6 holosystolic murmur at right sternal border, crackles in right lung.',
       options: [
         {
           text: 'Blood cultures, CBC, CMP, HIV test, TTE, chest CT, sputum culture',
@@ -47,8 +55,10 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step2',
-      scenario: 'Labs: CBC: WBC 15, Hb 11, platelets 120. CMP: Na 135, K 4.0, Cr 1.3, ALT 50, AST 60. HIV: positive, CD4 150, viral load 200,000. Blood cultures: MRSA. Imaging: Chest CT: multiple bilateral pulmonary nodules, some cavitating. TTE: 2 cm vegetation on tricuspid valve, severe tricuspid regurgitation, RV dilation, pulmonary artery pressure 50 mmHg. Sputum: Negative for AFB.',
+      scenario: 'Lab and imaging results are now available.',
       question: 'What is the most likely diagnosis?',
+      labResults: 'CBC: WBC 15, Hb 11, platelets 120. CMP: Na 135, K 4.0, Cr 1.3, ALT 50, AST 60. HIV: positive, CD4 150, viral load 200,000. Blood cultures: MRSA. Sputum: Negative for AFB.',
+      imaging: 'Chest CT: multiple bilateral pulmonary nodules, some cavitating. TTE: 2 cm vegetation on tricuspid valve, severe tricuspid regurgitation, RV dilation, pulmonary artery pressure 50 mmHg.',
       options: [
         {
           text: 'MRSA bacteremia with tricuspid endocarditis and septic pulmonary emboli',
@@ -69,8 +79,15 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step3',
-      scenario: 'The patient has MRSA bacteremia, endocarditis, and septic emboli. BP drops to 90/55, HR 115, O2 sat 90% on 4L NC.',
+      scenario: 'The patient has MRSA bacteremia, endocarditis, and septic emboli.',
       question: 'What is your initial treatment plan?',
+      vitals: {
+        bloodPressure: '90/55',
+        heartRate: 115,
+        respiratoryRate: 24,
+        oxygenSaturation: 90,
+        temperature: 39.2
+      },
       options: [
         {
           text: 'Vancomycin IV, 1L NS bolus, ID and cardiology consults',
@@ -91,8 +108,16 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step4',
-      scenario: 'On day 1, the patient becomes irritable and agitated, with sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea. Vitals: BP 150/95, HR 110, RR 22, O2 sat 93% on 2L NC, temp 37.8°C. Labs: WBC 14, Hb 11, Cr 1.3, ALT 55, AST 65.',
+      scenario: 'On day 1, the patient becomes irritable and agitated, with sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea.',
       question: 'What is the diagnosis?',
+      vitals: {
+        bloodPressure: '150/95',
+        heartRate: 110,
+        respiratoryRate: 22,
+        oxygenSaturation: 93,
+        temperature: 37.8
+      },
+      labResults: 'WBC 14, Hb 11, Cr 1.3, ALT 55, AST 65.',
       options: [
         {
           text: 'Opioid withdrawal',
@@ -113,8 +138,15 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step5',
-      scenario: 'The patient is diagnosed with opioid withdrawal. Symptoms include irritability, agitation, sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea. Vitals: BP 150/95, HR 110.',
+      scenario: 'The patient is diagnosed with opioid withdrawal. Symptoms include irritability, agitation, sweating, piloerection, diarrhea, myalgias, nausea, yawning, lacrimation, and rhinorrhea.',
       question: 'What is your management plan?',
+      vitals: {
+        bloodPressure: '150/95',
+        heartRate: 110,
+        respiratoryRate: 22,
+        oxygenSaturation: 93,
+        temperature: 37.8
+      },
       options: [
         {
           text: 'Start methadone, consult addiction medicine',
@@ -135,8 +167,16 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step6',
-      scenario: 'Vancomycin trough is 10 mcg/mL (target 15-20). BP is 110/70, fever persists (38.8°C), blood cultures positive.',
+      scenario: 'Vancomycin trough is 10 mcg/mL (target 15-20).',
       question: 'What is your next step?',
+      vitals: {
+        bloodPressure: '110/70',
+        heartRate: 100,
+        respiratoryRate: 22,
+        oxygenSaturation: 94,
+        temperature: 38.8
+      },
+      labResults: 'Blood cultures positive.',
       options: [
         {
           text: 'Increase vancomycin dose, add gentamicin',
@@ -157,8 +197,17 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step7',
-      scenario: 'Blood cultures clear on vancomycin/gentamicin. The patient was feeling okay but developed lower extremity edema, abdominal fullness, and elevated LFTs. RUQ ultrasound shows dilated IVC and hepatic veins. BP is 115/75, HR 100, O2 sat 92% on 4L NC.',
+      scenario: 'Blood cultures clear on vancomycin/gentamicin. The patient was feeling okay but developed lower extremity edema, abdominal fullness, and elevated LFTs.',
       question: 'What is the next step?',
+      vitals: {
+        bloodPressure: '115/75',
+        heartRate: 100,
+        respiratoryRate: 22,
+        oxygenSaturation: 92,
+        temperature: 38.0
+      },
+      labResults: 'Elevated LFTs.',
+      imaging: 'RUQ ultrasound shows dilated IVC and hepatic veins.',
       options: [
         {
           text: 'Start furosemide IV, restrict fluids',
@@ -179,8 +228,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step8',
-      scenario: 'Despite diuresis, TTE confirms persistent 2 cm vegetation, severe TR, and RV dysfunction. Dyspnea and edema persist.',
+      scenario: 'Despite diuresis, dyspnea and edema persist.',
       question: 'What is your surgical plan?',
+      imaging: 'TTE confirms persistent 2 cm vegetation, severe TR, and RV dysfunction.',
       options: [
         {
           text: 'Consult cardiothoracic surgery for tricuspid valve replacement',
@@ -201,8 +251,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step9',
-      scenario: 'Cardiothoracic surgery agrees to valve replacement. The patient is stable, Cr 1.4.',
+      scenario: 'Cardiothoracic surgery agrees to valve replacement. The patient is stable.',
       question: 'What cardiac workup do you order?',
+      labResults: 'Cr 1.4.',
       options: [
         {
           text: 'Coronary angiography to assess CAD',
@@ -245,8 +296,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step11',
-      scenario: 'Dental exam clears oral infection. The patient is malnourished (BMI 18, albumin 2.8).',
+      scenario: 'Dental exam clears oral infection. The patient is malnourished.',
       question: 'How do you optimize nutrition preoperatively?',
+      labResults: 'BMI 18, albumin 2.8.',
       options: [
         {
           text: 'Consult nutrition, start enteral supplements',
@@ -311,8 +363,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step14',
-      scenario: 'The patient undergoes tricuspid valve replacement (bioprosthetic). Post-op, he is stable, Cr 1.5, on vancomycin/gentamicin.',
+      scenario: 'The patient undergoes tricuspid valve replacement (bioprosthetic). Post-op, he is stable on vancomycin/gentamicin.',
       question: 'What is your post-op antibiotic plan?',
+      labResults: 'Cr 1.5.',
       options: [
         {
           text: 'Continue vancomycin/gentamicin for 6 weeks from surgery',
@@ -333,8 +386,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step15',
-      scenario: 'Five days post-op, labs show: Cr 2.9 (from 1.5), BUN 55, K 5.0, urine output 250 mL/day. FeNa 1.9%, no casts.',
+      scenario: 'Five days post-op, urine output is low.',
       question: 'What is the likely cause of AKI?',
+      labResults: 'Cr 2.9 (from 1.5), BUN 55, K 5.0, urine output 250 mL/day. FeNa 1.9%, no casts.',
       options: [
         {
           text: 'Gentamicin nephrotoxicity',
@@ -355,8 +409,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step16',
-      scenario: 'Two weeks into ART, labs show: ALT 220, AST 190, bilirubin 2.7. The patient is asymptomatic.',
+      scenario: 'Two weeks into ART, the patient is asymptomatic.',
       question: 'What is your next step?',
+      labResults: 'ALT 220, AST 190, bilirubin 2.7.',
       options: [
         {
           text: 'Continue ART, monitor LFTs weekly',
@@ -377,8 +432,17 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step17',
-      scenario: 'Three weeks into ART, the patient develops fever (39°C), worsening dyspnea, and new pulmonary nodules on CT. Labs: CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr. BP 120/80, HR 100, O2 sat 90% on 4L NC.',
+      scenario: 'Three weeks into ART, the patient develops fever, worsening dyspnea, and new pulmonary nodules on CT.',
       question: 'What is your initial workup?',
+      vitals: {
+        bloodPressure: '120/80',
+        heartRate: 100,
+        respiratoryRate: 26,
+        oxygenSaturation: 90,
+        temperature: 39.0
+      },
+      labResults: 'CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr.',
+      imaging: 'CT shows new pulmonary nodules.',
       options: [
         {
           text: 'Blood cultures, sputum cultures, bronchoscopy',
@@ -399,8 +463,10 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step18',
-      scenario: 'Workup shows negative blood and sputum cultures, negative BAL for bacteria, fungi, and AFB. TTE is unchanged. Labs: CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr.',
+      scenario: 'Workup shows negative blood and sputum cultures, negative BAL for bacteria, fungi, and AFB.',
       question: 'What is the diagnosis?',
+      labResults: 'CD4 200, viral load 500, CRP 150 mg/L, ESR 80 mm/hr.',
+      imaging: 'TTE is unchanged.',
       options: [
         {
           text: 'Immune reconstitution inflammatory syndrome (IRIS)',
@@ -421,8 +487,9 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step19',
-      scenario: 'The patient is diagnosed with IRIS, with fever, dyspnea, and new pulmonary nodules linked to immune recovery. Labs: CD4 200, viral load 500.',
+      scenario: 'The patient is diagnosed with IRIS, with fever, dyspnea, and new pulmonary nodules linked to immune recovery.',
       question: 'What is your management plan?',
+      labResults: 'CD4 200, viral load 500.',
       options: [
         {
           text: 'Continue ART, start prednisone, repeat cultures',
@@ -443,8 +510,15 @@ const mrsaSimulator: Simulator = {
     },
     {
       id: 'step20',
-      scenario: 'AKI is attributed to gentamicin. BP is 115/75, HR 90.',
+      scenario: 'AKI is attributed to gentamicin.',
       question: 'What is your management plan?',
+      vitals: {
+        bloodPressure: '115/75',
+        heartRate: 90,
+        respiratoryRate: 20,
+        oxygenSaturation: 95,
+        temperature: 37.5
+      },
       options: [
         {
           text: 'Stop gentamicin, continue vancomycin, IV fluids, monitor Cr',
