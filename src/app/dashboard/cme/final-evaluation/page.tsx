@@ -1,6 +1,6 @@
 import { EvaluationForm } from '@/components/cme/EvaluationForm';
 
-// Force dynamic rendering to avoid build-time Clerk errors done
+// Force dynamic rendering to avoid build-time Clerk errorss done
 export const dynamic = 'force-dynamic';
 
 export default function FinalEvaluationPage() {
