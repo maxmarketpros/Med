@@ -3,7 +3,7 @@ export const SUBSCRIPTION_PLANS = {
     name: 'Cheat Sheets',
     duration: '6 months',
     price: 199,
-    priceId: 'price_1RqiSXDKZkh37o040P6Y00kR',
+    priceId: 'price_1RvJ85C2Dx8rkVauyTaD58AQ',
     features: [
       '100+ Cheat Sheets',
       'Patient Simulators',
@@ -15,7 +15,7 @@ export const SUBSCRIPTION_PLANS = {
     name: 'Cheat Sheets',
     duration: '12 months', 
     price: 299,
-    priceId: 'price_1RqiSsDKZkh37o04fSGretRY',
+    priceId: 'price_1RvJ6DC2Dx8rkVaujPVE0S1O',
     features: [
       '100+ Cheat Sheets',
       'Patient Simulators', 
@@ -27,7 +27,7 @@ export const SUBSCRIPTION_PLANS = {
     name: 'All-Access',
     duration: '6 months',
     price: 299,
-    priceId: 'price_1RqiTUDKZkh37o04QhDlzWwv',
+    priceId: 'price_1RvJ75C2Dx8rkVaumDUOFrue',
     features: [
       '100+ Cheat Sheets',
       'CME Course (10 AAPA Credits)',
@@ -40,7 +40,7 @@ export const SUBSCRIPTION_PLANS = {
     name: 'All-Access',
     duration: '12 months',
     price: 399,
-    priceId: 'price_1RqiToDKZkh37o04xJZaBtCl',
+    priceId: 'price_1RvJ4xC2Dx8rkVauz78y25fY',
     features: [
       '100+ Cheat Sheets',
       'CME Course (10 AAPA Credits)', 
