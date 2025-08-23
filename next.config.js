@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Basic configuration for Netlify
-  trailingSlash: true,
+  // Configuration for Netlify with API routes
+  trailingSlash: false,
   images: {
     domains: ['localhost'],
-    unoptimized: true, // Required for static export
+    unoptimized: false,
   },
   // Ensure API routes work on Netlify
   experimental: {
